@@ -42,7 +42,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
     {
       $project: {
         totalLikes: {
-          $size: "$likes",
+          $size: "$VideoLikes",
         },
         totalViews: "$views",
         totalVideos: 1,
