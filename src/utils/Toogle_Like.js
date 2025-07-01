@@ -3,7 +3,7 @@
 import { Like } from "../models/like.model.js";
 import { isValidObjectId } from "mongoose";
 import { ApiError } from "./Api_Error.js";
-import { ApiResponse } from "./ApiResponse.js";
+import { ApiResponse } from "./Api_Response.js";
 
 
 export const toggleLike = async ({ entityId, entityKey, userId }, res) => {

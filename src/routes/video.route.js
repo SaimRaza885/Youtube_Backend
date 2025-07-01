@@ -7,11 +7,11 @@ import {
     togglePublishStatus,
     updateVideo,
 } from "../controllers/video.controllers.js"
-import {verifyJWT} from "../middleware/auth.middleware.js"
+import VerifyJWT from "../middleware/auth.middleware.js"
 import {upload} from "../middleware/multer.middleware.js"
 
 const router = Router();
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+router.use(VerifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
     .route("/")
