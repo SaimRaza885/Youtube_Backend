@@ -6,12 +6,12 @@ A robust backend service for a YouTube-like video streaming platform. This proje
 
 ## 📚 Table of Contents
 
-- [🎯 Features](#-features)  
-- [🛠 Technologies Used](#-technologies-used)  
-- [🚀 Getting Started](#-getting-started)  
-  - [✅ Prerequisites](#-prerequisites)  
-  - [📦 Installation](#-installation)  
-  - [⚙️ Environment Variables](#️-environment-variables)
+- 🎯 Features
+- 🛠 Technologies Used
+- 🚀 Getting Started  
+  - ✅ Prerequisites
+  - 📦 Installation 
+  - ⚙️ Environment Variables
 
 ---
 
@@ -44,7 +44,7 @@ A robust backend service for a YouTube-like video streaming platform. This proje
 Make sure you have the following installed on your machine:
 
 - **Node.js** – Version 16 or higher  
-- **MongoDB** – Either a local MongoDB instance or a MongoDB Atlas cluster  
+- **MongoDB** – (Atlas) 
 
 ---
 
