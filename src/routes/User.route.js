@@ -39,14 +39,14 @@ router.route("/logout").post(VerifyJWT, logoutUser);
 router.route("/refresh-token").post(AccessRefreshToken);
 
 router
-  .route("change-password")
+  .route("/change-password")
   .post(VerifyJWT, changeCurrentPassword); /*It Should be Patch  */
 
 router.route("/current-user").get(VerifyJWT, getCurrentUser);
 
 router
   .route("/update-account")
-  .patch(VerifyJWT, UpdateAccountDetails); /* it should be post*/
+  .post(VerifyJWT, UpdateAccountDetails); /* it should be post*/
 
 router.route("/avatar").patch(VerifyJWT, upload.single("avatar"), UpdateAvatar);
 

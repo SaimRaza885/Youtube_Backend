@@ -12,14 +12,14 @@ const getChannelStats = asyncHandler(async (req, res) => {
   const all_Subscribers = await Subscription.aggregate([
     {
       $match: {
-        chnnel: new mongoose.Types.ObjectId(userId),
+        channel: new mongoose.Types.ObjectId(userId),
       },
     },
     {
       $group: {
         _id: null,
         subscriber_Count: {
-          sum: 1,
+          $sum: 1,
         },
       },
     },
@@ -58,17 +58,17 @@ const getChannelStats = asyncHandler(async (req, res) => {
           $sum: "$totalViews",
         },
         totalVideos: {
-          sum: 1,
+          $sum: 1,
         },
       },
     },
   ]);
 
   const Channel_Status = {
-    totalSubscribers: all_Subscribers[0].subscriber_Count || 0,
-    totalVideos: all_vidoes_info[0].totalVideos || 0,
-    totalViews: all_vidoes_info[0].total_views || 0,
-    totalLikes: all_vidoes_info[0].total_likes || 0,
+    totalSubscribers: all_Subscribers[0]?.subscriber_Count || 0,
+    totalVideos: all_vidoes_info[0]?.totalVideos || 0,
+    totalViews: all_vidoes_info[0]?.total_views || 0,
+    totalLikes: all_vidoes_info[0]?.total_likes || 0,
   };
 
   return res
