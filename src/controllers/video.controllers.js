@@ -3,6 +3,7 @@ import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/Api_Error.js";
 import { ApiResponse } from "../utils/Api_Response.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Cloudinary_File_Upload } from "../utils/Cloudinary.js";
 // import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
 const getAllVideos = asyncHandler(async (req, res) => {
@@ -18,7 +19,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Title or description missing");
   }
 
-  const videoLocalPath = req.files?.video[0]?.path;
+  const videoLocalPath = req.files?.videoFile?.[0]?.path;
 
   if (!videoLocalPath) {
     throw new ApiError(400, "Can Not find Video path");
@@ -30,7 +31,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Failed To Upload the video on Cloudinary");
   }
 
-  const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
+  const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
 
   if (!thumbnailLocalPath) {
     throw new ApiError(400, "Can Not find Thubnail path");
@@ -44,8 +45,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
   const videoInDataBase = await Video.create({
     videoFile: {
-      url: videoFile.url,
-      public_id: videoFile.public_id,
+      url: video.url,
+      public_id: video.public_id,
     },
     thumbnail: {
       url: thumbnail.url,
