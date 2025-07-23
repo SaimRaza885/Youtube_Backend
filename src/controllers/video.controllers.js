@@ -7,6 +7,7 @@ import {
   Cloudinary_File_Upload,
   deleteOnCloudinary,
 } from "../utils/Cloudinary.js";
+import { Like } from "../../../youtube-twitter/src/models/like.model.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -164,134 +165,133 @@ const getVideoById = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid userId");
   }
 
-
   const fetched_Video = await Video.aggregate([
-  {
-    $match: {
-      _id: new mongoose.Types.ObjectId(videoId),
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(videoId),
+      },
     },
-  },
-  {
-    $lookup: {
-      from: "likes",
-      localField: "_id",
-      foreignField: "video",
-      as: "All_Likes",
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "video",
+        as: "All_Likes",
+      },
     },
-  },
-  {
-    $lookup: {
-      from: "comments",
-      localField: "_id",
-      foreignField: "video",
-      as: "All_Comments",
-      pipeline: [
-        {
-          $lookup: {
-            from: "users",
-            localField: "onwer",
-            foreignField: "_id",
-            as: "comment_owner",
+    {
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "video",
+        as: "All_Comments",
+        pipeline: [
+          {
+            $lookup: {
+              from: "users",
+              localField: "onwer",
+              foreignField: "_id",
+              as: "comment_owner",
+            },
           },
-        },
-        {
-          $unwind: {
-            path: "$comment_owner",
-            preserveNullAndEmptyArrays: true,
+          {
+            $unwind: {
+              path: "$comment_owner",
+              preserveNullAndEmptyArrays: true,
+            },
           },
-        },
-        {
-          $project: {
-            content: 1,
-            createdAt: 1,
-            "comment_owner.username": 1,
-            "comment_owner.avatar": 1,
+          {
+            $project: {
+              content: 1,
+              createdAt: 1,
+              "comment_owner.username": 1,
+              "comment_owner.avatar": 1,
+            },
           },
-        },
-      ],
+        ],
+      },
     },
-  },
-  {
-    $lookup: {
-      from: "users",
-      foreignField: "_id",
-      localField: "owner",
-      as: "Video_Owner_Details",
-      pipeline: [
-        {
-          $lookup: {
-            from: "subscriptions",
-            localField: "_id",
-            foreignField: "channel",
-            as: "subscribers",
+    {
+      $lookup: {
+        from: "users",
+        foreignField: "_id",
+        localField: "owner",
+        as: "Video_Owner_Details",
+        pipeline: [
+          {
+            $lookup: {
+              from: "subscriptions",
+              localField: "_id",
+              foreignField: "channel",
+              as: "subscribers",
+            },
           },
-        },
-        {
-          $addFields: {
-            Subscribers_Count: { $size: "$subscribers" },
-            isSubscribed: {
-              $cond: {
-                if: {
-                  $in: [
-                    new mongoose.Types.ObjectId(req.user?._id),
-                    "$subscribers.subscriber",
-                  ],
+          {
+            $addFields: {
+              Subscribers_Count: { $size: "$subscribers" },
+              isSubscribed: {
+                $cond: {
+                  if: {
+                    $in: [
+                      new mongoose.Types.ObjectId(req.user?._id),
+                      "$subscribers.subscriber",
+                    ],
+                  },
+                  then: true,
+                  else: false,
                 },
-                then: true,
-                else: false,
               },
             },
           },
-        },
-        {
-          $project: {
-            Subscribers_Count: 1,
-            isSubscribed: 1,
+          {
+            $project: {
+              Subscribers_Count: 1,
+              isSubscribed: 1,
+            },
           },
-        },
-      ],
-    },
-  },
-  {
-    $addFields: {
-      like_Count: { $size: "$All_Likes" },
-      isLiked: {
-        $cond: {
-          if: {
-            $in: [
-              new mongoose.Types.ObjectId(req.user?._id),
-              {
-                $map: {
-                  input: "$All_Likes",
-                  as: "like",
-                  in: "$$like.likedBy",
-                },
-              },
-            ],
-          },
-          then: true,
-          else: false,
-        },
+        ],
       },
-      comment_count: { $size: "$All_Comments" },
-      owner: { $first: "$Video_Owner_Details" },
     },
-  },
-  {
-    $project: {
-      "videoFile.url": 1,
-      title: 1,
-      description: 1,
-      duration: 1,
-      views: 1,
-      owner: 1,
-      comment_count: 1,
-      like_Count: 1,
-      isLiked: 1,
-      All_Comments:1,
+    {
+      $addFields: {
+        like_Count: { $size: "$All_Likes" },
+        isLiked: {
+          $cond: {
+            if: {
+              $in: [
+                new mongoose.Types.ObjectId(req.user?._id),
+                {
+                  $map: {
+                    input: "$All_Likes",
+                    as: "like",
+                    in: "$$like.likedBy",
+                  },
+                },
+              ],
+            },
+            then: true,
+            else: false,
+          },
+        },
+        comment_count: { $size: "$All_Comments" },
+        owner: { $first: "$Video_Owner_Details" },
+      },
     },
-  },
-]);
+    {
+      $project: {
+        "videoFile.url": 1,
+        title: 1,
+        description: 1,
+        duration: 1,
+        views: 1,
+        owner: 1,
+        comment_count: 1,
+        like_Count: 1,
+        isLiked: 1,
+        All_Comments: 1,
+      },
+    },
+  ]);
 
   if (!fetched_Video.length) {
     throw new ApiError(404, "Video not found");
@@ -299,9 +299,7 @@ const getVideoById = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, fetched_Video[0], "Successfully fetched video")
-    );
+    .json(new ApiResponse(200, fetched_Video[0], "Successfully fetched video"));
 });
 
 const updateVideo = asyncHandler(async (req, res) => {
@@ -371,10 +369,18 @@ const deleteVideo = asyncHandler(async (req, res) => {
   if (!deletedVideo) {
     throw new ApiError(500, "Failed to delete the video");
   }
+  // delete video likes
+  await Like.deleteMany({
+    video: videoId,
+  });
 
+  // delete video comments
+  await Comment.deleteMany({
+    video: videoId,
+  });
   return res
     .status(200)
-    .json(new ApiResponse(200, "Video Deleted Successfully"));
+    .json(new ApiResponse(200,{},"Video Deleted Successfully"));
 });
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
