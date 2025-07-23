@@ -7,7 +7,7 @@ import {
   Cloudinary_File_Upload,
   deleteOnCloudinary,
 } from "../utils/Cloudinary.js";
-import { Like } from "../../../youtube-twitter/src/models/like.model.js";
+import { Like } from "../models/like.model.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
