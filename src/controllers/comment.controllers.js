@@ -45,19 +45,24 @@ const getVideoComments = asyncHandler(async (req, res) => {
     },
     {
       $addFields: {
-        likeCount: {
-          $size: "$likes",
-        },
-        owner: {
-          $first: "$OwnerDetails",
-        },
+        likeCount: { $size: "$likes" },
+        owner: { $first: "$OwnerDetails" },
         isliked: {
           $cond: {
             if: {
-              $in: [req.user?._id, "$likes.likedBy"],
-              then: true,
-              else: false,
+              $in: [
+                req.user?._id,
+                {
+                  $map: {
+                    input: "$likes",
+                    as: "like",
+                    in: "$$like.likedBy",
+                  },
+                },
+              ],
             },
+            then: true,
+            else: false,
           },
         },
       },
@@ -70,8 +75,8 @@ const getVideoComments = asyncHandler(async (req, res) => {
     {
       $project: {
         content: 1,
-        likeCount,
-        isliked,
+        likeCount: 1,
+        isliked: 1,
         owner: {
           username: 1,
           fullName: 1,
@@ -86,9 +91,12 @@ const getVideoComments = asyncHandler(async (req, res) => {
     limit: parseInt(limit, 10),
   };
 
-  const comments = Comment.aggregatePaginate(CommentAgregate, options);
+  const comments = await Comment.aggregatePaginate(CommentAgregate, options);
+  // console.log(comments);
 
-  return res.status(200).json(200, comments, "Comments Fetched SuccessFully");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, comments, "Comments Fetched SuccessFully"));
 });
 
 const addComment = asyncHandler(async (req, res) => {
@@ -138,6 +146,11 @@ const updateComment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "invalid comment id ");
   }
 
+  const isCommentAvaliable = await Comment.findById(commentId);
+
+  if (!isCommentAvaliable) {
+    throw new ApiError(404, "Comment not found");
+  }
   const UpdatedComment = await Comment.findOneAndUpdate(
     { _id: commentId },
     { $set: { content } },
