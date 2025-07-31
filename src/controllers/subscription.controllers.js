@@ -33,9 +33,9 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
   const { channelId } = req.params;
 
-  if (!isValidObjectId(channelId)) {
-    throw new ApiError(400, "invalid channel id");
-  }
+  // if (!channelId) {
+  //   throw new ApiError(400, "invalid channel id");
+  // }
 
   const ChannelId = new mongoose.Types.ObjectId(channelId);
 
@@ -77,7 +77,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
               },
             },
           },
-          x,
+        
         ],
       },
     },
@@ -114,9 +114,9 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 const getSubscribedChannels = asyncHandler(async (req, res) => {
   const { subscriberId } = req.params;
 
-  if (!isValidObjectId(subscriberId)) {
-    throw new ApiError(400, "Invalid Subscriber id");
-  }
+  // if (!subscriberId) {
+  //   throw new ApiError(400, "Invalid Subscriber id");
+  // }
 
   const Subscriber_Id = new mongoose.Types.ObjectId(subscriberId);
 
