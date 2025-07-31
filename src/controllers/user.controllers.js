@@ -336,70 +336,69 @@ const UpdateAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, " avatarLocalPath File Path Missing");
+    throw new ApiError(400, "Avatar file path is missing");
   }
 
-  const avatar = await Cloudinary_File_Upload(avatarLocalPath);
+  const avatarUploadResult = await Cloudinary_File_Upload(avatarLocalPath);
 
-  if (!avatar.url) {
-    throw new ApiError(400, "Faild to upload on Couldinary ");
+  if (!avatarUploadResult?.url) {
+    throw new ApiError(400, "Failed to upload avatar to Cloudinary");
   }
 
-  const UpdatedAvatarUser = await User.findOneAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        avatar: avatar.url,
-      },
+      $set: { avatar: avatarUploadResult.url },
     },
-    {
-      new: true,
-    }
+    { new: true }
   ).select("-password");
+
+  if (!updatedUser) {
+    throw new ApiError(500, "Failed to update avatar in the database");
+  }
 
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, UpdatedAvatarUser, "Successfully Updated The AVATAR")
-    );
+    .json(new ApiResponse(200, updatedUser, "Successfully updated avatar"));
 });
+
 // Updating file (CoverImage)
 const UpdateCoverImage = asyncHandler(async (req, res) => {
-  const CoverImageLocalPath = req.file?.path;
+  const localPath = req.file?.path;
 
-  if (!CoverImageLocalPath) {
-    throw new ApiError(400, " CoverImageLocalPath File Path Missing");
+  if (!localPath) {
+    throw new ApiError(400, "Cover image file path is missing");
   }
 
-  const CoverImage = await Cloudinary_File_Upload(CoverImageLocalPath);
+  const uploadResult = await Cloudinary_File_Upload(localPath);
 
-  if (!CoverImage.url) {
-    throw new ApiError(400, "Faild to upload on Couldinary ");
+  if (!uploadResult?.url) {
+    throw new ApiError(400, "Failed to upload cover image to Cloudinary");
   }
 
-  const UpdatedCoverImageUser = await User.findOneAndUpdate(
-    req.user._id,
+  const updatedUser = await User.findOneAndUpdate(
+     req.user._id ,
     {
       $set: {
-        // Updating file (avatar)
-        coverImage: CoverImage.url,
+        coverImage: uploadResult.url,
       },
     },
-    {
-      new: true,
-    }
+    { new: true }
   ).select("-password");
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        UpdatedCoverImageUser,
-        "Successfully Updated The Cover Image"
-      )
-    );
+  if (!updatedUser) {
+    throw new ApiError(500, "Failed to update cover image in the database");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      updatedUser,
+      "Successfully updated the cover image"
+    )
+  );
 });
+
 
 // Get Your channel profile
 

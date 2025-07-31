@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 dotenv.config({
   path: "./.env",
 });
+console.log("Loaded Cloudinary Name:", process.env.CLOUDINARY_CLOUD_NAME);
+
 
 DB_Connection()
   .then(() => {
