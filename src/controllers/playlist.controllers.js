@@ -3,6 +3,7 @@ import { PlayList } from "../models/playlist.model.js";
 import { ApiError } from "../utils/Api_Error.js";
 import { ApiResponse } from "../utils/Api_Response.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Video } from "../models/video.model.js";
 
 const createPlaylist = asyncHandler(async (req, res) => {
   //TODO: create playlist
@@ -28,7 +29,7 @@ const createPlaylist = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .jsos(new ApiResponse(200, playlist, "Playlist created Successfully"));
+    .json(new ApiResponse(200, playlist, "Playlist created Successfully"));
 });
 
 const getUserPlaylists = asyncHandler(async (req, res) => {
@@ -112,15 +113,21 @@ const getPlaylistById = asyncHandler(async (req, res) => {
     },
     {
       $lookup: {
-        from: "vidoes",
+        from: "videos",
         localField: "video",
         foreignField: "_id",
         as: "Videos",
       },
     },
     {
-      $match: {
-        "$Videos.isPublished": true,
+      $addFields: {
+        Videos: {
+          $filter: {
+            input: "$Videos",
+            as: "video",
+            cond: { $eq: ["$$video.isPublished", true] },
+          },
+        },
       },
     },
     {
@@ -191,7 +198,7 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Playlist not found");
   }
 
-  const video = await PlayList.findById(videoId);
+  const video = await Video.findById(videoId); 
 
   if (!video) {
     throw new ApiError(400, "video not found");
