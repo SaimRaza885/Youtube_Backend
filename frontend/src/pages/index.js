@@ -1,0 +1,10 @@
+// Export all pages
+export { Login } from './Login'
+export { Register } from './Register'
+export { Home } from './Home'
+export { Upload } from './Upload'
+export { VideoPlayer } from './VideoPlayer'
+export { Channel } from './Channel'
+export { Search } from './Search'
+export { Playlists } from './Playlists'
+export { Profile } from './Profile'
