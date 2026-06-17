@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useUI } from '../context/UIContext'
+import { useUI } from '../../context/UIContext'
 
 export const Sidebar = () => {
   const { sidebarOpen, toggleSidebar } = useUI()
@@ -26,9 +26,8 @@ export const Sidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:relative top-16 lg:top-0 left-0 h-[calc(100vh-64px)] lg:h-auto w-64 bg-primary border-r border-tertiary transition-transform duration-300 lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } z-40`}
+        className={`fixed lg:relative top-16 lg:top-0 left-0 h-[calc(100vh-64px)] lg:h-auto w-64 bg-primary border-r border-tertiary transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } z-40`}
       >
         <nav className="p-4 space-y-2 overflow-y-auto h-full">
           {menuItems.map((item) => (
@@ -36,16 +35,12 @@ export const Sidebar = () => {
               key={item.path}
               to={item.path}
               onClick={() => window.innerWidth < 1024 && toggleSidebar()}
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors ${
-                isActive(item.path)
-                  ? 'bg-accent text-white'
-                  : 'text-text-secondary hover:bg-secondary hover:text-text-primary'
-              }`}
+              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors ${isActive(item.path)
+                  ? "bg-accent text-white"
+                  : "text-text-secondary hover:bg-secondary hover:text-text-primary"
+                }`}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-              </svg>
-              <span className="font-medium">{item.label}</span>
+              {item.label}
             </Link>
           ))}
         </nav>

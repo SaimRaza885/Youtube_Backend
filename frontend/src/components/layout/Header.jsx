@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { useUI } from '../context/UIContext'
-import { Avatar, Button } from './index'
+import { useAuth } from '../../context/AuthContext'
+import { useUI } from '../../context/UIContext'
+import { Avatar } from '../Avatar'
+import { Button } from '../Button'
+
 
 export const Header = () => {
   const { user, logout, isAuthenticated } = useAuth()
@@ -26,9 +28,9 @@ export const Header = () => {
             </svg>
           </button>
           <Link to="/" className="flex items-center gap-2 font-bold text-xl text-accent">
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            {/* <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19.615 3.175c-3.674-.492-11.556-.492-15.23 0C.488 3.667 0 5.068 0 9.079v5.842c0 4.011.488 5.412 4.385 5.904 3.674.492 11.556.492 15.23 0C23.512 20.333 24 18.932 24 14.921V9.079c0-4.011-.488-5.412-4.385-5.904zM9 15.9V8.1l6.233 3.9L9 15.9z" />
-            </svg>
+            </svg> */}
             <span className="hidden sm:inline">YouTube</span>
           </Link>
         </div>

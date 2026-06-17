@@ -60,7 +60,7 @@ function AppContent() {
       {/* Public Routes */}
       <Route
         path="/"
-        element=(
+        element={
           <PageLayout>
             <Home />
           </PageLayout>
@@ -68,7 +68,7 @@ function AppContent() {
       />
       <Route
         path="/video/:videoId"
-        element=(
+        element={
           <PageLayout>
             <VideoPlayer />
           </PageLayout>
@@ -76,7 +76,7 @@ function AppContent() {
       />
       <Route
         path="/channel/:channelId"
-        element=(
+        element={
           <PageLayout>
             <Channel />
           </PageLayout>
@@ -84,7 +84,7 @@ function AppContent() {
       />
       <Route
         path="/search"
-        element=(
+        element={
           <PageLayout>
             <Search />
           </PageLayout>
@@ -92,7 +92,7 @@ function AppContent() {
       />
       <Route
         path="/trending"
-        element=(
+        element={
           <PageLayout>
             <Home />
           </PageLayout>
@@ -102,7 +102,7 @@ function AppContent() {
       {/* Protected Routes */}
       <Route
         path="/upload"
-        element=(
+        element={
           <ProtectedRoute>
             <PageLayout>
               <Upload />
@@ -112,7 +112,7 @@ function AppContent() {
       />
       <Route
         path="/playlists"
-        element=(
+        element={
           <ProtectedRoute>
             <PageLayout>
               <Playlists />
@@ -122,7 +122,7 @@ function AppContent() {
       />
       <Route
         path="/profile"
-        element=(
+        element={
           <ProtectedRoute>
             <PageLayout>
               <Profile />
@@ -132,7 +132,7 @@ function AppContent() {
       />
       <Route
         path="/subscriptions"
-        element=(
+        element={
           <ProtectedRoute>
             <PageLayout>
               <Home />

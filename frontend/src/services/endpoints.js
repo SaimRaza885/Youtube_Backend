@@ -11,7 +11,7 @@ export const authAPI = {
 
 // Video APIs
 export const videoAPI = {
-  getAllVideos: (params) => api.get('/videos', { params }),
+  getAllVideos: (params) => api.get('/videos/', { params }),
   getVideoById: (id) => api.get(`/videos/${id}`),
   uploadVideo: (formData) => api.post('/videos/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
