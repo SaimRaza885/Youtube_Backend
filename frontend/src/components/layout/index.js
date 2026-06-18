@@ -1,3 +1,6 @@
-export { Header } from './Header'
+export { Navbar } from './Navbar'
 export { Sidebar } from './Sidebar'
-export { Footer } from './Footer'
+export { SearchBar } from './SearchBar'
+export { NavActions } from './NavActions'
+export { UserDropdown } from './UserDropdown'
+export { SidebarItem } from './SidebarItem'

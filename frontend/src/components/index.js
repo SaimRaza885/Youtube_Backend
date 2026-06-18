@@ -1,11 +1,14 @@
-// Export all components
-export { Button } from './Button'
-export { Card } from './Card'
-export { Input } from './Input'
-export { Textarea } from './Textarea'
-export { Modal } from './Modal'
-export { Toast, ToastContainer } from './Toast'
-export { Skeleton } from './Skeleton'
-export { Avatar } from './Avatar'
-export { Badge } from './Badge'
-export { Spinner } from './Spinner'
+// UI primitives
+export { Button, Avatar, Badge, Card, Input, Textarea, Modal, Skeleton, Spinner, Toast, ToastContainer, VideoPreviewModal } from './ui/index'
+
+// Layout
+export { Navbar, Sidebar, SearchBar, NavActions, UserDropdown, SidebarItem } from './layout/index'
+
+// Video
+export { VideoCard, VideoCardSkeleton, VideoGrid, VideoMeta, ChannelInfo, DurationBadge } from './video/index'
+
+// Comments
+export { CommentItem, CommentForm, CommentSection } from './comments/index'
+
+// Common
+export { CategoryChip, EmptyState, ErrorState, StatsCard } from './common/index'

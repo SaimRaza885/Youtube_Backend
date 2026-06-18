@@ -125,7 +125,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Please first get REGISTER then try for logging");
   }
 
-  const isPasswordValid = user.isPasswordCorrect(password);
+  const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
     throw new ApiError(404, "plese give a write password");

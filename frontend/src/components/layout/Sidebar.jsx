@@ -1,49 +1,50 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Home, Video, Clapperboard, Library, History } from 'lucide-react'
 import { useUI } from '../../context/UIContext'
+import { SidebarItem } from './SidebarItem'
+
+const mainLinks = [
+  { label: 'Home', path: '/', icon: Home },
+  { label: 'Shorts', path: '/shorts', icon: Clapperboard },
+  { label: 'Subscriptions', path: '/subscriptions', icon: Video },
+]
+
+const libraryLinks = [
+  { label: 'Library', path: '/playlists', icon: Library },
+  { label: 'History', path: '/history', icon: History },
+]
 
 export const Sidebar = () => {
   const { sidebarOpen, toggleSidebar } = useUI()
-  const location = useLocation()
 
-  const isActive = (path) => location.pathname === path
-
-  const menuItems = [
-    { label: 'Home', path: '/', icon: 'M3 12a9 9 0 1118 0 9 9 0 01-18 0z' },
-    { label: 'Trending', path: '/trending', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-    { label: 'Subscriptions', path: '/subscriptions', icon: 'M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z' },
-    { label: 'Playlists', path: '/playlists', icon: 'M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h12v-2H3v2z' },
-  ]
+  const handleItemClick = () => {
+    if (window.innerWidth < 1024) toggleSidebar()
+  }
 
   return (
     <>
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 lg:hidden z-30"
-          onClick={toggleSidebar}
-        />
+      {sidebarOpen && window.innerWidth < 1024 && (
+        <div className="fixed inset-0 bg-black/60 z-30 animate-fade-in" onClick={toggleSidebar} />
       )}
-
-      {/* Sidebar */}
       <aside
-        className={`fixed lg:relative top-16 lg:top-0 left-0 h-[calc(100vh-64px)] lg:h-auto w-64 bg-primary border-r border-tertiary transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } z-40`}
+        className={`fixed lg:relative top-14 lg:top-0 left-0 h-[calc(100vh-56px)] lg:h-auto bg-[#0f0f0f] border-r border-[#2A2A42] transition-all duration-300 z-40 sidebar-scrollbar overflow-y-auto ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        } ${sidebarOpen ? 'w-56' : 'w-0 lg:w-[72px]'}`}
+        style={{ overflowX: 'hidden' }}
       >
-        <nav className="p-4 space-y-2 overflow-y-auto h-full">
-          {menuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => window.innerWidth < 1024 && toggleSidebar()}
-              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors ${isActive(item.path)
-                  ? "bg-accent text-white"
-                  : "text-text-secondary hover:bg-secondary hover:text-text-primary"
-                }`}
-            >
-              {item.label}
-            </Link>
+        <div className={`py-3 space-y-1 ${sidebarOpen ? 'px-3' : 'px-0'}`}>
+          {mainLinks.map((item) => (
+            <SidebarItem key={item.path} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
           ))}
-        </nav>
+
+          <div className="pt-4 pb-1">
+            {sidebarOpen && (
+              <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-[#6B6B80]">Library</p>
+            )}
+          </div>
+          {libraryLinks.map((item) => (
+            <SidebarItem key={item.path} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
+          ))}
+        </div>
       </aside>
     </>
   )
