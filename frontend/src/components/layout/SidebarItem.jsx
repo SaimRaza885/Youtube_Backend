@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 export const SidebarItem = ({ icon: Icon, label, to, collapsed, onClick }) => {
   const { pathname } = useLocation()
   const active = pathname === to
-  const activeClass = 'bg-[#8B5CF6]/12 text-[#8B5CF6]'
+  const activeClass = 'bg-accent-muted text-accent'
   const inactiveClass = 'text-[#6B6B80] hover:bg-[#1C1C2E] hover:text-[#F0F0F8]'
 
   return (

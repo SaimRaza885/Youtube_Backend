@@ -47,11 +47,11 @@ const getVideoComments = asyncHandler(async (req, res) => {
       $addFields: {
         likeCount: { $size: "$likes" },
         owner: { $first: "$OwnerDetails" },
-        isliked: {
+        isliked: req.user?._id ? {
           $cond: {
             if: {
               $in: [
-                req.user?._id,
+                req.user._id,
                 {
                   $map: {
                     input: "$likes",
@@ -64,7 +64,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
             then: true,
             else: false,
           },
-        },
+        } : false,
       },
     },
     {
@@ -195,7 +195,6 @@ const deleteComment = asyncHandler(async (req, res) => {
 
   await Like.deleteMany({
     comment: commentId,
-    likedBy: req.user?._id,
   });
 
   return res

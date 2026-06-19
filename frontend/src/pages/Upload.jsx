@@ -1,13 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
 import { videoAPI } from '../services/endpoints'
 import { Button, Input, Textarea } from '../components'
-import { Spinner } from '../components'
 
 export const Upload = () => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, loading: authLoading } = useAuth()
   const navigate = useNavigate()
   const { addNotification } = useUI()
   const [loading, setLoading] = useState(false)
@@ -19,9 +18,13 @@ export const Upload = () => {
   })
   const [errors, setErrors] = useState({})
 
-  if (!isAuthenticated) {
-    navigate('/login')
-  }
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      navigate('/login', { replace: true })
+    }
+  }, [isAuthenticated, authLoading, navigate])
+
+  if (authLoading) return null
 
   const handleChange = (e) => {
     const { name, value } = e.target

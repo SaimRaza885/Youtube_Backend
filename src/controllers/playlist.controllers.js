@@ -76,7 +76,7 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
         description: 1,
         totalVideos: 1,
         totalViews: 1,
-        updateupdatedAt: 1,
+        updatedAt: 1,
       },
     },
   ]);
@@ -144,7 +144,7 @@ const getPlaylistById = asyncHandler(async (req, res) => {
           $size: "$Videos",
         },
         totalViews: {
-          $sum: "$videos.views",
+          $sum: "$Videos.views",
         },
         owner: {
           $first: "$Owner",
@@ -169,11 +169,9 @@ const getPlaylistById = asyncHandler(async (req, res) => {
           createdAt: 1,
           views: 1,
         },
-        Owner: {
-          username: 1,
-          fullName: 1,
-          avatar: 1,
-        },
+        "owner.username": 1,
+        "owner.fullName": 1,
+        "owner.avatar": 1,
       },
     },
   ]);
@@ -203,8 +201,7 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
   }
 
   if (
-    playlist.owner?.toString() !== req.user?._id.toString() ||
-    video.owner.toString() !== req.user?._id.toString()
+    playlist.owner?.toString() !== req.user?._id.toString()
   ) {
     throw new ApiError(403, "Only the owner can add videos to their playlist");
   }
@@ -250,10 +247,9 @@ const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     throw new ApiError(400, "video not found");
   }
  if (
-    playlist.owner?.toString() !== req.user?._id.toString() ||
-    video.owner.toString() !== req.user?._id.toString()
+    playlist.owner?.toString() !== req.user?._id.toString()
   ) {
-    throw new ApiError(403, "Only the owner can add videos to their playlist");
+    throw new ApiError(403, "Only the owner can remove videos from their playlist");
   }
 
   const deleting_playlist_video = await PlayList.findByIdAndUpdate(

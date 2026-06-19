@@ -33,9 +33,11 @@ const getUserTweets = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid userId");
   }
 
-  const tweets = Tweet.aggregate([
+  const tweets = await Tweet.aggregate([
     {
-      owner: new mongoose.Types.ObjectId(userId),
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
     },
     {
       $lookup: {
@@ -73,11 +75,11 @@ const getUserTweets = asyncHandler(async (req, res) => {
         likesCount: {
           $size: "$likeDetails",
         },
-        ownerDetailes: {
+        ownerDetails: {
           $first: "$ownerDetails",
         },
         isLiked: {
-          cond: {
+          $cond: {
             if: {
               $in: [req.user?._id, "$likeDetails.likedBy"],
             },
@@ -87,7 +89,6 @@ const getUserTweets = asyncHandler(async (req, res) => {
         },
       },
     },
-
     {
       $sort: {
         createdAt: -1,
@@ -131,7 +132,7 @@ const updateTweet = asyncHandler(async (req, res) => {
     throw new ApiError(400, "only owner can edit thier tweet");
   }
 
-  const newTweet = await Tweet.findOneAndUpdate(
+  const newTweet = await Tweet.findByIdAndUpdate(
     tweetId,
     {
       $set: {
@@ -162,7 +163,7 @@ const deleteTweet = asyncHandler(async (req, res) => {
   if (!tweet) {
     throw new ApiError(400, "Tweet Not Found");
   }
-  if (!tweet.owner.toString() !== req.user?._id.toString()) {
+  if (tweet.owner.toString() !== req.user?._id.toString()) {
     throw new ApiError(400, "only owner can delete thier tweet");
   }
 

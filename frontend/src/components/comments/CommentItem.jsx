@@ -1,14 +1,4 @@
-const ago = (d) => {
-  if (!d) return ''
-  const m = Math.floor((Date.now() - new Date(d).getTime()) / 60000)
-  if (m < 1) return 'Just now'
-  if (m < 60) return `${m}m ago`
-  const h = Math.floor(m / 60)
-  if (h < 24) return `${h}h ago`
-  const days = Math.floor(h / 24)
-  if (days < 30) return `${days}d ago`
-  return `${Math.floor(days / 30)}mo ago`
-}
+import { ago } from '../../utils'
 
 export const CommentItem = ({ comment }) => {
   if (!comment) return null

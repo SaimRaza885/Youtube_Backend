@@ -9,12 +9,11 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null)
   const [token, setToken] = useState(localStorage.getItem('token'))
 
-  // Check if user is logged in on mount
   useEffect(() => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await api.get('/users/profile')
+          const response = await api.get('/users/current-user')
           setUser(response.data.data)
           setError(null)
         } catch (err) {
@@ -29,17 +28,12 @@ export const AuthProvider = ({ children }) => {
     checkAuth()
   }, [token])
 
-  const register = useCallback(async (username, email, password, fullName) => {
+  const register = useCallback(async (formData) => {
     setLoading(true)
     setError(null)
     try {
-      const response = await api.post('/users/register', {
-        username,
-        email,
-        password,
-        fullName,
-      })
-      const { token: newToken, user: userData } = response.data.data
+      const response = await api.post('/users/register', formData)
+      const { accessToken: newToken, user: userData } = response.data.data
       localStorage.setItem('token', newToken)
       setToken(newToken)
       setUser(userData)
@@ -58,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     setError(null)
     try {
       const response = await api.post('/users/login', { email, password })
-      const { token: newToken, user: userData } = response.data.data
+      const { accessToken: newToken, user: userData } = response.data.data
       localStorage.setItem('token', newToken)
       setToken(newToken)
       setUser(userData)
@@ -82,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = useCallback(async (updates) => {
     setError(null)
     try {
-      const response = await api.patch('/users/profile', updates)
+      const response = await api.post('/users/update-account', updates)
       setUser(response.data.data)
       return { success: true, data: response.data.data }
     } catch (err) {

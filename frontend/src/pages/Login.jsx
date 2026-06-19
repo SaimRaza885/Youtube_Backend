@@ -20,14 +20,9 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
-    
     if (!formData.email) newErrors.email = 'Email is required'
     if (!formData.password) newErrors.password = 'Password is required'
-    
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
 
     const result = await login(formData.email, formData.password)
     if (result.success) {
@@ -39,43 +34,35 @@ export const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-secondary rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">Sign In</h1>
-        <p className="text-text-secondary mb-6">to your YouTube account</p>
-        
-        {error && <div className="bg-red-600 bg-opacity-20 border border-red-600 text-red-400 px-4 py-2 rounded-lg mb-4 text-sm">{error}</div>}
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="your@email.com"
-            error={errors.email}
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="••••••••"
-            error={errors.password}
-          />
-          <Button fullWidth loading={loading} type="submit">
-            Sign In
-          </Button>
-        </form>
-        
-        <p className="text-center text-text-secondary text-sm mt-6">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-accent hover:text-accent-hover transition-colors">
-            Create one
-          </Link>
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-surface px-4">
+      <div className="w-full max-w-md">
+        <div className="bg-surface/90 backdrop-blur-xl border border-border rounded-2xl shadow-2xl p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-semibold text-text tracking-tight">Sign In</h1>
+            <p className="text-sm text-text-secondary mt-2">to your YouTube account</p>
+          </div>
+
+          {error && (
+            <div className="mb-4 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-2 text-sm text-red-400">{error}</div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input label="Email" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="your@email.com" error={errors.email} />
+            <Input label="Password" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="••••••••" error={errors.password} />
+            <Button fullWidth loading={loading} type="submit">Sign In</Button>
+          </form>
+
+          <div className="flex items-center gap-4 my-6">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-text-secondary">or</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <p className="text-center text-sm text-text-secondary">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-accent hover:text-accent-hover font-medium transition-colors">Create one</Link>
+          </p>
+        </div>
       </div>
     </div>
   )

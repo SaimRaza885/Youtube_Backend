@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useUI } from '../../context/UIContext'
-import { Avatar } from '../Avatar'
-import { Button } from '../Button'
+import { Avatar } from '../ui/Avatar'
+import { Button } from '../ui/Button'
 
 
 export const Header = () => {

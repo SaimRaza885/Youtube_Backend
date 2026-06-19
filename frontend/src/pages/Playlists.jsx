@@ -1,41 +1,46 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { playlistAPI, videoAPI } from '../services/endpoints'
-import { Card, Button, Modal, Input, Skeleton } from '../components'
+import { playlistAPI } from '../services/endpoints'
+import { Button, Modal, Input, Skeleton, EmptyState, ErrorState } from '../components'
 import { Link } from 'react-router-dom'
 import { useUI } from '../context/UIContext'
+import { ListMusic, ArrowLeft } from 'lucide-react'
 
 export const Playlists = () => {
   const { user } = useAuth()
   const { addNotification } = useUI()
   const [playlists, setPlaylists] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [selectedPlaylist, setSelectedPlaylist] = useState(null)
   const [playlistVideos, setPlaylistVideos] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [newPlaylistName, setNewPlaylistName] = useState('')
+  const [newPlaylistDescription, setNewPlaylistDescription] = useState('')
 
   useEffect(() => {
+    if (!user) { setLoading(false); return }
     const fetchPlaylists = async () => {
       try {
         setLoading(true)
-        const response = await playlistAPI.getAllPlaylists()
+        setError(null)
+        const response = await playlistAPI.getUserPlaylists(user._id)
         setPlaylists(response.data.data || [])
       } catch (err) {
-        addNotification('Failed to load playlists', 'error')
+        setError('Failed to load playlists')
       } finally {
         setLoading(false)
       }
     }
     fetchPlaylists()
-  }, [])
+  }, [user])
 
   const handleSelectPlaylist = async (playlist) => {
     setSelectedPlaylist(playlist)
     try {
       const response = await playlistAPI.getPlaylistById(playlist._id)
-      setPlaylistVideos(response.data.data?.videos || [])
-    } catch (err) {
+      setPlaylistVideos(response.data.data?.Videos || [])
+    } catch {
       addNotification('Failed to load playlist videos', 'error')
     }
   }
@@ -43,65 +48,82 @@ export const Playlists = () => {
   const handleCreatePlaylist = async () => {
     if (!newPlaylistName.trim()) return
     try {
-      const response = await playlistAPI.createPlaylist({ name: newPlaylistName })
+      const response = await playlistAPI.createPlaylist({ name: newPlaylistName, description: newPlaylistDescription })
       setPlaylists(prev => [...prev, response.data.data])
       setNewPlaylistName('')
+      setNewPlaylistDescription('')
       setShowModal(false)
       addNotification('Playlist created!', 'success')
-    } catch (err) {
+    } catch {
       addNotification('Failed to create playlist', 'error')
     }
   }
 
-  if (loading) return <div className="container-custom py-8"><Skeleton className="w-full h-96" /></div>
+  if (!user) return <div className="container-custom py-8 text-center text-text-secondary">Please log in to view playlists</div>
+  if (loading) return <div className="container-custom py-8"><Skeleton className="w-full h-48 rounded-xl" /></div>
+  if (error) return <div className="container-custom py-8"><ErrorState message={error} onRetry={() => window.location.reload()} /></div>
 
   return (
-    <div className="container-custom py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-text-primary">Your Playlists</h1>
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-text-primary">Your Playlists</h1>
         <Button onClick={() => setShowModal(true)}>Create Playlist</Button>
       </div>
 
       {!selectedPlaylist ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {playlists.map((playlist) => (
-            <Card key={playlist._id} onClick={() => handleSelectPlaylist(playlist)} hover>
-              <div className="w-full aspect-square bg-gradient-to-br from-accent to-accent-hover rounded-lg mb-3 flex items-center justify-center">
-                <span className="text-4xl text-white">🎬</span>
+        playlists.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {playlists.map((playlist) => (
+              <div
+                key={playlist._id}
+                onClick={() => handleSelectPlaylist(playlist)}
+                className="bg-secondary border border-border-subtle rounded-xl overflow-hidden cursor-pointer transition-all duration-200 hover:border-accent/30 hover:shadow-card-hover"
+              >
+                <div className="w-full aspect-video bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center">
+                  <ListMusic className="w-12 h-12 text-white/80" />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-text-primary truncate">{playlist.name}</h3>
+                  <p className="text-text-tertiary text-sm">{playlist.totalVideos || 0} videos</p>
+                </div>
               </div>
-              <h3 className="font-semibold text-text-primary truncate">{playlist.name}</h3>
-              <p className="text-text-secondary text-sm">{playlist.videos?.length || 0} videos</p>
-            </Card>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyState icon={ListMusic} title="No playlists yet" description="Create your first playlist to organize videos" />
+        )
       ) : (
         <div>
           <button
-            onClick={() => setSelectedPlaylist(null)}
-            className="mb-6 flex items-center gap-2 text-accent hover:text-accent-hover transition-colors"
+            onClick={() => { setSelectedPlaylist(null); setPlaylistVideos([]) }}
+            className="mb-4 flex items-center gap-2 text-accent hover:text-accent-hover transition-colors text-sm font-medium"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <ArrowLeft className="w-4 h-4" />
             Back to Playlists
           </button>
-          <h2 className="text-2xl font-bold text-text-primary mb-6">{selectedPlaylist.name}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {playlistVideos.map((video) => (
-              <Link key={video._id} to={`/video/${video._id}`}>
-                <Card hover>
-                  <div className="w-full aspect-video bg-tertiary rounded-lg overflow-hidden mb-3">
-                    <img
-                      src={video.thumbnail || 'https://via.placeholder.com/320x180'}
-                      alt={video.title}
-                      className="w-full h-full object-cover"
-                    />
+          <h2 className="text-xl font-bold text-text-primary mb-4">{selectedPlaylist.name}</h2>
+          {playlistVideos.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {playlistVideos.map((video) => (
+                <Link key={video._id} to={`/video/${video._id}`} className="group">
+                  <div className="bg-secondary border border-border-subtle rounded-xl overflow-hidden transition-all duration-200 hover:border-accent/30 hover:shadow-card-hover">
+                    <div className="w-full aspect-video bg-tertiary overflow-hidden">
+                      <img
+                        src={video.thumbnail?.url || 'https://placehold.co/320x180/1C1C2E/6B6B80?text=No+Thumbnail'}
+                        alt={video.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="font-semibold text-text-primary text-sm line-clamp-2">{video.title}</h3>
+                    </div>
                   </div>
-                  <h3 className="font-semibold text-text-primary truncate-text-2 text-sm">{video.title}</h3>
-                </Card>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-text-tertiary text-sm">This playlist is empty</p>
+          )}
         </div>
       )}
 
@@ -113,13 +135,15 @@ export const Playlists = () => {
             onChange={(e) => setNewPlaylistName(e.target.value)}
             placeholder="My awesome playlist"
           />
+          <Input
+            label="Description"
+            value={newPlaylistDescription}
+            onChange={(e) => setNewPlaylistDescription(e.target.value)}
+            placeholder="A short description of this playlist"
+          />
           <div className="flex gap-3">
-            <Button fullWidth variant="secondary" onClick={() => setShowModal(false)}>
-              Cancel
-            </Button>
-            <Button fullWidth onClick={handleCreatePlaylist}>
-              Create
-            </Button>
+            <Button fullWidth variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+            <Button fullWidth onClick={handleCreatePlaylist}>Create</Button>
           </div>
         </div>
       </Modal>

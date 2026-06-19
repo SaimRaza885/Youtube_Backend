@@ -1,16 +1,15 @@
-import { Home, Video, Clapperboard, Library, History } from 'lucide-react'
+import { Home, Video, Library, History } from 'lucide-react'
 import { useUI } from '../../context/UIContext'
 import { SidebarItem } from './SidebarItem'
 
 const mainLinks = [
-  { label: 'Home', path: '/', icon: Home },
-  { label: 'Shorts', path: '/shorts', icon: Clapperboard },
-  { label: 'Subscriptions', path: '/subscriptions', icon: Video },
+  { label: 'Home', to: '/', icon: Home },
+  { label: 'Subscriptions', to: '/subscriptions', icon: Video },
 ]
 
 const libraryLinks = [
-  { label: 'Library', path: '/playlists', icon: Library },
-  { label: 'History', path: '/history', icon: History },
+  { label: 'Library', to: '/playlists', icon: Library },
+  { label: 'History', to: '/history', icon: History },
 ]
 
 export const Sidebar = () => {
@@ -33,7 +32,7 @@ export const Sidebar = () => {
       >
         <div className={`py-3 space-y-1 ${sidebarOpen ? 'px-3' : 'px-0'}`}>
           {mainLinks.map((item) => (
-            <SidebarItem key={item.path} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
+            <SidebarItem key={item.to} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
           ))}
 
           <div className="pt-4 pb-1">
@@ -42,7 +41,7 @@ export const Sidebar = () => {
             )}
           </div>
           {libraryLinks.map((item) => (
-            <SidebarItem key={item.path} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
+            <SidebarItem key={item.to} {...item} collapsed={!sidebarOpen} onClick={handleItemClick} />
           ))}
         </div>
       </aside>

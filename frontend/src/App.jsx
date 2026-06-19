@@ -5,6 +5,7 @@ import { UIProvider } from './context/UIContext'
 import { Navbar, Sidebar, ToastContainer } from './components'
 import { UploadModal } from './components/ui/UploadModal'
 import { VideoPreviewModal } from './components/ui/VideoPreviewModal'
+import { ErrorBoundary } from './components/common/ErrorBoundary'
 import {
   Login,
   Register,
@@ -14,6 +15,7 @@ import {
   Search,
   Playlists,
   Profile,
+  Upload,
 } from './pages'
 
 const PageLayout = ({ children }) => {
@@ -23,7 +25,7 @@ const PageLayout = ({ children }) => {
       <div className="flex flex-1">
         <Sidebar />
         <main className="flex-1 bg-[#0f0f0f] overflow-y-auto">
-          {children}
+          <ErrorBoundary>{children}</ErrorBoundary>
         </main>
       </div>
     </div>
@@ -37,10 +39,10 @@ function AppContent() {
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<PageLayout><Home /></PageLayout>} />
       <Route path="/video/:videoId" element={<PageLayout><VideoPlayer /></PageLayout>} />
-      <Route path="/channel/:channelId" element={<PageLayout><Channel /></PageLayout>} />
+      <Route path="/channel/:username" element={<PageLayout><Channel /></PageLayout>} />
       <Route path="/search" element={<PageLayout><Search /></PageLayout>} />
+      <Route path="/upload" element={<PageLayout><Upload /></PageLayout>} />
       <Route path="/trending" element={<PageLayout><Home /></PageLayout>} />
-      <Route path="/shorts" element={<PageLayout><Home /></PageLayout>} />
       <Route path="/playlists" element={<PageLayout><Playlists /></PageLayout>} />
       <Route path="/profile" element={<PageLayout><Profile /></PageLayout>} />
       <Route path="/subscriptions" element={<PageLayout><Home /></PageLayout>} />

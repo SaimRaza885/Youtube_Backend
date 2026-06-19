@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
     avatar: {
-      type: String, // Will be stored as a URL from Cloudinary
-      required: true,
+      type: String,
+      default: '',
     },
     coverImage: {
       type: String, // Optional image from Cloudinary

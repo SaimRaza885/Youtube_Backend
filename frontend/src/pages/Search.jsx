@@ -19,7 +19,7 @@ export const Search = () => {
         try {
           setLoading(true)
           const response = await searchAPI.search(debouncedSearch)
-          setResults(response.data.data || [])
+          setResults(response.data.data?.docs || response.data.data || [])
         } catch (err) {
           console.error('Search failed:', err)
           setResults([])
@@ -60,17 +60,17 @@ export const Search = () => {
               .map((_, i) => <Skeleton key={i} className="w-full aspect-video rounded-lg" />)
           : results.length > 0
           ? results.map((result) => (
-              <Link key={result._id} to={`/video/${result._id}`}>
+              <Link key={result._id} to={`/video/${result._id}`} className="group">
                 <Card hover>
                   <div className="relative w-full aspect-video bg-tertiary rounded-lg overflow-hidden mb-3">
                     <img
-                      src={result.thumbnail || 'https://via.placeholder.com/320x180'}
+                      src={result.thumbnail?.url || 'https://via.placeholder.com/320x180'}
                       alt={result.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                   <h3 className="font-semibold text-text-primary truncate-text-2 text-sm mb-1">{result.title}</h3>
-                  <p className="text-text-secondary text-xs truncate">{result.channelId?.username}</p>
+                  <p className="text-text-secondary text-xs truncate">{result.ownerDetails?.username}</p>
                   <p className="text-text-secondary text-xs">{result.views || 0} views</p>
                 </Card>
               </Link>

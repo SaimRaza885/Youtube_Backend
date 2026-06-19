@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Avatar } from '../ui/Avatar'
 import { Button } from '../ui/Button'
-
-const fmt = (v) => v ? (v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1e3 ? `${(v / 1e3).toFixed(1)}K` : `${v}`) : '0'
+import { fmt } from '../../utils'
 
 export const ChannelInfo = ({ channel, description }) => {
   if (!channel) return null
