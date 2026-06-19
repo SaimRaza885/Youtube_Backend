@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
 
-const buildMongoUri = () => {
-  const url = process.env.MONGODB_URL;
-  const [base, query] = url.split("?");
-  return query ? `${base}/${DB_NAME}?${query}` : `${base}/${DB_NAME}`;
-};
+import dns from "dns";
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+
 
 export const DB_Connection = async () => {
   try {
-    const connectionInstance = await mongoose.connect(buildMongoUri());
+    const connectionInstance = await mongoose.connect(
+      `${process.env.MONGODB_URI}/${DB_NAME}`
+    );
     console.log(
-      "!! MongoDB Connection Succeeded !! DB HOST:",
+      "!! MongoDB Connection Successfully !! DB HOST:",
       connectionInstance.connection.host
     );
   } catch (error) {
