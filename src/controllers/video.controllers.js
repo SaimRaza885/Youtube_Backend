@@ -9,6 +9,7 @@ import {
 } from "../utils/Cloudinary.js";
 import { Like } from "../models/like.model.js";
 import { Comment } from "../models/comment.model.js";
+import { User } from "../models/user.model.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -25,12 +26,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
   if (query) {
     pipeline.push({
-      $search: {
-        index: "search-vidoes",
-        text: {
-          query: query,
-          path: ["title", "description"],
-        },
+      $match: {
+        $or: [
+          { title: { $regex: query, $options: "i" } },
+          { description: { $regex: query, $options: "i" } },
+        ],
       },
     });
   }
@@ -292,6 +292,12 @@ const getVideoById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Video not found");
   }
 
+  if (req.user?._id) {
+    await User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { WatchHistory: videoId },
+    });
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, fetched_Video[0], "Successfully fetched video"));
@@ -406,6 +412,20 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     );
 });
 
+const incrementViews = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid videoId");
+  }
+
+  await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "View count incremented"));
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -413,4 +433,5 @@ export {
   updateVideo,
   deleteVideo,
   togglePublishStatus,
+  incrementViews,
 };

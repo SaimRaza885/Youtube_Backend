@@ -4,12 +4,15 @@ import api from './api'
 export const videoAPI = {
   getAllVideos: (params) => api.get('/videos/', { params }),
   getVideoById: (id) => api.get(`/videos/${id}`),
-  uploadVideo: (formData) => api.post('/videos/', formData, {
+  uploadVideo: (formData, onProgress) => api.post('/videos/', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress: onProgress,
+    timeout: 600000,
   }),
   updateVideo: (id, data) => api.patch(`/videos/${id}`, data),
   deleteVideo: (id) => api.delete(`/videos/${id}`),
   getVideosByUser: (userId) => api.get('/videos/', { params: { userId } }),
+  incrementViews: (videoId) => api.patch(`/videos/views/${videoId}`),
 }
 
 // Comment APIs
@@ -50,6 +53,11 @@ export const channelAPI = {
 export const dashboardAPI = {
   getStats: () => api.get('/dashboard/stats'),
   getVideos: () => api.get('/dashboard/videos'),
+}
+
+// User API
+export const userAPI = {
+  getHistory: () => api.get('/users/history'),
 }
 
 // Search API

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { CategoryChip, VideoGrid } from '../components'
 import { videoAPI } from '../services/endpoints'
 
-const categories = ['All', 'Music', 'Gaming', 'News', 'Sports', 'Movies', 'Education', 'Technology', 'Entertainment', 'Podcasts', 'Live', 'Trending']
+// const categories = ['All', 'Music', 'Gaming', 'News', 'Sports', 'Movies', 'Education', 'Technology', 'Entertainment', 'Podcasts', 'Live', 'Trending']
 
 export const Home = () => {
   const [videos, setVideos] = useState([])
@@ -27,13 +27,13 @@ export const Home = () => {
 
   return (
     <div>
-      <div className="sticky top-14 z-30 bg-[#0f0f0f]/95 backdrop-blur-xl border-b border-[#2A2A42]">
-        <div className="flex gap-3 overflow-x-auto px-6 py-3 scrollbar-none">
-          {categories.map((c) => (
+      {/* <div className="sticky top-14 z-30 bg-[#0f0f0f]/95 backdrop-blur-xl border-b border-[#2A2A42]"> */}
+      {/* <div className="flex gap-3 overflow-x-auto px-6 py-3 scrollbar-none"> */}
+      {/* {categories.map((c) => (
             <CategoryChip key={c} label={c} active={activeCat === c} onClick={() => setActiveCat(c)} />
-          ))}
-        </div>
-      </div>
+          ))} */}
+      {/* </div> */}
+      {/* </div> */}
       <div className="px-4 lg:px-6 py-5">
         <VideoGrid
           videos={videos}

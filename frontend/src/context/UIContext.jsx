@@ -9,6 +9,7 @@ export const UIProvider = ({ children }) => {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [showVideoPreview, setShowVideoPreview] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState(null)
+  const [uploads, setUploads] = useState([])
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
@@ -42,6 +43,18 @@ export const UIProvider = ({ children }) => {
     setTimeout(() => setSelectedVideo(null), 300)
   }, [])
 
+  const addUpload = useCallback((id, fileName) => {
+    setUploads((prev) => [...prev, { id, fileName, progress: 0, status: 'uploading' }])
+  }, [])
+
+  const updateUpload = useCallback((id, updates) => {
+    setUploads((prev) => prev.map((u) => (u.id === id ? { ...u, ...updates } : u)))
+  }, [])
+
+  const removeUpload = useCallback((id) => {
+    setUploads((prev) => prev.filter((u) => u.id !== id))
+  }, [])
+
   const value = {
     sidebarOpen,
     toggleSidebar,
@@ -58,6 +71,10 @@ export const UIProvider = ({ children }) => {
     setSelectedVideo,
     openVideoPreview,
     closeVideoPreview,
+    uploads,
+    addUpload,
+    updateUpload,
+    removeUpload,
   }
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>

@@ -4,13 +4,24 @@ import { useUI } from '../../context/UIContext'
 import { Button, Input, Textarea } from './index'
 
 export const UploadModal = () => {
-  const { showUploadModal, setShowUploadModal, addNotification } = useUI()
-  const [loading, setLoading] = useState(false)
+  const { showUploadModal, setShowUploadModal, addNotification, addUpload, updateUpload } = useUI()
   const [dragOver, setDragOver] = useState(false)
   const [form, setForm] = useState({ title: '', description: '', file: null, thumbnail: null })
   const [errors, setErrors] = useState({})
   const fileInputRef = useRef(null)
   const thumbInputRef = useRef(null)
+
+  const handleDrop = useCallback((e) => {
+    e.preventDefault()
+    setDragOver(false)
+    const files = e.dataTransfer.files
+    if (files.length > 0) {
+      const videoFile = Array.from(files).find(f => f.type.startsWith('video/'))
+      if (videoFile) {
+        setForm((p) => ({ ...p, file: videoFile }))
+      }
+    }
+  }, [])
 
   if (!showUploadModal) return null
 
@@ -27,19 +38,6 @@ export const UploadModal = () => {
     }
   }
 
-  const handleDrop = useCallback((e) => {
-    e.preventDefault()
-    setDragOver(false)
-    const files = e.dataTransfer.files
-    if (files.length > 0) {
-      const videoFile = Array.from(files).find(f => f.type.startsWith('video/'))
-      if (videoFile) {
-        setForm((p) => ({ ...p, file: videoFile }))
-        if (errors.file) setErrors((p) => ({ ...p, file: '' }))
-      }
-    }
-  }, [errors])
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     const err = {}
@@ -48,22 +46,29 @@ export const UploadModal = () => {
     if (!form.file) err.file = 'Video file is required'
     if (Object.keys(err).length > 0) { setErrors(err); return }
 
+    const uploadId = Date.now()
+    const fileName = form.file.name
+
+    addUpload(uploadId, fileName)
+    setShowUploadModal(false)
+    setForm({ title: '', description: '', file: null, thumbnail: null })
+
     try {
-      setLoading(true)
       const { videoAPI } = await import('../../services/endpoints')
       const formData = new FormData()
       formData.append('title', form.title)
       formData.append('description', form.description)
       formData.append('videoFile', form.file)
       if (form.thumbnail) formData.append('thumbnail', form.thumbnail)
-      await videoAPI.uploadVideo(formData)
+      await videoAPI.uploadVideo(formData, (e) => {
+        const pct = Math.round((e.loaded / e.total) * 100)
+        updateUpload(uploadId, { progress: pct })
+      })
+      updateUpload(uploadId, { progress: 100, status: 'done' })
       addNotification('Video uploaded successfully!', 'success')
-      setShowUploadModal(false)
-      setForm({ title: '', description: '', file: null, thumbnail: null })
     } catch {
+      updateUpload(uploadId, { status: 'error' })
       addNotification('Upload failed. Please try again.', 'error')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -138,7 +143,7 @@ export const UploadModal = () => {
 
           <div className="flex gap-3 pt-2">
             <Button fullWidth variant="secondary" onClick={() => setShowUploadModal(false)} type="button">Cancel</Button>
-            <Button fullWidth loading={loading} type="submit">Publish</Button>
+            <Button fullWidth type="submit">Publish</Button>
           </div>
         </form>
       </div>

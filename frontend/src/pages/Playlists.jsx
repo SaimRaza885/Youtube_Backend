@@ -17,6 +17,8 @@ export const Playlists = () => {
   const [showModal, setShowModal] = useState(false)
   const [newPlaylistName, setNewPlaylistName] = useState('')
   const [newPlaylistDescription, setNewPlaylistDescription] = useState('')
+  const [addVideoId, setAddVideoId] = useState('')
+  const [addingVideo, setAddingVideo] = useState(false)
 
   useEffect(() => {
     if (!user) { setLoading(false); return }
@@ -56,6 +58,22 @@ export const Playlists = () => {
       addNotification('Playlist created!', 'success')
     } catch {
       addNotification('Failed to create playlist', 'error')
+    }
+  }
+
+  const handleAddVideo = async () => {
+    if (!addVideoId.trim()) return
+    setAddingVideo(true)
+    try {
+      await playlistAPI.addVideoToPlaylist(selectedPlaylist._id, addVideoId.trim())
+      addNotification('Video added to playlist!', 'success')
+      setAddVideoId('')
+      const response = await playlistAPI.getPlaylistById(selectedPlaylist._id)
+      setPlaylistVideos(response.data.data?.Videos || [])
+    } catch {
+      addNotification('Failed to add video. Check the video ID.', 'error')
+    } finally {
+      setAddingVideo(false)
     }
   }
 
@@ -102,6 +120,16 @@ export const Playlists = () => {
             Back to Playlists
           </button>
           <h2 className="text-xl font-bold text-text-primary mb-4">{selectedPlaylist.name}</h2>
+          <div className="flex gap-2 mb-6">
+            <input
+              type="text"
+              value={addVideoId}
+              onChange={(e) => setAddVideoId(e.target.value)}
+              placeholder="Paste a video ID to add..."
+              className="flex-1 bg-tertiary border border-border-subtle rounded-lg px-4 py-2 text-sm text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:border-accent transition-colors"
+            />
+            <Button size="sm" loading={addingVideo} onClick={handleAddVideo} disabled={!addVideoId.trim()}>Add</Button>
+          </div>
           {playlistVideos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {playlistVideos.map((video) => (

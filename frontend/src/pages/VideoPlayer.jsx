@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { videoAPI, commentAPI, likeAPI, channelAPI } from '../services/endpoints'
+import { videoAPI, commentAPI, likeAPI, channelAPI, playlistAPI } from '../services/endpoints'
 import { Button, Skeleton } from '../components'
 import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
-import { ThumbsUp, ThumbsDown, Share2, User } from 'lucide-react'
+import { ThumbsUp, ThumbsDown, Share2, BookmarkPlus, User, Check, ListMusic, Trash2 } from 'lucide-react'
 import { fmt, ago } from '../utils'
 
 export const VideoPlayer = () => {
@@ -26,6 +26,26 @@ export const VideoPlayer = () => {
   const [likeCount, setLikeCount] = useState(0)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [subscriberCount, setSubscriberCount] = useState(0)
+  const [playlists, setPlaylists] = useState([])
+  const [showPlaylistMenu, setShowPlaylistMenu] = useState(false)
+  const [savingToPlaylist, setSavingToPlaylist] = useState(null)
+
+  const viewTracked = useRef(false)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      playlistAPI.getUserPlaylists(user._id).then(res => {
+        setPlaylists(res.data.data || [])
+      }).catch(() => {})
+    }
+  }, [isAuthenticated, user])
+
+  useEffect(() => {
+    if (video && !viewTracked.current) {
+      viewTracked.current = true
+      videoAPI.incrementViews(videoId).catch(() => {})
+    }
+  }, [video, videoId])
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -77,6 +97,30 @@ export const VideoPlayer = () => {
     } catch { addNotification('Failed to subscribe', 'error') }
   }, [isAuthenticated, video, addNotification])
 
+  const handleSaveToPlaylist = async (playlistId) => {
+    setSavingToPlaylist(playlistId)
+    try {
+      await playlistAPI.addVideoToPlaylist(playlistId, videoId)
+      addNotification('Added to playlist!', 'success')
+      setShowPlaylistMenu(false)
+    } catch {
+      addNotification('Failed to add to playlist', 'error')
+    } finally {
+      setSavingToPlaylist(null)
+    }
+  }
+
+  const handleDeleteVideo = useCallback(async () => {
+    if (!window.confirm('Are you sure you want to delete this video?')) return
+    try {
+      await videoAPI.deleteVideo(videoId)
+      addNotification('Video deleted successfully', 'success')
+      navigate('/')
+    } catch {
+      addNotification('Failed to delete video', 'error')
+    }
+  }, [videoId, navigate, addNotification])
+
   const handleAddComment = useCallback(async (e) => {
     e.preventDefault()
     if (!newComment.trim()) return
@@ -124,6 +168,33 @@ export const VideoPlayer = () => {
                   <Share2 className="w-4 h-4" />
                   <span className="hidden sm:inline">Share</span>
                 </button>
+                {isAuthenticated && (
+                  <div className="relative">
+                    <button onClick={() => setShowPlaylistMenu(!showPlaylistMenu)} className="flex items-center gap-1.5 px-4 py-2 bg-tertiary rounded-full text-sm font-medium text-text-secondary hover:bg-elevated transition-colors">
+                      <BookmarkPlus className="w-4 h-4" />
+                      <span className="hidden sm:inline">Save</span>
+                    </button>
+                    {showPlaylistMenu && (
+                      <div className="absolute right-0 top-full mt-2 w-56 bg-secondary border border-border-subtle rounded-xl shadow-dropdown z-50 py-2 max-h-64 overflow-y-auto">
+                        <p className="px-4 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider">Save to playlist</p>
+                        {playlists.length > 0 ? playlists.map(p => (
+                          <button
+                            key={p._id}
+                            onClick={() => handleSaveToPlaylist(p._id)}
+                            disabled={savingToPlaylist === p._id}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary hover:bg-tertiary transition-colors disabled:opacity-50"
+                          >
+                            <ListMusic className="w-4 h-4 text-accent" />
+                            <span className="truncate">{p.name}</span>
+                            {savingToPlaylist === p._id && <Check className="w-4 h-4 text-state-success ml-auto" />}
+                          </button>
+                        )) : (
+                          <p className="px-4 py-2 text-sm text-text-tertiary">No playlists yet</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -146,9 +217,17 @@ export const VideoPlayer = () => {
                 <p className="text-xs text-text-tertiary">{fmt(subscriberCount)} subscribers</p>
               </div>
             </div>
-            <Button size="sm" onClick={handleSubscribe}>
-              {isSubscribed ? 'Subscribed' : 'Subscribe'}
-            </Button>
+            <div className="flex items-center gap-2">
+              {user?._id === video.owner?._id && (
+                <button onClick={handleDeleteVideo} className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/20 transition-colors">
+                  <Trash2 className="w-4 h-4" />
+                  Delete
+                </button>
+              )}
+              <Button size="sm" onClick={handleSubscribe}>
+                {isSubscribed ? 'Subscribed' : 'Subscribe'}
+              </Button>
+            </div>
           </div>
 
           {video.description && (
@@ -169,7 +248,7 @@ export const VideoPlayer = () => {
             </form>
             <div className="space-y-4">
               {comments.length > 0 ? comments.map((comment, idx) => {
-                const cOwner = comment.comment_owner || {}
+                const cOwner = comment.comment_owner || comment.owner || {}
                 const cAvatar = cOwner.avatar || null
                 return (
                   <div key={comment._id || idx} className="flex gap-3">

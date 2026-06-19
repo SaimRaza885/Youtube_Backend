@@ -4,6 +4,7 @@ import { VideoProvider } from './context/VideoContext'
 import { UIProvider } from './context/UIContext'
 import { Navbar, Sidebar, ToastContainer } from './components'
 import { UploadModal } from './components/ui/UploadModal'
+import { UploadProgressBar } from './components/ui/UploadProgressBar'
 import { VideoPreviewModal } from './components/ui/VideoPreviewModal'
 import { ErrorBoundary } from './components/common/ErrorBoundary'
 import {
@@ -16,6 +17,8 @@ import {
   Playlists,
   Profile,
   Upload,
+  History,
+  Subscriptions,
 } from './pages'
 
 const PageLayout = ({ children }) => {
@@ -28,6 +31,7 @@ const PageLayout = ({ children }) => {
           <ErrorBoundary>{children}</ErrorBoundary>
         </main>
       </div>
+      <UploadProgressBar />
     </div>
   )
 }
@@ -45,8 +49,8 @@ function AppContent() {
       <Route path="/trending" element={<PageLayout><Home /></PageLayout>} />
       <Route path="/playlists" element={<PageLayout><Playlists /></PageLayout>} />
       <Route path="/profile" element={<PageLayout><Profile /></PageLayout>} />
-      <Route path="/subscriptions" element={<PageLayout><Home /></PageLayout>} />
-      <Route path="/history" element={<PageLayout><Home /></PageLayout>} />
+      <Route path="/subscriptions" element={<PageLayout><Subscriptions /></PageLayout>} />
+      <Route path="/history" element={<PageLayout><History /></PageLayout>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

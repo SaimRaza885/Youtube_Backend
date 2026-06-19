@@ -8,8 +8,7 @@ import { Button, Input, Textarea } from '../components'
 export const Upload = () => {
   const { isAuthenticated, loading: authLoading } = useAuth()
   const navigate = useNavigate()
-  const { addNotification } = useUI()
-  const [loading, setLoading] = useState(false)
+  const { addNotification, addUpload, updateUpload } = useUI()
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -50,21 +49,28 @@ export const Upload = () => {
       return
     }
 
+    const uploadId = Date.now()
+    const fileName = formData.file.name
+
+    addUpload(uploadId, fileName)
+    navigate('/')
+
     try {
-      setLoading(true)
       const form = new FormData()
       form.append('title', formData.title)
       form.append('description', formData.description)
       form.append('videoFile', formData.file)
       if (formData.thumbnail) form.append('thumbnail', formData.thumbnail)
 
-      await videoAPI.uploadVideo(form)
+      await videoAPI.uploadVideo(form, (e) => {
+        const pct = Math.round((e.loaded / e.total) * 100)
+        updateUpload(uploadId, { progress: pct })
+      })
+      updateUpload(uploadId, { progress: 100, status: 'done' })
       addNotification('Video uploaded successfully!', 'success')
-      navigate('/')
     } catch (err) {
+      updateUpload(uploadId, { status: 'error' })
       addNotification(err.response?.data?.message || 'Upload failed', 'error')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -115,8 +121,8 @@ export const Upload = () => {
           />
         </div>
 
-        <Button fullWidth loading={loading} type="submit" size="lg">
-          {loading ? 'Uploading...' : 'Upload Video'}
+        <Button fullWidth type="submit" size="lg">
+          Upload Video
         </Button>
       </form>
     </div>
