@@ -42,6 +42,7 @@ export const Upload = () => {
     const newErrors = {}
 
     if (!formData.title) newErrors.title = 'Title is required'
+    if (!formData.description) newErrors.description = 'Description is required'
     if (!formData.file) newErrors.file = 'Video file is required'
 
     if (Object.keys(newErrors).length > 0) {

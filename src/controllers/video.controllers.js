@@ -45,9 +45,6 @@ const getAllVideos = asyncHandler(async (req, res) => {
     });
   }
 
-  // all the vidoes that are set as ispublished true
-  pipeline.push({ $match: { isPublished: true } });
-
   // Sorting
   //sortType can be ascending(-1) or descending(1)
   //sortBy can be views, createdAt, duration
@@ -237,6 +234,7 @@ const getVideoById = asyncHandler(async (req, res) => {
           },
           {
             $project: {
+              _id: 1,
               username: 1,
               fullName: 1,
               avatar: 1,

@@ -44,6 +44,7 @@ export const UploadModal = () => {
     e.preventDefault()
     const err = {}
     if (!form.title) err.title = 'Title is required'
+    if (!form.description) err.description = 'Description is required'
     if (!form.file) err.file = 'Video file is required'
     if (Object.keys(err).length > 0) { setErrors(err); return }
 

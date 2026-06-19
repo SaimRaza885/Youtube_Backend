@@ -8,7 +8,7 @@ import { User, Video } from 'lucide-react'
 import { fmt } from '../utils'
 
 export const Channel = () => {
-  const { channelId } = useParams()
+  const { username } = useParams()
   const { user: currentUser } = useAuth()
   const { addNotification } = useUI()
   const [channel, setChannel] = useState(null)
@@ -23,7 +23,7 @@ export const Channel = () => {
       try {
         setLoading(true)
         setError(null)
-        const channelRes = await channelAPI.getChannelByUsername(channelId)
+        const channelRes = await channelAPI.getChannelByUsername(username)
         const channelData = channelRes.data.data
         setChannel(channelData)
         setIsSubscribed(channelData.isSubscribe || false)
@@ -38,7 +38,7 @@ export const Channel = () => {
       }
     }
     fetchChannel()
-  }, [channelId])
+  }, [username])
 
   const handleSubscribe = async () => {
     if (!currentUser) { addNotification('Please login to subscribe', 'info'); return }
