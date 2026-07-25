@@ -1,5 +1,5 @@
 // UI primitives
-export { Button, Avatar, Badge, Card, Input, Textarea, Modal, Skeleton, Spinner, Toast, ToastContainer } from './ui/index'
+export { Button, Avatar, Badge, Card, Input, Textarea, Modal, Skeleton, Spinner, Toast, ToastContainer, ConfirmDialog } from './ui/index'
 
 // Layout
 export { Navbar, Sidebar, SearchBar, NavActions, UserDropdown, SidebarItem } from './layout/index'
@@ -12,3 +12,6 @@ export { CommentItem, CommentForm, CommentSection } from './comments/index'
 
 // Common
 export { CategoryChip, EmptyState, ErrorState, StatsCard } from './common/index'
+
+// Liked Videos
+export { SectionHeader, LikedVideosGrid, LikedVideosEmptyState, LikedVideosSkeleton } from './likedVideos/index'

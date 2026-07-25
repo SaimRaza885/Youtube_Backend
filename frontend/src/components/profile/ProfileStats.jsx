@@ -1,97 +1,195 @@
-import React from 'react'
-import { Card } from '../../components'
+import { motion } from 'framer-motion'
+import { Users, Eye, CheckCircle2, DollarSign, TrendingUp } from 'lucide-react'
 import { fmt } from '../../utils'
 
-export const ProfileStats = ({
-    stats,
-    statsLoading,
-    timeframe,
-    setTimeframe
-}) => {
-    const calculateSubRatio = () => {
-        if (!stats?.totalViews || !stats?.totalSubscribers) return "0.00"
-        return ((stats.totalSubscribers / stats.totalViews / 14) * 100).toFixed(2)
-    }
+const statCards = [
+  { key: 'totalSubscribers', label: 'Subscribers', icon: Users },
+  { key: 'totalViews', label: 'Views Reach', icon: Eye },
+  { key: 'totalLikes', label: 'Total Likes', icon: TrendingUp },
+  { key: 'totalVideos', label: 'Total Videos', icon: TrendingUp },
+]
 
-    const calculateViewsGrowth = () => {
-        if (!stats?.totalSubscribers || !stats?.totalViews) return "0.00"
-        return (stats.totalViews / stats.totalSubscribers / 14).toFixed(2)
-    }
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.06 * i }
+  })
+}
 
-    const calculateLikesGrowth = () => {
-        if (!stats?.totalLikes || !stats?.totalViews) return "0.00"
-        return ((stats.totalLikes / stats.totalViews / 14) * 100).toFixed(2)
-    }
+export const ProfileStats = ({ stats, statsLoading }) => {
+  const subs = stats?.totalSubscribers || 0
+  const views = stats?.totalViews || 0
+  const subsTarget = 10
+  const viewsTarget = 100
+  const subsProgress = Math.min((subs / subsTarget) * 100, 100)
+  const viewsProgress = Math.min((views / viewsTarget) * 100, 100)
+  const overallProgress = Math.round((subsProgress + viewsProgress) / 2)
+  const isMonetized = subs >= subsTarget && views >= viewsTarget
 
-    return (
-        <div className="space-y-8 animate-fadeIn">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
-                <div>
-                    <h2 className="text-xl font-bold tracking-tight">Channel Analytics overview</h2>
-                    <p className="text-xs text-text-tertiary">Real-time performance data insights metric tracks</p>
+  return (
+    <div className="space-y-8">
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold text-text-primary tracking-tight">Channel Analytics Overview</h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {statCards.map((card, i) => {
+            const Icon = card.icon
+            return (
+              <motion.div
+                key={card.key}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={cardVariants}
+                className="p-5 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)',
+                  border: '1px solid var(--color-border-subtle)',
+                }}
+              >
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-4" style={{ background: 'var(--color-accent-muted-bg)' }}>
+                  <Icon className="w-4 h-4 text-accent" />
                 </div>
-                <div className="flex items-center gap-1 bg-secondary/60 border border-white/5 p-1 rounded-xl shadow-inner">
-                    {['7d', '28d', '90d'].map((t) => (
-                        <button key={t} onClick={() => setTimeframe(t)} className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${timeframe === t ? 'bg-background text-accent shadow-md border border-white/5' : 'text-text-tertiary hover:text-text-secondary'}`}>
-                            Last {t === '7d' ? '7 days' : t === '28d' ? '28 days' : '90 days'}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-                <Card className="p-6 bg-secondary/40 border border-white/5 rounded-2xl flex flex-col justify-between hover:border-accent/30 transition-all duration-300 group shadow-md backdrop-blur-sm">
-                    <div className="flex items-center justify-between">
-                        <span className="text-text-tertiary text-xs font-bold tracking-wider uppercase">Subscribers</span>
-                    </div>
-                    <div className="mt-4 space-y-1">
-                        <h3 className="text-3xl font-extrabold tracking-tight">{statsLoading ? '...' : fmt(stats?.totalSubscribers || 0)}</h3>
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-500">
-                            <span>▲ {calculateSubRatio()}%</span>
-                            <span className="text-text-tertiary font-normal">vs last period</span>
-                        </div>
-                    </div>
-                </Card>
-
-                <Card className="p-6 bg-secondary/40 border border-white/5 rounded-2xl flex flex-col justify-between hover:border-accent/30 transition-all duration-300 group shadow-md backdrop-blur-sm">
-                    <div className="flex items-center justify-between">
-                        <span className="text-text-tertiary text-xs font-bold tracking-wider uppercase">Views Reach</span>
-                    </div>
-                    <div className="mt-4 space-y-1">
-                        <h3 className="text-3xl font-extrabold tracking-tight">{statsLoading ? '...' : fmt(stats?.totalViews || 0)}</h3>
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-500">
-                            <span>▲ +{calculateViewsGrowth()}%</span>
-                            <span className="text-text-tertiary font-normal">growing fast</span>
-                        </div>
-                    </div>
-                </Card>
-
-                <Card className="p-6 bg-secondary/40 border border-white/5 rounded-2xl flex flex-col justify-between hover:border-accent/30 transition-all duration-300 group shadow-md backdrop-blur-sm">
-                    <div className="flex items-center justify-between">
-                        <span className="text-text-tertiary text-xs font-bold tracking-wider uppercase">Total Likes</span>
-                    </div>
-                    <div className="mt-4 space-y-1">
-                        <h3 className="text-3xl font-extrabold tracking-tight">{statsLoading ? '...' : fmt(stats?.totalLikes || 0)}</h3>
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-500">
-                            <span>▲ +{calculateLikesGrowth()}%</span>
-                            <span className="text-text-tertiary font-normal">growing fast</span>
-                        </div>
-                    </div>
-                </Card>
-
-                <Card className="p-6 bg-secondary/40 border border-white/5 rounded-2xl flex flex-col justify-between hover:border-accent/30 transition-all duration-300 group shadow-md backdrop-blur-sm">
-                    <div className="flex items-center justify-between">
-                        <span className="text-text-tertiary text-xs font-bold tracking-wider uppercase">Total Vidoes</span>
-                    </div>
-                    <div className="mt-4 space-y-1">
-                        <h3 className="text-3xl font-extrabold tracking-tight">{statsLoading ? '...' : fmt(stats?.totalVideos || 0)}</h3>
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-500">
-                            <span>Steady</span>
-                            <span className="text-text-tertiary font-normal">Active status</span>
-                        </div>
-                    </div>
-                </Card>
-            </div>
+                <span className="text-[var(--color-text-muted)] text-[11px] font-bold tracking-wider uppercase block mb-1">{card.label}</span>
+                <h3 className="text-3xl font-extrabold text-text-primary tracking-tight">
+                  {statsLoading ? (
+                    <span className="text-[var(--color-text-muted)]">...</span>
+                  ) : (
+                    fmt(stats?.[card.key] || 0)
+                  )}
+                </h3>
+              </motion.div>
+            )
+          })}
         </div>
-    )
+      </div>
+
+      <div
+        className="rounded-2xl p-6 relative overflow-hidden"
+        style={{
+          background: isMonetized
+            ? 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(34,197,94,0.02) 100%)'
+            : 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, rgba(255,178,183,0.02) 100%)',
+          border: isMonetized
+            ? '1px solid rgba(34,197,94,0.15)'
+            : '1px solid var(--color-border-subtle)',
+        }}
+      >
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                style={{
+                  background: isMonetized
+                    ? 'rgba(34,197,94,0.12)'
+                    : 'var(--color-accent-muted)',
+                }}
+              >
+                {isMonetized ? (
+                  <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
+                ) : (
+                  <DollarSign className="w-5 h-5 text-accent" />
+                )}
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-text-primary">
+                  {isMonetized ? 'Monetization Active' : 'Monetization Progress'}
+                </h3>
+                <p className="text-xs text-[var(--color-text-muted)]">
+                  {isMonetized
+                    ? 'Your channel is fully monetized — keep growing!'
+                    : 'Meet the thresholds below to unlock monetization'}
+                </p>
+              </div>
+            </div>
+
+            {!isMonetized && (
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-lg font-extrabold text-accent">{overallProgress}%</span>
+                <span className="text-[10px] text-[var(--color-text-muted)] font-medium">done</span>
+              </div>
+            )}
+          </div>
+
+          {!isMonetized && (
+            <div className="w-full h-2 rounded-full bg-[var(--color-overlay-hover)] mb-6 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${overallProgress}%` }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full rounded-full bg-gradient-to-r from-accent to-[#ffb2b7]"
+              />
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { label: 'Subscribers', icon: Users, current: subs, target: subsTarget, progress: subsProgress, met: subs >= subsTarget },
+              { label: 'Views', icon: Eye, current: views, target: viewsTarget, progress: viewsProgress, met: views >= viewsTarget },
+            ].map((item) => {
+              const Icon = item.icon
+              return (
+                <div
+                  key={item.label}
+                  className="p-4 rounded-xl"
+                  style={{
+                    background: item.met ? 'rgba(34,197,94,0.06)' : 'var(--color-overlay)',
+                    border: item.met ? '1px solid rgba(34,197,94,0.15)' : '1px solid var(--color-overlay-hover)',
+                  }}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                      style={{
+                        background: item.met ? 'rgba(34,197,94,0.12)' : 'var(--color-overlay-hover)',
+                      }}
+                    >
+                      {item.met ? (
+                        <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
+                      ) : (
+                        <Icon className="w-5 h-5 text-accent" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs text-text-secondary font-medium">{item.label}</span>
+                        <span className="text-xs font-bold text-text-primary">
+                          <span className={item.met ? 'text-[#22C55E]' : ''}>{fmt(item.current)}</span>
+                          <span className="text-[var(--color-text-muted)]"> / {fmt(item.target)}</span>
+                        </span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-[var(--color-overlay-hover)] overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${item.progress}%` }}
+                          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                          className="h-full rounded-full"
+                          style={{
+                            background: item.met ? '#22C55E' : 'linear-gradient(90deg, var(--color-accent), var(--color-accent-light))',
+                          }}
+                        />
+                      </div>
+                      {item.met ? (
+                        <p className="text-[10px] text-[#22C55E] mt-1.5 font-semibold flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Requirement met
+                        </p>
+                      ) : (
+                        <p className="text-[10px] text-[var(--color-text-muted)] mt-1.5 font-medium">
+                          {fmt(item.target - item.current)} more needed
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }

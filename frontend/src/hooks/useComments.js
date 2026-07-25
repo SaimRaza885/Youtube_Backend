@@ -50,7 +50,6 @@ export const useComments = (videoId, video) => {
   }
 
   const handleDeleteComment = async (commentId) => {
-    if (!window.confirm('Delete this comment permanently?')) return
     try {
       setActionLoadingId(commentId)
       await commentAPI.deleteComment(commentId)

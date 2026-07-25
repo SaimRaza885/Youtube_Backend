@@ -1,59 +1,81 @@
-import React from 'react'
-import { User } from 'lucide-react'
+import { User, BadgeCheck } from 'lucide-react'
 import { Button } from '../../components'
 import { fmt } from '../../utils'
 
 export const ChannelHeader = ({
-    channel,
-    videos,
-    isSubscribed,
-    isChannelOwner,
-    handleSubscribe,
-    navigate
+  channel,
+  videos,
+  isSubscribed,
+  isChannelOwner,
+  handleSubscribe,
+  navigate
 }) => {
-    const avatarUrl = channel?.avatar?.url || null
+  const avatarUrl = channel?.avatar?.url || null
+  const coverUrl = channel?.coverImage?.url || null
+  const totalViews = videos?.reduce((sum, v) => sum + (v.views || 0), 0) || 0
+  const isMonetized = (channel.subscriberCount || 0) >= 10 && totalViews >= 100
 
-    return (
-        <>
-            <div className="w-full h-40 bg-gradient-to-r from-accent to-accent-hover rounded-xl mb-6 relative" >
-                {channel?.coverImage &&
-                    <img src={channel?.coverImage?.url} alt="" className='w-full h-full object-cover ' />
-                }
-            </div>
+  return (
+    <>
+      <div className="w-full h-36 md:h-48 rounded-2xl overflow-hidden mb-6 relative">
+        {coverUrl ? (
+          <img src={coverUrl} alt="" className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full" style={{ background: 'linear-gradient(to right, rgba(190,18,60,0.4), rgba(159,14,49,0.2), var(--color-surface-low))' }} />
+        )}
+        {/* <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-surface-low) 0%, transparent 50%)' }} /> */}
+      </div>
 
-            <div className="flex items-start justify-between flex-wrap gap-4 mb-8">
-                <div className="flex items-start gap-4">
-                    {avatarUrl ? (
-                        <img src={avatarUrl} alt={channel.username} className="w-20 h-20 rounded-full border-4 border-primary object-cover" />
-                    ) : (
-                        <div className="w-20 h-20 rounded-full border-4 border-primary bg-tertiary flex items-center justify-center">
-                            <User className="w-10 h-10 text-text-tertiary" />
-                        </div>
-                    )}
-                    <div>
-                        <h1 className="text-2xl font-bold text-text-primary">{channel.fullName}</h1>
-                        <p className="text-text-secondary text-sm">@{channel.username}</p>
-                        <p className="text-text-tertiary text-sm mt-1 flex items-center gap-1.5 flex-wrap">
-                            <span>{fmt(channel.subscriberCount || 0)} subscribers</span>
-                            <span>&bull;</span>
-                            <span>{fmt(channel.channelSubscribeToCount || 0)} subscribed</span>
-                            <span>&bull;</span>
-                            <span>{videos?.length || 0} videos</span>
-                        </p>
-                    </div>
-                </div>
-                {!isChannelOwner ? (
-                    <Button onClick={handleSubscribe} variant={isSubscribed ? 'secondary' : 'primary opacity-90'}>
-                        {isSubscribed ? 'Subscribed' : 'Subscribe'}
-                    </Button>
-                ) : (
-                    <div className='flex items-center gap-2'>
-                        <Button onClick={() => navigate('/upload')} variant='primary'>
-                            Upload Video
-                        </Button>
-                    </div>
-                )}
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
+        <div className="flex items-start gap-5">
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={channel.username}
+              className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 object-cover shadow-xl md:-mt-14 relative z-10" style={{ borderColor: 'var(--color-surface-low)' }}
+            />
+          ) : (
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 bg-elevated flex items-center justify-center shadow-xl -mt-10 md:-mt-14 relative z-10" style={{ borderColor: 'var(--color-surface-low)' }}>
+              <User className="w-10 h-10 text-[var(--color-text-muted)]" />
             </div>
-        </>
-    )
+          )}
+          <div className="pt-3">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl md:text-3xl font-bold text-text-primary">{channel.fullName}</h1>
+              {isMonetized && (
+                <BadgeCheck className="w-6 h-6 text-[#22C55E] shrink-0" strokeWidth={2.5} />
+              )}
+            </div>
+            <p className="text-[var(--color-text-muted)] text-sm">@{channel.username}</p>
+            <p className="text-text-secondary text-sm mt-1 flex items-center gap-1.5 flex-wrap">
+              <span>{fmt(channel.subscriberCount || 0)} subscribers</span>
+              <span className="text-[var(--color-text-muted)]">&bull;</span>
+              <span>{fmt(channel.channelSubscribeToCount || 0)} subscribed</span>
+              <span className="text-[var(--color-text-muted)]">&bull;</span>
+              <span>{videos?.length || 0} videos</span>
+            </p>
+          </div>
+        </div>
+
+        {!isChannelOwner ? (
+          <Button
+            onClick={handleSubscribe}
+            className={`!rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !uppercase !tracking-wider transition-all ${isSubscribed
+              ? '!bg-[var(--color-overlay-hover)] !text-text-primary hover:!bg-[var(--color-overlay-hover)] !border !border-subtle'
+              : '!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light'
+              }`}
+          >
+            {isSubscribed ? 'Subscribed' : 'Subscribe'}
+          </Button>
+        ) : (
+          <Button
+            onClick={() => navigate('/upload')}
+            className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !uppercase !tracking-wider transition-all"
+          >
+            Upload Video
+          </Button>
+        )}
+      </div>
+    </>
+  )
 }

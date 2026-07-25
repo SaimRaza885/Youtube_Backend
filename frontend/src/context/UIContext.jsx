@@ -1,16 +1,35 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 
 const UIContext = createContext()
 
+const getInitialTheme = () => {
+  try {
+    const stored = localStorage.getItem('vidora-theme')
+    if (stored !== null) return stored === 'dark'
+  } catch {}
+  return true
+}
+
 export const UIProvider = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [darkMode, setDarkMode] = useState(true)
+  const [darkMode, setDarkMode] = useState(getInitialTheme)
   const [notifications, setNotifications] = useState([])
   const [selectedVideo, setSelectedVideo] = useState(null)
   const [uploads, setUploads] = useState([])
 
+  useEffect(() => {
+    try {
+      localStorage.setItem('vidora-theme', darkMode ? 'dark' : 'light')
+    } catch {}
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'light'
+  }, [darkMode])
+
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
+  }, [])
+
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode((prev) => !prev)
   }, [])
 
   const addNotification = useCallback((message, type = 'info', duration = 3000) => {
@@ -49,6 +68,7 @@ export const UIProvider = ({ children }) => {
     toggleSidebar,
     darkMode,
     setDarkMode,
+    toggleDarkMode,
     notifications,
     addNotification,
     removeNotification,

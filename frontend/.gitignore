@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-
+../stitch_vidora_video_platform_home_screen*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

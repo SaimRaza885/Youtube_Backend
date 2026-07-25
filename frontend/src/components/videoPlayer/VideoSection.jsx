@@ -59,7 +59,6 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
     }
   }
 
-  // Auto-play/pause based on phase
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
@@ -70,7 +69,6 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
     }
   }, [phase])
 
-  // Ad elapsed timer
   useEffect(() => {
     if (phase !== 'ad') return
     const start = Date.now()
@@ -81,12 +79,9 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
     return () => clearInterval(interval)
   }, [phase])
 
-  // Keyboard Navigation
-  // Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || phase === 'ad') return;
-
       if (e.code === 'Space') {
         e.preventDefault();
         togglePlay();
@@ -96,16 +91,15 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
       } else if (e.code === 'ArrowLeft') {
         e.preventDefault();
         if (onPrevVideo) onPrevVideo();
-      } else if (e.code === 'KeyF') { // Added 'F' key support here
+      } else if (e.code === 'KeyF') {
         e.preventDefault();
         toggleFullscreen();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, onNextVideo, onPrevVideo]);
-  // Close speed popup on outside click
+
   useEffect(() => {
     const clickOutside = (e) => {
       if (speedMenuRef.current && !speedMenuRef.current.contains(e.target)) {
@@ -116,7 +110,6 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
     return () => document.removeEventListener('mousedown', clickOutside)
   }, [])
 
-  // Controls auto-hide
   useEffect(() => {
     resetControlsTimeout()
     return () => clearTimeout(controlsTimer.current)
@@ -133,21 +126,12 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
     }
   }, [isPlaying])
 
-  // Fullscreen listener
   useEffect(() => {
-    const onChange = (e) => {
-      if (e.code === 'f') {
-        e.preventDefault();
-        setIsFullscreen(!!document.fullscreenElement)
-      }
-      setIsFullscreen(!!document.fullscreenElement)
-    }
-
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onChange)
     return () => document.removeEventListener('fullscreenchange', onChange)
   }, [])
 
-  // Sync calculated volume to native element
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = actualVolume
@@ -196,10 +180,10 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-gray-800 outline-none select-none"
+      className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl outline-none select-none"
+      style={{ border: '1px solid var(--color-border-light)' }}
       onDoubleClick={toggleFullscreen}
     >
-      {/* ---- Video Element ---- */}
       <video
         ref={videoRef}
         src={video?.videoFile?.url}
@@ -215,53 +199,25 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
         playsInline
       />
 
-      {/* ---- Buffering Spinner ---- */}
       {isBuffering && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-10 h-10 border-2 border-white/20 border-t-indigo-400 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-2 border-white/20 rounded-full animate-spin" style={{ borderTopColor: 'var(--color-accent)' }} />
         </div>
       )}
 
-      {/* ---- Ad Image Overlay ---- */}
       {phase === 'ad' && (
         <div className="absolute inset-0 z-30 flex flex-col">
-          {/* Ad background image */}
           {adImageUrl ? (
             <img src={adImageUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-gray-950" />
           )}
-
-          {/* Dark gradient overlays for text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
-
-
-
-          {/* Center content */}
-          <div className="relative z-10 flex-1 flex items-center px-4 sm:px-8">
-            {/* <div className="max-w-lg">
-              <h2 className="text-white text-xl sm:text-2xl font-bold drop-shadow-lg mb-2">
-                {adTitle}
-              </h2>
-              <p className="text-white/80 text-sm sm:text-base drop-shadow-md line-clamp-2">
-                {adDescription}
-              </p>
-              <button className="mt-4 bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg text-sm hover:bg-white/90 transition-colors shadow-xl">
-                Learn More
-              </button>
-            </div> */}
-          </div>
-
-          {/* Ad progress line */}
+          <div className="relative z-10 flex-1 flex items-center px-4 sm:px-8" />
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20">
-            <div
-              className="h-full bg-amber-400 transition-all duration-150 ease-linear"
-              style={{ width: `${adProgressPct}%` }}
-            />
+            <div className="h-full bg-amber-400 transition-all duration-150 ease-linear" style={{ width: `${adProgressPct}%` }} />
           </div>
-
-          {/* Bottom bar with skip */}
           <div className="relative z-10 flex items-center justify-end p-4">
             {adSkippable ? (
               <button
@@ -283,12 +239,10 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
         </div>
       )}
 
-      {/* ---- Static Center Play Overlay ---- */}
       {phase === 'main' && !isPlaying && !isBuffering && showControls && (
         <div onClick={togglePlay} className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <button
-
-            className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-indigo-500/20 hover:scale-105 border border-white/20 transition-all pointer-events-auto"
+            className="w-16 h-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 transition-all pointer-events-auto hover:scale-105 hover:border-accent/50"
           >
             <svg viewBox="0 0 24 24" fill="white" className="w-8 h-8 ml-1">
               <path d="M8 5v14l11-7z" />
@@ -297,14 +251,14 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
         </div>
       )}
 
-      {/* ---- Controls UI Wrapper ---- */}
       <div
-        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 transition-opacity duration-300 flex flex-col justify-end ${phase === 'ad' ? 'opacity-0 pointer-events-none' : showControls ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 transition-opacity duration-300 flex flex-col justify-end ${
+          phase === 'ad' ? 'opacity-0 pointer-events-none' : showControls ? 'opacity-100' : 'opacity-0'
+        }`}
         style={{ pointerEvents: phase === 'ad' ? 'none' : (showControls ? 'auto' : 'none') }}
+        onClick={togglePlay}
       >
-        {/* Bottom Control Actions */}
-        <div className="p-4 pt-10 flex flex-col gap-3">
-          {/* Custom Progress/Scrub Bar */}
+        <div className="p-4 pt-10 flex flex-col gap-3" onClick={(e) => e.stopPropagation()}>
           <div
             ref={progressRef}
             className="relative w-full h-3 flex items-center cursor-pointer group"
@@ -314,15 +268,15 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
           >
             <div className="absolute left-0 right-0 h-1 bg-white/20 rounded-full group-hover:h-1.5 transition-all duration-150">
               <div
-                className="h-full bg-indigo-500 rounded-full relative"
-                style={{ width: `${progressPct}%` }}
+                className="h-full rounded-full relative"
+                style={{ width: `${progressPct}%`, background: 'var(--color-accent)' }}
               >
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
             </div>
             {hoverTime !== null && (
               <div
-                className="absolute -top-7 -translate-x-1/2 bg-gray-900 border border-white/10 text-white text-[11px] font-mono px-2 py-0.5 rounded pointer-events-none shadow-xl z-20"
+                className="absolute -top-7 -translate-x-1/2 bg-secondary border border-white/10 text-white text-[11px] font-mono px-2 py-0.5 rounded pointer-events-none shadow-xl z-20"
                 style={{ left: `${(hoverTime / duration) * 100}%` }}
               >
                 {formatTime(hoverTime)}
@@ -330,11 +284,9 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
             )}
           </div>
 
-          {/* Control Buttons Row */}
           <div className="flex items-center justify-between text-white">
-            {/* Left Control Group */}
             <div className="flex items-center gap-4">
-              <button onClick={togglePlay} className="hover:text-indigo-400 transition-colors" title="Play / Pause">
+              <button onClick={togglePlay} className="hover:text-accent-light transition-colors" title="Play / Pause">
                 {isPlaying ? (
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
                 ) : (
@@ -342,9 +294,8 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
                 )}
               </button>
 
-              {/* Volume */}
               <div className="flex items-center gap-2 group/vol">
-                <button onClick={() => setIsMuted(!isMuted)} className="hover:text-indigo-400 transition-colors">
+                <button onClick={() => setIsMuted(!isMuted)} className="hover:text-accent-light transition-colors">
                   {isMuted || volume === 0 ? (
                     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" /></svg>
                   ) : (
@@ -358,22 +309,20 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
                   step="0.01"
                   value={volume}
                   onChange={(e) => { setVolume(parseFloat(e.target.value)); setIsMuted(false) }}
-                  className="w-0 opacity-0 group-hover/vol:w-20 group-hover/vol:opacity-100 transition-all duration-300 h-1 accent-indigo-400 bg-white/30 cursor-pointer rounded-lg"
+                  className="w-0 opacity-0 group-hover/vol:w-20 group-hover/vol:opacity-100 transition-all duration-300 h-1 bg-white/30 cursor-pointer rounded-lg"
+                  style={{ accentColor: 'var(--color-accent)' }}
                 />
               </div>
 
-              {/* Time */}
               <span
                 onClick={() => setShowRemaining(!showRemaining)}
-                className="text-xs font-mono select-none cursor-pointer hover:text-indigo-400 transition-colors"
+                className="text-xs font-mono select-none cursor-pointer hover:text-accent-light transition-colors"
               >
                 {showRemaining ? `-${formatTime(remainingTime)}` : formatTime(currentTime)} / {formatTime(duration)}
               </span>
             </div>
 
-            {/* Right Control Group */}
             <div className="flex items-center gap-4">
-              {/* Speed selector */}
               <div className="relative" ref={speedMenuRef}>
                 <button
                   onClick={() => setShowSpeedMenu(!showSpeedMenu)}
@@ -382,12 +331,21 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
                   {playbackRate}x
                 </button>
                 {showSpeedMenu && (
-                  <div className="absolute bottom-full right-0 mb-2 bg-gray-950/95 border border-white/10 backdrop-blur-md rounded-lg py-1 shadow-2xl flex flex-col min-w-[70px] z-30 animate-in fade-in slide-in-from-bottom-2 duration-150">
+                  <div
+                    className="absolute bottom-full right-0 mb-2 rounded-lg py-1 shadow-2xl flex flex-col min-w-[70px] z-30"
+                    style={{
+                      background: 'rgba(18,19,26,0.96)',
+                      backdropFilter: 'blur(16px)',
+                      border: '1px solid var(--color-border-light)',
+                    }}
+                  >
                     {PLAYBACK_RATES.map((rate) => (
                       <button
                         key={rate}
                         onClick={() => selectSpeed(rate)}
-                        className={`text-xs px-3 py-1.5 text-left transition-colors font-medium ${playbackRate === rate ? 'text-indigo-400 bg-white/5' : 'text-gray-300 hover:bg-white/10'}`}
+                        className={`text-xs px-3 py-1.5 text-left transition-colors font-medium ${
+                          playbackRate === rate ? 'text-accent-light' : 'text-text-secondary hover:bg-[var(--color-overlay-hover)]'
+                        }`}
                       >
                         {rate}x
                       </button>
@@ -396,8 +354,7 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
                 )}
               </div>
 
-              {/* Fullscreen */}
-              <button onClick={toggleFullscreen} className="hover:text-indigo-400 transition-colors">
+              <button onClick={toggleFullscreen} className="hover:text-accent-light transition-colors">
                 {isFullscreen ? (
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" /></svg>
                 ) : (

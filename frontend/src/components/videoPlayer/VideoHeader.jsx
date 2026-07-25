@@ -1,3 +1,3 @@
 export const VideoHeader = ({ title }) => (
-  <h1 className="text-xl font-bold text-text-primary">{title}</h1>
+  <h1 className="text-xl font-bold text-text-primary tracking-tight">{title}</h1>
 )

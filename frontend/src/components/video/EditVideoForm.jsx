@@ -1,69 +1,39 @@
-import React from 'react'
-import { Button, Input, Textarea } from '../../components'
-import { ThumbnailUploader } from './ThumbnailUploader'
-import { VisibilityToggle } from './VisibilityToggle'
+export const EditVideoForm = ({ formData, errors, handleChange }) => {
+  return (
+    <div
+      className="rounded-xl p-6 space-y-5"
+      style={{
+        background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)',
+        border: '1px solid var(--color-border-light)',
+      }}
+    >
+      <h2 className="text-lg font-semibold text-text-primary mb-2">Details</h2>
 
-export const EditVideoForm = ({ 
-    formData, 
-    errors, 
-    thumbnailPreview, 
-    submitting, 
-    handleChange, 
-    handleFileChange, 
-    togglePublish, 
-    handleSubmit,
-    onCancel
-}) => {
-    return (
-        <form onSubmit={handleSubmit} className="bg-secondary rounded-lg p-8 space-y-6">
-            <Input
-                label="Video Title"
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Update video title"
-                error={errors.title}
-            />
+      <div className="space-y-2">
+        <label className="text-xs font-medium uppercase tracking-wider text-text-secondary">Title (required)</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          placeholder="Add a title that describes your video"
+          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
+        />
+        {errors.title && <p className="text-red-400 text-xs mt-1">{errors.title}</p>}
+      </div>
 
-            <Textarea
-                label="Description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Update video description"
-                rows={5}
-                error={errors.description}
-            />
-
-            <ThumbnailUploader 
-                thumbnailPreview={thumbnailPreview} 
-                onFileChange={handleFileChange} 
-            />
-
-            <VisibilityToggle 
-                isPublished={formData.isPublished} 
-                onToggle={togglePublish} 
-            />
-
-            <div className="flex items-center gap-4 pt-2">
-                <Button
-                    type="button"
-                    variant="secondary"
-                    className="w-1/2 bg-tertiary hover:bg-elevated"
-                    onClick={onCancel}
-                    disabled={submitting}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    type="submit"
-                    className="w-1/2"
-                    loading={submitting}
-                >
-                    Save Changes
-                </Button>
-            </div>
-        </form>
-    )
+      <div className="space-y-2">
+        <label className="text-xs font-medium uppercase tracking-wider text-text-secondary">Description (required)</label>
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Tell viewers about your video"
+          rows={6}
+          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
+        />
+        {errors.description && <p className="text-red-400 text-xs mt-1">{errors.description}</p>}
+      </div>
+    </div>
+  )
 }

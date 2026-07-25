@@ -73,6 +73,8 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
         totalVideos: 1,
         totalViews: 1,
         updatedAt: 1,
+        createdAt: 1,
+        thumbnail: { $arrayElemAt: ["$Videos.thumbnail", 0] },
       },
     },
   ]);

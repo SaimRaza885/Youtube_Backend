@@ -1,11 +1,24 @@
 import { useEffect, useState } from 'react'
-import { CategoryChip, VideoGrid } from '../components'
+import { useNavigate } from 'react-router-dom'
+import { VideoGrid } from '../components'
+import { HomeHero, CategoryTabs } from '../components/home'
 import { videoAPI } from '../services/endpoints'
+import { motion } from 'framer-motion'
+
+const CATEGORIES = ['All', 'Technology', 'Gaming', 'Music', 'AI', 'Design', 'Startups', 'Cinematography']
 
 export const Home = () => {
+  const navigate = useNavigate()
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [showHero, setShowHero] = useState(true)
+
+  const handleCategorySelect = (cat) => {
+    setActiveCategory(cat)
+    if (cat !== 'All') navigate(`/search?q=${encodeURIComponent(cat)}`)
+  }
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -23,16 +36,30 @@ export const Home = () => {
   }, [])
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+      className="px-4 lg:px-6 py-5 max-w-[1440px] mx-auto"
+    >
+      <CategoryTabs
+        categories={CATEGORIES}
+        activeCategory={activeCategory}
+        onSelectCategory={handleCategorySelect}
+      />
 
-      <div className="px-4 lg:px-6 py-5">
-        <VideoGrid
-          videos={videos}
-          loading={loading}
-          error={error}
-          onRetry={() => window.location.reload()}
-        />
+      {showHero && <HomeHero video={videos[0]} onDismiss={() => setShowHero(false)} />}
+
+      <div className="mt-12 mb-6 hidden md:block">
+        <h3 className="text-2xl font-bold tracking-tight text-text-primary">Recommended For You</h3>
       </div>
-    </div>
+
+      <VideoGrid
+        videos={videos}
+        loading={loading}
+        error={error}
+        onRetry={() => window.location.reload()}
+      />
+    </motion.div>
   )
 }

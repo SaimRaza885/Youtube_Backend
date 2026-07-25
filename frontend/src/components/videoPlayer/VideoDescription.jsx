@@ -1,8 +1,14 @@
 export const VideoDescription = ({ description }) => {
   if (!description) return null
   return (
-    <div className="bg-secondary border border-border-subtle rounded-xl p-4">
-      <p className="text-sm text-text-primary whitespace-pre-wrap">{description}</p>
+    <div
+      className="rounded-xl p-4"
+      style={{
+        background: 'var(--color-overlay-strong)',
+        border: '1px solid var(--color-border-subtle)',
+      }}
+    >
+      <p className="text-sm text-text-primary whitespace-pre-wrap leading-relaxed">{description}</p>
     </div>
   )
 }

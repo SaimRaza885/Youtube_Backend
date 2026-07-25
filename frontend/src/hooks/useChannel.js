@@ -83,9 +83,7 @@ export const useChannel = () => {
     }
 
     const handleDeleteVideo = async (videoId, e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        if (!window.confirm('Delete this video permanently?')) return
+        if (e) { e.preventDefault(); e.stopPropagation() }
         try {
             await videoAPI.deleteVideo(videoId)
             setVideos(prev => prev.filter(v => v._id !== videoId))

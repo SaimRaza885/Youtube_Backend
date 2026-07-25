@@ -1,128 +1,123 @@
-import { Link } from "react-router-dom"
-import { fmt, ago } from "../utils"
-import { DurationBadge } from "./video/DurationBadge"
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Play } from 'lucide-react'
+import { fmt, ago } from '../utils'
+import { DurationBadge } from './video/DurationBadge'
 
-export const NewVideoCard = ({ video, ch = "", horizontal = false }) => {
-    if (!video) return null
+export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
+  if (!video) return null
+  const [imgError, setImgError] = useState({})
 
-    const {
-        _id,
-        title,
-        thumbnail,
-        duration,
-        views,
-        createdAt,
-        owner,
-        ownerDetails,
-    } = video
+  const {
+    _id, title, thumbnail, duration, views, createdAt, owner, ownerDetails,
+  } = video
 
-    if (ch) {
-        video.ownerDetails = ch
-    }
-    const channel = ownerDetails || owner || {}
+  if (ch) { video.ownerDetails = ch }
+  const channel = ownerDetails || owner || {}
 
-    const {
-        username,
-        fullName = "Unknown Channel",
-        avatar,
-    } = channel
+  const { username, fullName = 'Unknown Channel', avatar } = channel
 
-    const thumbnailUrl =
-        thumbnail?.url ||
-        "https://placehold.co/640x360/1C1C2E/6B6B80?text=No+Thumbnail"
+  const thumbnailUrl = thumbnail?.url || 'https://placehold.co/640x360/1C1C2E/6B6B80?text=No+Thumbnail'
+  const avatarUrl = avatar?.url || avatar || 'https://placehold.co/40x40/2A2A3D/FFFFFF?text=U'
+  const thumbErr = imgError[_id]
 
-    const avatarUrl =
-        avatar?.url ||
-        avatar ||
-        "https://placehold.co/40x40/2A2A3D/FFFFFF?text=U"
-
-    if (horizontal) {
-        return (
-            <div className="group flex gap-3">
-                {/* Clickable Thumbnail Block */}
-                <Link
-                    to={`/video/${_id}`}
-                    className="relative aspect-video w-40 shrink-0 overflow-hidden rounded-xl bg-tertiary lg:w-48"
-                >
-                    <img
-                        src={thumbnailUrl}
-                        alt={title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <DurationBadge seconds={duration} />
-                </Link>
-
-                {/* Content Block */}
-                <div className="flex min-w-0 flex-1 flex-col">
-                    <Link to={`/video/${_id}`}>
-                        <h4 className="line-clamp-2 text-sm font-semibold leading-5 text-text-primary transition-colors group-hover:text-accent">
-                            {title || "Untitled Video"}
-                        </h4>
-                    </Link>
-
-                    <div className="flex">
-                        <Link
-                            to={`/channel/${username}`}
-                            className="mt-1 w-fit text-xs text-text-secondary transition-colors hover:text-text-primary"
-                        >
-                            {username}
-                        </Link>
-                    </div>
-
-                    <p className="mt-1 text-xs text-text-tertiary">
-                        {fmt(views)} views • {ago(createdAt)}
-                    </p>
-                </div>
-            </div>
-        )
-    }
-
+  if (horizontal) {
     return (
-        <div className="group">
-            {/* Thumbnail */}
-            <Link to={`/video/${_id}`} className="block">
-                <div className="relative aspect-video overflow-hidden rounded-xl bg-tertiary">
-                    <img
-                        src={thumbnailUrl}
-                        alt={title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <DurationBadge seconds={duration} />
-                </div>
-            </Link>
-
-            {/* Video Info */}
-            <div className="mt-3 flex gap-3">
-                {/* Channel Avatar */}
-                <Link to={`/channel/${username}`} className="shrink-0">
-                    <img
-                        src={avatarUrl}
-                        alt={fullName}
-                        className="h-9 w-9 rounded-full object-cover border border-secondary"
-                    />
-                </Link>
-
-                {/* Text */}
-                <div className="min-w-0 flex-1">
-                    <Link to={`/video/${_id}`}>
-                        <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-text-primary transition-colors duration-200 group-hover:text-accent">
-                            {title}
-                        </h3>
-                    </Link>
-
-                    <Link
-                        to={`/channel/${username}`}
-                        className="mt-1 block truncate text-sm text-text-secondary transition-colors hover:text-text-primary"
-                    >
-                        {username}
-                    </Link>
-
-                    <p className="mt-0.5 text-xs text-text-tertiary">
-                        {fmt(views)} views • {ago(createdAt)}
-                    </p>
-                </div>
+      <div className="group flex gap-3 rounded-xl overflow-hidden p-2 transition-all duration-300"
+        style={{
+          background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)',
+          border: '1px solid var(--color-border-subtle)',
+        }}
+      >
+        <Link to={`/video/${_id}`} className="relative w-40 lg:w-48 shrink-0 aspect-video overflow-hidden rounded-lg bg-elevated">
+          {!thumbErr ? (
+            <img
+              src={thumbnailUrl} alt={title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImgError(prev => ({ ...prev, [_id]: true }))}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-accent/30 to-accent-hover/20 flex items-center justify-center">
+              <Play className="w-5 h-5 text-white/40" />
             </div>
+          )}
+          <DurationBadge seconds={duration} />
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-8 h-8 rounded-full bg-accent-light text-accent-on-light flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+              <Play className="w-4 h-4 fill-current ml-0.5" />
+            </div>
+          </div>
+        </Link>
+
+        <div className="flex min-w-0 flex-1 flex-col py-1">
+          <Link to={`/video/${_id}`}>
+            <h4 className="line-clamp-2 text-sm font-semibold leading-5 text-text-primary transition-colors group-hover:text-accent-light">
+              {title || 'Untitled Video'}
+            </h4>
+          </Link>
+          {username && (
+            <Link to={`/channel/${username}`} className="mt-1 w-fit text-xs text-[var(--color-text-muted)] transition-colors hover:text-text-secondary">
+              {username}
+            </Link>
+          )}
+          <p className="mt-1 text-xs text-[var(--color-text-muted)]">
+            {fmt(views)} views • {ago(createdAt)}
+          </p>
         </div>
+      </div>
     )
+  }
+
+  return (
+    <div className="group rounded-xl overflow-hidden transition-all duration-300"
+      style={{
+        background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)',
+        border: '1px solid var(--color-border-light)',
+      }}
+    >
+      <Link to={`/video/${_id}`} className="block">
+        <div className="relative aspect-video overflow-hidden bg-elevated">
+          {!thumbErr ? (
+            <img
+              src={thumbnailUrl} alt={title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImgError(prev => ({ ...prev, [_id]: true }))}
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-accent/30 to-accent-hover/20 flex items-center justify-center">
+              <Play className="w-8 h-8 text-white/40" />
+            </div>
+          )}
+          <DurationBadge seconds={duration} />
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-10 h-10 rounded-full bg-accent-light text-accent-on-light flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+              <Play className="w-5 h-5 fill-current ml-0.5" />
+            </div>
+          </div>
+        </div>
+      </Link>
+
+      <div className="p-3 flex gap-3">
+        <Link to={`/channel/${username}`} className="shrink-0">
+          <img src={avatarUrl} alt={fullName} className="h-9 w-9 rounded-full object-cover border border-[var(--color-border-light)]" />
+        </Link>
+
+        <div className="min-w-0 flex-1">
+          <Link to={`/video/${_id}`}>
+            <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-text-primary transition-colors duration-200 group-hover:text-accent-light">
+              {title || 'Untitled Video'}
+            </h3>
+          </Link>
+          {username && (
+            <Link to={`/channel/${username}`} className="mt-1 block truncate text-xs text-[var(--color-text-muted)] transition-colors hover:text-text-secondary">
+              {username}
+            </Link>
+          )}
+          <p className="mt-0.5 text-xs text-[var(--color-text-muted)]">
+            {fmt(views)} views • {ago(createdAt)}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 }

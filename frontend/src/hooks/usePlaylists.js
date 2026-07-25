@@ -17,6 +17,7 @@ export const usePlaylists = () => {
     const [showModal, setShowModal] = useState(false)
     const [newPlaylistName, setNewPlaylistName] = useState('')
     const [newPlaylistDescription, setNewPlaylistDescription] = useState('')
+    const [newPlaylistIsPublic, setNewPlaylistIsPublic] = useState(true)
 
     const [addVideoId, setAddVideoId] = useState('')
     const [addingVideo, setAddingVideo] = useState(false)
@@ -66,10 +67,11 @@ export const usePlaylists = () => {
     const handleCreatePlaylist = async () => {
         if (!newPlaylistName.trim()) return
         try {
-            const response = await playlistAPI.createPlaylist({ name: newPlaylistName, description: newPlaylistDescription })
+            const response = await playlistAPI.createPlaylist({ name: newPlaylistName, description: newPlaylistDescription, isPublic: newPlaylistIsPublic })
             setPlaylists(prev => [...prev, response.data.data])
             setNewPlaylistName('')
             setNewPlaylistDescription('')
+            setNewPlaylistIsPublic(true)
             setShowModal(false)
             addNotification('Playlist created!', 'success')
         } catch {
@@ -94,7 +96,6 @@ export const usePlaylists = () => {
     }
 
     const handleDeletePlaylist = async (playlistId) => {
-        if (!window.confirm('Are you sure you want to delete this playlist?')) return
         try {
             await playlistAPI.deletePlaylist(playlistId)
             setPlaylists(prev => prev.filter(p => p._id !== playlistId))
@@ -128,7 +129,6 @@ export const usePlaylists = () => {
     }
 
     const handleRemoveVideo = async (videoId) => {
-        if (!window.confirm('Remove this video from the playlist?')) return
         setRemovingVideo(videoId)
         try {
             await playlistAPI.removeVideoFromPlaylist(selectedPlaylist._id, videoId)
@@ -244,6 +244,8 @@ export const usePlaylists = () => {
             setNewPlaylistName,
             newPlaylistDescription,
             setNewPlaylistDescription,
+            newPlaylistIsPublic,
+            setNewPlaylistIsPublic,
             handleCreatePlaylist,
         },
 

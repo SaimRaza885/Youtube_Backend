@@ -25,8 +25,8 @@ export const VideoCard = ({ video, horizontal = true }) => {
           <h4 className="text-sm font-semibold text-[#F0F0F8] leading-5 line-clamp-2">
             {video.title || 'Untitled Video'}
           </h4>
-          <p className="text-xs text-[#6B6B80] mt-1">{channelName} </p>
-          <p className="text-xs text-[#6B6B80]/70 mt-0.5">{fmt(video.views)} views &bull; {ago(video.createdAt)}</p>
+          <p className="text-xs text-[var(--color-text-muted)] mt-1">{channelName} </p>
+          <p className="text-xs text-[var(--color-text-muted)]/70 mt-0.5">{fmt(video.views)} views &bull; {ago(video.createdAt)}</p>
         </div>
       </div>
     )
@@ -49,8 +49,8 @@ export const VideoCard = ({ video, horizontal = true }) => {
             <h3 className="text-sm font-medium text-[#F0F0F8] leading-5 line-clamp-2 mb-1">
               {video.title || 'Untitled Video'}
             </h3>
-            <p className="text-xs text-[#6B6B80] leading-4 truncate">{channelName}</p>
-            <p className="text-xs text-[#6B6B80] leading-4">
+            <p className="text-xs text-[var(--color-text-muted)] leading-4 truncate">{channelName}</p>
+            <p className="text-xs text-[var(--color-text-muted)] leading-4">
               {fmt(video.views)} views &bull; {ago(video.createdAt)}
             </p>
           </div>

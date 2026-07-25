@@ -27,7 +27,6 @@ export const useVideo = (videoId) => {
   }, [video, videoId])
 
   const handleDeleteVideo = useCallback(async () => {
-    if (!window.confirm('Are you sure you want to delete this video?')) return
     try {
       await videoAPI.deleteVideo(videoId)
       addNotification('Video deleted successfully', 'success')
