@@ -10,14 +10,14 @@ export const HomeHero = ({ video, onDismiss }) => {
 
   useEffect(() => {
     if (!video) return
-    const t1 = setTimeout(() => setPhase('info'), 1500)
-    const t2 = setTimeout(() => setPhase('playing'), 4500)
+    const t1 = setTimeout(() => setPhase('info'), 2500)
+    const t2 = setTimeout(() => setPhase('playing'), 7500)
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [video])
 
   useEffect(() => {
     if (phase === 'playing' && videoRef.current && videoReady) {
-      videoRef.current.play().catch(() => {})
+      videoRef.current.play().catch(() => { })
     }
   }, [phase, videoReady])
 

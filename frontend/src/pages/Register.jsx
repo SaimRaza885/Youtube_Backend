@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowLeft } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useRegister } from '../hooks/useRegister'
 import { RegisterForm } from '../components/auth/RegisterForm'
 
@@ -25,6 +26,7 @@ export const Register = () => {
     handleCoverImageSelect,
     handleSubmit
   } = useRegister()
+  const [comingSoon, setComingSoon] = useState(false)
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-8">
@@ -107,6 +109,7 @@ export const Register = () => {
             <motion.div {...fadeUp(0.55)} className="mt-6 grid grid-cols-2 gap-4">
               <button
                 type="button"
+                onClick={() => setComingSoon(true)}
                 className="flex items-center justify-center gap-2 py-3 rounded-lg bg-elevated border border-border-default text-text-primary hover:bg-[var(--color-overlay-hover)] transition-colors"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -119,6 +122,7 @@ export const Register = () => {
               </button>
               <button
                 type="button"
+                onClick={() => setComingSoon(true)}
                 className="flex items-center justify-center gap-2 py-3 rounded-lg bg-elevated border border-border-default text-text-primary hover:bg-[var(--color-overlay-hover)] transition-colors"
               >
                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -138,6 +142,44 @@ export const Register = () => {
           </div>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {comingSoon && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100] flex items-center justify-center px-4"
+            onClick={() => setComingSoon(false)}
+          >
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+            <motion.div
+              initial={{ y: 12 }}
+              animate={{ y: 0 }}
+              exit={{ y: 12 }}
+              className="relative rounded-2xl p-8 max-w-sm w-full text-center"
+              style={{ background: 'var(--color-dropdown-bg)', border: '1px solid var(--color-border-light)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ background: 'var(--color-accent-muted-bg)' }}
+              >
+                <Sparkles className="w-6 h-6 text-accent" />
+              </div>
+              <h3 className="text-xl font-bold text-text-primary mb-2">Coming Soon</h3>
+              <p className="text-sm text-text-secondary mb-6">Social login is not available yet. Stay tuned!</p>
+              <button
+                onClick={() => setComingSoon(false)}
+                className="w-full py-3 rounded-xl text-sm font-semibold transition-all"
+                style={{ background: 'var(--color-accent)', color: 'var(--color-accent-on-dark)' }}
+              >
+                Got it
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
