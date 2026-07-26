@@ -5,6 +5,7 @@ import { Search as SearchIcon, ChevronDown, Play, TrendingUp, Clock, Sparkles } 
 import { searchAPI } from '../services/endpoints'
 import { Skeleton } from '../components'
 import { ago, fmt } from '../utils'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -52,6 +53,7 @@ export const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q') || ''
   const activeFilter = searchParams.get('sort') || 'relevance'
+  useDocumentTitle(query ? `${query} - Search` : 'Search')
 
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
@@ -150,11 +152,11 @@ export const Search = () => {
                       onClick={() => handleFilterChange(filter.key)}
                       className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
                       style={{
-                        background: active ? 'rgba(190,18,60,0.2)' : 'var(--color-overlay-strong)',
+                        background: active ? 'var(--color-accent-muted-bg)' : 'var(--color-overlay-strong)',
                         border: active
-                          ? '1px solid rgba(255,178,183,0.35)'
+                          ? '1px solid var(--color-accent-border-subtle)'
                           : '1px solid var(--color-border-subtle)',
-                        color: active ? 'var(--color-accent-light)' : 'var(--color-text-secondary)',
+                        color: active ? 'var(--color-accent-active-text)' : 'var(--color-text-secondary)',
                       }}
                     >
                       <Icon className="w-4 h-4" />

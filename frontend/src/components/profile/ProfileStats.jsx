@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Users, Eye, CheckCircle2, DollarSign, TrendingUp } from 'lucide-react'
+import { Skeleton } from '../../components'
 import { fmt } from '../../utils'
 
 const statCards = [
@@ -33,7 +34,15 @@ export const ProfileStats = ({ stats, statsLoading }) => {
         <h2 className="text-xl font-bold text-text-primary tracking-tight">Channel Analytics Overview</h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {statCards.map((card, i) => {
+          {statsLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="p-5 rounded-2xl" style={{ background: 'var(--color-overlay)', border: '1px solid var(--color-border-subtle)' }}>
+                  <Skeleton className="h-9 w-9 rounded-xl mb-4" />
+                  <Skeleton className="h-3 w-20 mb-2" />
+                  <Skeleton className="h-8 w-24" />
+                </div>
+              ))
+            : statCards.map((card, i) => {
             const Icon = card.icon
             return (
               <motion.div
@@ -54,11 +63,7 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                 </div>
                 <span className="text-[var(--color-text-muted)] text-[11px] font-bold tracking-wider uppercase block mb-1">{card.label}</span>
                 <h3 className="text-3xl font-extrabold text-text-primary tracking-tight">
-                  {statsLoading ? (
-                    <span className="text-[var(--color-text-muted)]">...</span>
-                  ) : (
-                    fmt(stats?.[card.key] || 0)
-                  )}
+                  {fmt(stats?.[card.key] || 0)}
                 </h3>
               </motion.div>
             )

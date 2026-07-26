@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Trash2, Pencil } from 'lucide-react'
 import { Button, Skeleton } from '../../components'
+import { NewVideoCard } from '../../components/NewVideoCard'
 
 export const PlaylistDetails = ({
     selectedPlaylist,
@@ -148,24 +149,11 @@ export const PlaylistDetails = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {playlistVideos.map((video) => (
                         <div key={video._id} className="relative group">
-                            <Link to={`/video/${video._id}`} className="block">
-                                <div className="bg-secondary border border-border-subtle rounded-xl overflow-hidden transition-all duration-200 hover:border-accent/30 hover:shadow-card-hover">
-                                    <div className="w-full aspect-video bg-tertiary overflow-hidden">
-                                        <img
-                                            src={video.thumbnail?.url || 'https://placehold.co/320x180/1C1C2E/6B6B80?text=No+Thumbnail'}
-                                            alt={video.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-3">
-                                        <h3 className="font-semibold text-text-primary text-sm line-clamp-2">{video.title}</h3>
-                                    </div>
-                                </div>
-                            </Link>
+                            <NewVideoCard video={video} />
                             <button
                                 onClick={() => handleRemoveVideo(video._id)}
                                 disabled={removingVideo === video._id}
-                                className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/80 disabled:opacity-50"
+                                className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/80 disabled:opacity-50 z-10"
                             >
                                 <Trash2 className="w-4 h-4" />
                             </button>

@@ -42,7 +42,7 @@ const PageLayout = ({ children }) => {
 }
 
 function AppContent() {
-  const { user } = useAuth()
+  const { user, guestMode } = useAuth()
   const [appReady, setAppReady] = useState(false)
 
   return (
@@ -55,7 +55,7 @@ function AppContent() {
         <Routes>
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-          <Route path="/" element={user ? <PageLayout><Home /></PageLayout> : <LandingPage />} />
+          <Route path="/" element={user || guestMode ? <PageLayout><Home /></PageLayout> : <LandingPage />} />
           <Route path="/video/:videoId" element={<PageLayout><VideoPlayer /></PageLayout>} />
           <Route path="/video/edit/:videoId" element={<PageLayout><EditVideo /></PageLayout>} />
           <Route path="/channel/:username" element={<PageLayout><Channel /></PageLayout>} />

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import {
   Sparkles, Download, PictureInPicture2, Monitor, List,
   Headphones, Clock, BadgeCheck, ChevronDown, Lock, X,
@@ -40,6 +41,7 @@ const faqs = [
 ]
 
 export const Pricing = () => {
+  useDocumentTitle('Pricing')
   const [yearly, setYearly] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
 

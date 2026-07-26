@@ -6,8 +6,10 @@ import { playlistAPI, videoAPI } from '../services/endpoints'
 import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
 import { Skeleton, ConfirmDialog } from '../components'
-import { formatDuration, ago } from '../utils'
+import { ago } from '../utils'
 import { EditPlaylistModal } from '../components/playlist/PlaylistModals'
+import { NewVideoCard } from '../components/NewVideoCard'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -30,6 +32,7 @@ export const PlaylistDetailPage = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [editName, setEditName] = useState('')
   const [editDescription, setEditDescription] = useState('')
+  useDocumentTitle(playlist?.name || 'Playlist')
 
   const [addVideoId, setAddVideoId] = useState('')
   const [addingVideo, setAddingVideo] = useState(false)
@@ -325,52 +328,18 @@ export const PlaylistDetailPage = () => {
         </motion.div>
 
         {videos.length > 0 ? (
-          <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {videos.map((video, idx) => (
               <motion.div
                 key={video._id}
                 {...fadeUp(0.05 * idx)}
                 className="group relative"
               >
-                <Link to={`/video/${video._id}`} className="block">
-                  <div className="rounded-xl overflow-hidden border border-subtle transition-all duration-300 group-hover:border-accent-light/30 group-hover:shadow-lg"
-                    style={{
-                      background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)',
-                    }}
-                  >
-                    <div className="relative aspect-video bg-elevated overflow-hidden">
-                      <img
-                        src={video.thumbnail?.url || 'https://placehold.co/320x180/1C1C2E/6B6B80?text=No+Thumbnail'}
-                        alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {video.duration && (
-                        <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white font-medium border border-white/10">
-                          {formatDuration(video.duration)}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-10 h-10 rounded-full bg-accent-light text-accent-on-light flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
-                          <Play className="w-5 h-5 fill-current ml-0.5" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-3">
-                      <h3 className="text-sm font-semibold text-text-primary line-clamp-2 group-hover:text-accent-light transition-colors leading-tight">
-                        {video.title}
-                      </h3>
-                      <p className="text-xs text-[var(--color-text-muted)] mt-1.5">
-                        {video.views ? `${video.views >= 1000 ? `${(video.views / 1000).toFixed(1)}K` : video.views} views` : ''}
-                        {video.views && video.createdAt ? ' · ' : ''}
-                        {video.createdAt ? ago(video.createdAt) : ''}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
+                <NewVideoCard video={video} />
                 <button
                   onClick={() => setRemoveVideoId(video._id)}
                   disabled={removingVideo === video._id}
-                  className="absolute top-2 right-2 p-1.5 bg-black/60 text-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/80 disabled:opacity-50"
+                  className="absolute top-2 right-2 p-1.5 bg-black/60 text-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/80 disabled:opacity-50 z-10"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>

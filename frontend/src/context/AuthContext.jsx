@@ -8,6 +8,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [token, setToken] = useState(localStorage.getItem('token'))
+  const [guestMode, setGuestMode] = useState(false)
+  const enterGuestMode = useCallback(() => setGuestMode(true), [])
+  const exitGuestMode = useCallback(() => setGuestMode(false), [])
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -41,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', newToken)
       setToken(newToken)
       setUser(userData)
+      exitGuestMode()
       return { success: true, data: userData }
     } catch (err) {
       const message = err.response?.data?.message || 'Registration failed'
@@ -49,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [exitGuestMode])
 
   const login = useCallback(async (email, password) => {
     setLoading(true)
@@ -60,6 +64,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', newToken)
       setToken(newToken)
       setUser(userData)
+      exitGuestMode()
       return { success: true, data: userData }
     } catch (err) {
       const message = err.response?.data?.message || 'Login failed'
@@ -68,14 +73,15 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [exitGuestMode])
 
   const logout = useCallback(() => {
     localStorage.removeItem('token')
     setToken(null)
     setUser(null)
     setError(null)
-  }, [])
+    exitGuestMode()
+  }, [exitGuestMode])
 
   const updateProfile = useCallback(async (updates) => {
     setError(null)
@@ -97,6 +103,9 @@ export const AuthProvider = ({ children }) => {
     error,
     token,
     isAuthenticated: !!token && !!user,
+    guestMode,
+    enterGuestMode,
+    exitGuestMode,
     register,
     login,
     logout,

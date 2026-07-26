@@ -41,7 +41,7 @@ export const CreatePlaylistModal = ({
 }) => {
   return (
     <ModalOverlay isOpen={showModal} onClose={() => setShowModal(false)}>
-      <div className="px-8 py-6 border-b border-white/5 flex items-center justify-between">
+      <div className="px-8 py-6 border-b border-[var(--color-border-subtle)] flex items-center justify-between">
         <h3 className="text-2xl font-bold text-text-primary">Create Playlist</h3>
         <button onClick={() => setShowModal(false)} className="text-text-secondary hover:text-text-primary transition-colors">
           <X className="w-5 h-5" />
@@ -92,10 +92,10 @@ export const CreatePlaylistModal = ({
         </div>
       </div>
 
-      <div className="px-8 py-6 bg-secondary/50 border-t border-white/5 flex justify-end gap-4">
+      <div className="px-8 py-6 bg-secondary/50 border-t border-[var(--color-border-subtle)] flex justify-end gap-4">
         <button
           onClick={() => setShowModal(false)}
-          className="px-6 py-2.5 rounded-lg border border-[var(--color-border-light)] text-text-primary text-xs font-medium uppercase tracking-wider hover:bg-white/5 transition-colors"
+          className="px-6 py-2.5 rounded-lg border border-[var(--color-border-light)] text-text-primary text-xs font-medium uppercase tracking-wider hover:bg-[var(--color-overlay-hover)] transition-colors"
         >
           Cancel
         </button>
@@ -119,7 +119,7 @@ export const EditPlaylistModal = ({
 }) => {
   return (
     <ModalOverlay isOpen={showEditModal} onClose={() => { setShowEditModal(false); setEditingPlaylist(null) }}>
-      <div className="px-8 py-6 border-b border-white/5 flex items-center justify-between">
+      <div className="px-8 py-6 border-b border-[var(--color-border-subtle)] flex items-center justify-between">
         <h3 className="text-2xl font-bold text-text-primary">Edit Playlist</h3>
         <button onClick={() => { setShowEditModal(false); setEditingPlaylist(null) }} className="text-text-secondary hover:text-text-primary transition-colors">
           <X className="w-5 h-5" />
@@ -151,10 +151,10 @@ export const EditPlaylistModal = ({
         </div>
       </div>
 
-      <div className="px-8 py-6 bg-secondary/50 border-t border-white/5 flex justify-end gap-4">
+      <div className="px-8 py-6 bg-secondary/50 border-t border-[var(--color-border-subtle)] flex justify-end gap-4">
         <button
           onClick={() => { setShowEditModal(false); setEditingPlaylist(null) }}
-          className="px-6 py-2.5 rounded-lg border border-[var(--color-border-light)] text-text-primary text-xs font-medium uppercase tracking-wider hover:bg-white/5 transition-colors"
+          className="px-6 py-2.5 rounded-lg border border-[var(--color-border-light)] text-text-primary text-xs font-medium uppercase tracking-wider hover:bg-[var(--color-overlay-hover)] transition-colors"
         >
           Cancel
         </button>

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save } from 'lucide-react'
 import { Skeleton, Button } from '../components'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useEditVideo } from '../hooks/useEditVideo'
 import { EditVideoForm } from '../components/video/EditVideoForm'
 import { ThumbnailUploader } from '../components/video/ThumbnailUploader'
@@ -8,6 +9,7 @@ import { VisibilitySettings } from '../components/upload/VisibilitySettings'
 import { useParams } from 'react-router-dom'
 
 const EditVideo = () => {
+  useDocumentTitle('Edit Video')
   const { videoId } = useParams()
   const {
     authLoading, loading, submitting, formData,

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Skeleton, ErrorState, ConfirmDialog } from '../components'
 import { useChannel } from '../hooks/useChannel'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { ChannelHeader } from '../components/channel/ChannelHeader'
 import { ChannelTabs } from '../components/channel/ChannelTabs'
 import { ChannelVideos } from '../components/channel/ChannelVideos'
@@ -35,6 +36,7 @@ export const Channel = () => {
     handleDeleteVideo,
     navigate
   } = useChannel()
+  useDocumentTitle(channel?.fullName || 'Channel')
 
   const [videoToDelete, setVideoToDelete] = useState(null)
 

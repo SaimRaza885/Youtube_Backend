@@ -3,6 +3,8 @@ import { useProfile } from '../hooks/useProfile'
 import { ProfileHeader } from '../components/profile/ProfileHeader'
 import { ProfileStats } from '../components/profile/ProfileStats'
 import { ProfileSettingsForm } from '../components/profile/ProfileSettingsForm'
+import { Skeleton } from '../components'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -11,6 +13,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export const Profile = () => {
+  useDocumentTitle('Profile')
   const {
     user, authLoading, activeTab, setActiveTab, setIsEditing,
     loading, stats, statsLoading, formData,
@@ -28,8 +31,28 @@ export const Profile = () => {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-[var(--color-text-muted)] text-sm">Loading...</p>
+      <div className="px-4 lg:px-6 py-6 max-w-[1440px] mx-auto space-y-8">
+        <div className="rounded-2xl overflow-hidden min-h-[240px]" style={{ background: 'var(--color-surface-low)', border: '1px solid var(--color-border-light)' }}>
+          <div className="p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-5">
+              <Skeleton className="w-20 h-20 md:w-24 md:h-24 rounded-full shrink-0" />
+              <div className="space-y-3 flex-1">
+                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-40" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl" style={{ background: 'var(--color-overlay)', border: '1px solid var(--color-border-subtle)' }}>
+              <Skeleton className="h-9 w-9 rounded-xl mb-4" />
+              <Skeleton className="h-3 w-20 mb-2" />
+              <Skeleton className="h-8 w-24" />
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

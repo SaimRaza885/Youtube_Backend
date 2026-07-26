@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useRegister } from '../hooks/useRegister'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { RegisterForm } from '../components/auth/RegisterForm'
 
 const fadeUp = (delay = 0) => ({
@@ -12,6 +13,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export const Register = () => {
+  useDocumentTitle('Create Account')
   const {
     formData,
     errors,

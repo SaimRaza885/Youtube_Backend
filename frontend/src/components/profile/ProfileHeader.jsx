@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Camera, CheckCircle2, Calendar } from 'lucide-react'
 import { Avatar, Button } from '../../components'
 
@@ -15,7 +16,10 @@ export const ProfileHeader = ({
   const isMonetized = subs >= 10 && views >= 100
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="relative rounded-2xl overflow-hidden min-h-[240px] flex items-end"
       style={{
         background: coverPreview
@@ -30,7 +34,7 @@ export const ProfileHeader = ({
         <button
           type="button"
           onClick={() => coverImageRef.current?.click()}
-          className="flex items-center gap-2 bg-[var(--color-overlay-hover)] hover:bg-[var(--color-overlay-strong)] text-text-secondary hover:text-text-primary border border-[var(--color-border-light)] px-3 py-1.5 rounded-xl text-xs font-medium backdrop-blur-sm transition-colors cursor-pointer"
+          className="flex items-center gap-2 bg-[var(--color-elevated)] hover:bg-[var(--color-elevated)] text-text-secondary hover:text-text-primary border border-[var(--color-border-light)] px-3 py-1.5 rounded-xl text-xs font-medium shadow-lg backdrop-blur-sm transition-colors cursor-pointer"
         >
           <Camera className="w-4 h-4" />
           Change Banner
@@ -87,6 +91,6 @@ export const ProfileHeader = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

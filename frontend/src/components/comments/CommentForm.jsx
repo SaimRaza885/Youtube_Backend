@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '../ui/Button'
+import { useAuth } from '../../context/AuthContext'
 
 export const CommentForm = ({ userAvatar, onSubmit, loading }) => {
+  const { isAuthenticated } = useAuth()
   const [text, setText] = useState('')
 
   const handleSubmit = async (e) => {
@@ -9,6 +12,20 @@ export const CommentForm = ({ userAvatar, onSubmit, loading }) => {
     if (!text.trim()) return
     await onSubmit(text.trim())
     setText('')
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex gap-3 mb-6 items-center">
+        <div className="w-9 h-9 rounded-full bg-[var(--color-overlay-hover)] shrink-0 flex items-center justify-center">
+          <span className="text-xs text-[var(--color-text-muted)]">?</span>
+        </div>
+        <p className="text-sm text-[var(--color-text-muted)]">
+          <Link to="/login" className="text-accent hover:text-accent-light font-semibold">Log in</Link> or{' '}
+          <Link to="/register" className="text-accent hover:text-accent-light font-semibold">sign up</Link> to leave a comment
+        </p>
+      </div>
+    )
   }
 
   return (

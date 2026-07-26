@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Sparkles } from 'lucide-react'
 import { useLogin } from '../hooks/useLogin'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { LoginForm } from '../components/auth/LoginForm'
 
 const fadeUp = (delay = 0) => ({
@@ -12,6 +13,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export const Login = () => {
+  useDocumentTitle('Sign In')
   const {
     formData,
     errors,

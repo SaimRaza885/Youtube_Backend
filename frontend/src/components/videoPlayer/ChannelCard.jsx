@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { User, Pencil, Trash2 } from 'lucide-react'
-import { Button } from '../ui/Button'
+import { SubscribeButton } from '../common/SubscribeButton'
 import { fmt } from '../../utils'
 
 export const ChannelCard = ({
   owner, ownerUsername, ownerAvatar, subscriberCount,
-  isSubscribed, isOwner, videoId,
+  isSubscribed, isOwner, videoId, channelId,
   onSubscribe, onDelete,
 }) => (
   <div
@@ -52,9 +52,13 @@ export const ChannelCard = ({
           </button>
         </>
       )}
-      <Button size="sm" onClick={onSubscribe} className={isSubscribed ? '!bg-[var(--color-overlay-hover)] !text-text-secondary !border !border-subtle' : ''}>
-        {isSubscribed ? 'Subscribed' : 'Subscribe'}
-      </Button>
+      <SubscribeButton
+        channelId={channelId}
+        isSubscribed={isSubscribed}
+        subscriberCount={subscriberCount}
+        onSubscribe={onSubscribe}
+        size="sm"
+      />
     </div>
   </div>
 )

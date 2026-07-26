@@ -11,7 +11,7 @@ export { VideoCard, VideoCardSkeleton, VideoGrid, ChannelInfo, DurationBadge } f
 export { CommentItem, CommentForm, CommentSection } from './comments/index'
 
 // Common
-export { CategoryChip, EmptyState, ErrorState, StatsCard } from './common/index'
+export { CategoryChip, EmptyState, ErrorState, StatsCard, SubscribeButton } from './common/index'
 
 // Liked Videos
 export { SectionHeader, LikedVideosGrid, LikedVideosEmptyState, LikedVideosSkeleton } from './likedVideos/index'

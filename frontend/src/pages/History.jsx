@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { History as HistoryIcon, Clock, Play } from 'lucide-react'
 import { useHistory } from '../hooks/useHistory'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Skeleton, EmptyState, ErrorState, SectionHeader, DurationBadge } from '../components'
 import { fmt, ago } from '../utils'
 
@@ -37,6 +38,7 @@ const groupByDate = (videos) => {
 }
 
 export const History = () => {
+  useDocumentTitle('History')
   const { user, videos, loading, error } = useHistory()
   const [thumbnailErrors, setThumbnailErrors] = useState({})
 

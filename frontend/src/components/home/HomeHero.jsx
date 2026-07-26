@@ -80,7 +80,7 @@ export const HomeHero = ({ video, onDismiss }) => {
               >
                 <span className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs font-medium tracking-wide mb-4 backdrop-blur-md">
                   <Pause className="w-3 h-3" />
-                  Suspended
+                  Sponsored video
                 </span>
               </motion.div>
             )}
@@ -93,9 +93,9 @@ export const HomeHero = ({ video, onDismiss }) => {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-white text-xs font-medium tracking-wide mb-4 backdrop-blur-md">
+                {/* <span className="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-white text-xs font-medium tracking-wide mb-4 backdrop-blur-md">
                   Featured Video
-                </span>
+                </span> */}
                 <h2 className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-[1.1] tracking-tight drop-shadow-lg line-clamp-2">
                   {video.title}
                 </h2>

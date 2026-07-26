@@ -3,6 +3,7 @@ import { ListMusic, FolderOpen } from 'lucide-react'
 import { Skeleton, ErrorState } from '../components'
 import { usePlaylists } from '../hooks/usePlaylists'
 import { PlaylistGrid } from '../components/playlist/PlaylistGrid'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { CreatePlaylistModal, EditPlaylistModal } from '../components/playlist/PlaylistModals'
 
 const fadeUp = (delay = 0) => ({
@@ -12,6 +13,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export const Playlists = () => {
+  useDocumentTitle('My Playlists')
   const { user, loading, error, playlists, create, edit } = usePlaylists()
 
   if (!user) {

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Users } from 'lucide-react'
 import { channelAPI } from '../services/endpoints'
 import { useAuth } from '../context/AuthContext'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Skeleton, SectionHeader } from '../components'
 import { NewVideoCard } from '../components/NewVideoCard'
 import { CreatorFilterRow, SubscriptionListModal } from '../components/subscriptions'
@@ -19,6 +20,7 @@ const stagger = {
 }
 
 export const Subscriptions = () => {
+  useDocumentTitle('Subscriptions')
   const { user, isAuthenticated } = useAuth()
   const [channels, setChannels] = useState([])
   const [loading, setLoading] = useState(true)
@@ -103,14 +105,11 @@ export const Subscriptions = () => {
           </div>
         ) : (
           <motion.div variants={stagger} initial="initial" animate="animate" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
-            {channels.map((ch, idx) => {
-              const video = ch.latestVideo
-              return (
+            {channels.filter(ch => ch.latestVideo).map((ch, idx) => (
                 <motion.div key={idx} variants={fadeUp(0)}>
-                  <NewVideoCard video={video} ch={ch} />
+                  <NewVideoCard video={ch.latestVideo} ch={ch} />
                 </motion.div>
-              )
-            })}
+              ))}
           </motion.div>
         )}
       </div>

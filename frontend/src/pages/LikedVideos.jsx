@@ -7,8 +7,10 @@ import {
   LikedVideosEmptyState,
   LikedVideosSkeleton,
 } from '../components/likedVideos'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 export const Liked_Vidoes = () => {
+  useDocumentTitle('Liked Videos')
   const { user, isAuthenticated } = useAuth()
   const [vidoes, setVidoes] = useState([])
   const [loading, setLoading] = useState(true)

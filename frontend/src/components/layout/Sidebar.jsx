@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Home, Video, Library, History, Heart, ChevronLeft, Sparkles } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
 import { useUI } from '../../context/UIContext'
 import { SidebarItem } from './SidebarItem'
 import { Logo } from '../common'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const mainLinks = [
-  { label: 'Home', to: '/', icon: Home },
+const authLinks = [
   { label: 'Subscriptions', to: '/subscriptions', icon: Video },
   { label: 'Library', to: '/playlists', icon: Library },
   { label: 'Liked', to: '/liked-vidoes', icon: Heart },
@@ -15,8 +15,14 @@ const mainLinks = [
 ]
 
 export const Sidebar = () => {
+  const { isAuthenticated } = useAuth()
   const { sidebarOpen, toggleSidebar } = useUI()
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024)
+
+  const mainLinks = [
+    { label: 'Home', to: '/', icon: Home },
+    ...(isAuthenticated ? authLinks : []),
+  ]
 
   useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth >= 1024)

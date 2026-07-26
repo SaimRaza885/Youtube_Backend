@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { Mail, Clock, Zap, Globe, ChevronRight, Send, Plus, LifeBuoy, Shield, Scale, Diamond } from 'lucide-react'
 
 const fadeUp = (delay = 0) => ({
@@ -39,6 +40,7 @@ const faqs = [
 ]
 
 export const Contact = () => {
+  useDocumentTitle('Contact')
   const [form, setForm] = useState({ name: '', email: '', category: 'general', subject: '', message: '' })
 
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))

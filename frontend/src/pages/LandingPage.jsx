@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Send, Mail, MessageSquare, Play, Shield, Download, Monitor,
@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 
 import { Logo } from '../components/common'
+import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
 
 const WindText = ({ text, as: Tag = 'h1', className = '', delay = 0 }) => {
@@ -71,6 +72,8 @@ export const LandingPage = () => {
   const [openFaq, setOpenFaq] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { darkMode, toggleDarkMode } = useUI()
+  const navigate = useNavigate()
+  const { enterGuestMode } = useAuth()
   const contactRef = useRef(null)
   const aboutRef = useRef(null)
   const featuresRef = useRef(null)
@@ -197,7 +200,7 @@ export const LandingPage = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.div variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
-              <Link to="/register"
+              <button onClick={() => { enterGuestMode(); navigate('/') }}
                 className="w-full sm:w-auto px-8 py-3.5 font-semibold rounded-xl transition-all active:scale-[0.98] block"
                 style={{
                   background: 'var(--color-accent)',
@@ -205,12 +208,12 @@ export const LandingPage = () => {
                   boxShadow: '0 0 20px var(--color-accent-glow-light)',
                 }}
               >
-                Start watching free
-              </Link>
+                Watch as Guest
+              </button>
             </motion.div>
             <motion.div variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
               <a href="#about" onClick={scrollTo(aboutRef)}
-                className="w-full sm:w-auto px-8 py-3.5 font-medium rounded-xl transition-all active:scale-[0.98] block"
+                className="px-8 py-3.5 font-medium rounded-xl transition-all active:scale-[0.98] block"
                 style={{
                   background: 'var(--color-overlay-strong)',
                   border: '1px solid var(--color-border-light)',

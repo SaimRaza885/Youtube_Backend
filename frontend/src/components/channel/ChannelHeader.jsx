@@ -1,5 +1,5 @@
 import { User, BadgeCheck } from 'lucide-react'
-import { Button } from '../../components'
+import { Button, SubscribeButton } from '../../components'
 import { fmt } from '../../utils'
 
 export const ChannelHeader = ({
@@ -58,15 +58,14 @@ export const ChannelHeader = ({
         </div>
 
         {!isChannelOwner ? (
-          <Button
-            onClick={handleSubscribe}
-            className={`!rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !uppercase !tracking-wider transition-all ${isSubscribed
-              ? '!bg-[var(--color-overlay-hover)] !text-text-primary hover:!bg-[var(--color-overlay-hover)] !border !border-subtle'
-              : '!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light'
-              }`}
-          >
-            {isSubscribed ? 'Subscribed' : 'Subscribe'}
-          </Button>
+          <SubscribeButton
+            channelId={channel._id}
+            isSubscribed={isSubscribed}
+            subscriberCount={channel.subscriberCount || 0}
+            onSubscribe={handleSubscribe}
+            size="md"
+            showCount
+          />
         ) : (
           <Button
             onClick={() => navigate('/upload')}

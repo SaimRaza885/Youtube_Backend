@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Search, UserCheck, UserPlus } from 'lucide-react'
+import { X, Search } from 'lucide-react'
+import { SubscribeButton } from '../common/SubscribeButton'
 import { channelAPI } from '../../services/endpoints'
 
 export const SubscriptionListModal = ({ open, channels, search, onSearch, onClose }) => {
@@ -82,13 +83,12 @@ export const SubscriptionListModal = ({ open, channels, search, onSearch, onClos
                         <p className="text-xs text-[var(--color-text-muted)]">@{ch.username}</p>
                       </div>
                     </Link>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleToggle(ch) }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-accent text-accent-on-dark hover:bg-accent-light hover:text-accent-on-light transition-all flex-shrink-0"
-                    >
-                      <UserCheck className="w-3.5 h-3.5" />
-                      Subscribed
-                    </button>
+                    <SubscribeButton
+                      channelId={ch._id}
+                      isSubscribed
+                      onSubscribe={() => handleToggle(ch)}
+                      size="sm"
+                    />
                   </motion.div>
                 ))
               )}

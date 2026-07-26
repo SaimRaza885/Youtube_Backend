@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useVideo } from '../hooks/useVideo'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useLike } from '../hooks/useLike'
 import { useSubscription } from '../hooks/useSubscription'
 import { usePlaylistMenu } from '../hooks/usePlaylistMenu'
@@ -21,6 +22,7 @@ export const VideoPlayer = () => {
   const { user, isAuthenticated } = useAuth()
 
   const { video, loading, owner, ownerUsername, ownerAvatar, handleDeleteVideo } = useVideo(videoId)
+  useDocumentTitle(video?.title || 'Video')
   const { isLiked, isDisliked, likeCount, handleLike, handleDislike } = useLike(videoId, video)
   const { isSubscribed, subscriberCount, handleSubscribe } = useSubscription(video)
   const {
@@ -83,6 +85,7 @@ export const VideoPlayer = () => {
                   <div className="flex items-center justify-between flex-wrap gap-3 mt-2">
                     <p className="text-sm text-[var(--color-text-muted)]">{fmt(video.views)} views &bull; {ago(video.createdAt)}</p>
                     <VideoActions
+                      videoId={videoId}
                       isLiked={isLiked}
                       isDisliked={isDisliked}
                       likeCount={likeCount}
@@ -118,6 +121,7 @@ export const VideoPlayer = () => {
                 isSubscribed={isSubscribed}
                 isOwner={user?._id === video.owner?._id}
                 videoId={video._id}
+                channelId={owner?._id}
                 onSubscribe={handleSubscribe}
                 onDelete={() => setShowDeleteModal(true)}
               />

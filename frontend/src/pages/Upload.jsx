@@ -1,11 +1,13 @@
 import { Upload as UploadIcon, Video } from 'lucide-react'
 import { Button } from '../components'
 import { useUpload } from '../hooks/useUpload'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { UploadForm } from '../components/upload/UploadForm'
 import { VisibilitySettings } from '../components/upload/VisibilitySettings'
 import { MediaUploadDropzones } from '../components/upload/MediaUploadDropzones'
 
 export const Upload = () => {
+  useDocumentTitle('Upload Video')
   const {
     authLoading,
     formData,
