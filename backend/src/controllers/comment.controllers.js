@@ -12,13 +12,13 @@ const getVideoComments = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
   if (!isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid videoId");
+    throw new ApiError(400, "Invalid video ID");
   }
 
   const video = await Video.findById(videoId);
 
   if (!video) {
-    throw new ApiError(400, "Video Not Found");
+    throw new ApiError(404, "Video not found");
   }
 
   const CommentAgregate = Comment.aggregate([
@@ -70,7 +70,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, comments, "Comments Fetched SuccessFully"));
+    .json(new ApiResponse(200, comments, "Comments fetched successfully"));
 });
 
 const addComment = asyncHandler(async (req, res) => {
@@ -79,17 +79,17 @@ const addComment = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!content) {
-    throw new ApiError(400, "content is requried");
+    throw new ApiError(400, "Comment content is required");
   }
 
   if (!isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid VideoId");
+    throw new ApiError(400, "Invalid video ID");
   }
 
   const video = await Video.findById(videoId);
 
   if (!video) {
-    throw new ApiError(400, "Video Not Found");
+    throw new ApiError(404, "Video not found");
   }
 
   const comment = await Comment.create({
@@ -99,12 +99,12 @@ const addComment = asyncHandler(async (req, res) => {
   });
 
   if (!comment) {
-    throw new ApiError(500, "Faild to add comment");
+    throw new ApiError(500, "Failed to add comment");
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, comment, "Comment Added SuccessFully"));
+    .json(new ApiResponse(200, comment, "Comment added successfully"));
 });
 
 const updateComment = asyncHandler(async (req, res) => {
@@ -113,11 +113,11 @@ const updateComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
 
   if (!content) {
-    throw new ApiError(400, "content is requried");
+    throw new ApiError(400, "Comment content is required");
   }
 
   if (!isValidObjectId(commentId)) {
-    throw new ApiError(400, "invalid comment id ");
+    throw new ApiError(400, "Invalid comment ID");
   }
 
   const isCommentAvaliable = await Comment.findById(commentId);
@@ -132,13 +132,13 @@ const updateComment = asyncHandler(async (req, res) => {
   );
 
   if (!UpdatedComment) {
-    throw new ApiError(500, "Faild to Updated the comment");
+    throw new ApiError(500, "Failed to update comment");
   }
 
   return res
     .status(200)
     .json(
-      new ApiResponse(200, UpdatedComment, "comment Updated SuccessFullys")
+      new ApiResponse(200, UpdatedComment, "Comment updated successfully")
     );
 });
 
@@ -148,23 +148,23 @@ const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
 
   if (!isValidObjectId(commentId)) {
-    throw new ApiError(400, "Invalid comment id");
+    throw new ApiError(400, "Invalid comment ID");
   }
 
   const comment = await Comment.findById(commentId);
 
   if (!comment) {
-    throw new ApiError(400, "Comment Not Found");
+    throw new ApiError(404, "Comment not found");
   }
 
   if (comment?.owner.toString() !== req.user?._id.toString()) {
-    throw new ApiError(400, "only comment owner can delete their comment");
+    throw new ApiError(403, "Only the comment author can delete this comment");
   }
 
   const deletedComment = await Comment.findOneAndDelete({ _id: commentId });
 
   if (!deletedComment) {
-    throw new ApiError(500, "Faild to delete the comment");
+    throw new ApiError(500, "Failed to delete comment");
   }
 
   await Like.deleteMany({

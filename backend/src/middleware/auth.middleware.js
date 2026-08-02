@@ -10,7 +10,7 @@ import { User } from "../models/user.model.js";
        req.header("Authorization")?.replace("Bearer ", "");
    
      if (!token) {
-       throw new ApiError(400, "UnAuthorized Request ??");
+       throw new ApiError(401, "Authentication required");
      }
    
      const decodedTokenInfo = jwt.verify(
@@ -23,13 +23,13 @@ import { User } from "../models/user.model.js";
      );
    
      if (!user) {
-       throw new ApiError(401, "Invalid Access Token");
-     }
-   
-     req.user = user;
-     next();
- } catch (error) {
-    throw new ApiError(401,"Invalid Access Token",error?.message)
+      throw new ApiError(401, "Invalid or expired access token");
+      }
+    
+      req.user = user;
+      next();
+  } catch (error) {
+     throw new ApiError(401, "Invalid or expired access token", error?.message)
  }
 });
 

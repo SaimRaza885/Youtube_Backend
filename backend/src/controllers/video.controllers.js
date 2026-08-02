@@ -45,7 +45,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
   }
   if (userId) {
     if (!isValidObjectId(userId)) {
-      throw new ApiError(404, "Invalid User Id");
+      throw new ApiError(400, "Invalid user ID");
     }
     pipeline.push({
       $match: {
@@ -101,7 +101,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, video, "Vidoes Feched SuccessFully"));
+    .json(new ApiResponse(200, video, "Videos fetched successfully"));
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
@@ -109,19 +109,19 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
   // TODO: get video, upload to cloudinary, create video
   if (!title || !description) {
-    throw new ApiError(400, "Title or description missing");
+    throw new ApiError(400, "Video title and description are required");
   }
 
   const videoLocalPath = req.files?.videoFile?.[0]?.path;
 
   if (!videoLocalPath) {
-    throw new ApiError(400, "Can Not find Video path");
+    throw new ApiError(400, "Video file is required");
   }
 
   const video = await Cloudinary_File_Upload(videoLocalPath);
 
   if (!video?.url) {
-    throw new ApiError(400, "Failed To Upload the video on Cloudinary");
+    throw new ApiError(400, "Failed to upload video file");
   }
 
   let thumbnailUrl = { url: '', public_id: '' };
@@ -148,12 +148,12 @@ const publishAVideo = asyncHandler(async (req, res) => {
   });
 
   if (!videoInDataBase) {
-    throw new ApiError(500, "we Faild to UPLOAD the Vidoe");
+    throw new ApiError(500, "Failed to publish video");
   }
   return res
     .status(200)
     .json(
-      new ApiResponse(200, videoInDataBase, "Video Published SuccessFully")
+      new ApiResponse(200, videoInDataBase, "Video published successfully")
     );
 });
 
@@ -161,7 +161,7 @@ const getVideoById = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid videoId");
+    throw new ApiError(400, "Invalid video ID");
   }
 
   const fetched_Video = await Video.aggregate([
@@ -312,14 +312,14 @@ const getVideoById = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, fetched_Video[0], "Successfully fetched video"));
+    .json(new ApiResponse(200, fetched_Video[0], "Video fetched successfully"));
 });
 
 const updateVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!videoId) {
-    throw new ApiError(400, "Please provide a video ID");
+    throw new ApiError(400, "Video ID is required");
   }
 
   const video = await Video.findById(videoId);
@@ -328,7 +328,7 @@ const updateVideo = asyncHandler(async (req, res) => {
   }
 
   if (video.owner.toString() !== req.user?._id.toString()) {
-    throw new ApiError(403, "Only the owner can update this video");
+    throw new ApiError(403, "Only the video owner can update this video");
   }
 
   const { title, description } = req.body;
@@ -346,7 +346,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     const thumbnail = await Cloudinary_File_Upload(thumbnailLocalPath);
 
     if (!thumbnail?.url) {
-      throw new ApiError(400, "Failed To Upload the thumbnail on Cloudinary");
+      throw new ApiError(400, "Failed to upload thumbnail");
     }
 
     updateFields.thumbnail = {
@@ -372,11 +372,11 @@ const deleteVideo = asyncHandler(async (req, res) => {
   const video = await Video.findById(videoId);
 
   if (!video) {
-    throw new ApiError(404, "No video found");
+    throw new ApiError(404, "Video not found");
   }
 
   if (video.owner.toString() !== req.user?._id.toString()) {
-    throw new ApiError(403, "Only the owner can delete this video");
+    throw new ApiError(403, "Only the video owner can delete this video");
   }
 
   await deleteOnCloudinary(video.thumbnail.public_id);
@@ -385,7 +385,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
   const deletedVideo = await Video.findByIdAndDelete(video?._id);
 
   if (!deletedVideo) {
-    throw new ApiError(500, "Failed to delete the video");
+    throw new ApiError(500, "Failed to delete video");
   }
 
   await Like.deleteMany({ video: videoId });
@@ -393,7 +393,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Video Deleted Successfully"));
+    .json(new ApiResponse(200, {}, "Video deleted successfully"));
 });
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
@@ -401,7 +401,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   const { isPublished } = req.body;
 
   if (!videoId) {
-    throw new ApiError(400, "Please provide a video ID");
+    throw new ApiError(400, "Video ID is required");
   }
 
   const video = await Video.findById(videoId);
@@ -411,7 +411,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   }
 
   if (video.owner.toString() !== req.user?._id.toString()) {
-    throw new ApiError(403, "Only the owner can toggle publish status");
+    throw new ApiError(403, "Only the video owner can change publish status");
   }
 
   video.isPublished = isPublished;
@@ -420,7 +420,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, video, "Video publish status toggled successfully")
+      new ApiResponse(200, video, "Video publish status updated successfully")
     );
 });
 
@@ -428,7 +428,7 @@ const incrementViews = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!isValidObjectId(videoId)) {
-    throw new ApiError(400, "Invalid videoId");
+    throw new ApiError(400, "Invalid video ID");
   }
 
   await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });

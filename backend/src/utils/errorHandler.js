@@ -22,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
   return res.status(500).json({
     statusCode: 500,
     data: null,
-    message: "Internal Server Error",
+    message: "An unexpected error occurred",
     success: false,
   });
 };

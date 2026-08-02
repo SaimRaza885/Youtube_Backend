@@ -9,7 +9,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
   // TODO: toggle subscription
 
   if (!isValidObjectId(channelId)) {
-    throw new ApiError(400, "invalid channel id");
+    throw new ApiError(400, "Invalid channel ID");
   }
 
   const isSubscribed = await Subscription.findOne({
