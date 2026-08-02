@@ -75,6 +75,7 @@ export const useUpload = () => {
             })
             updateUpload(uploadId, { progress: 100, status: 'done' })
             addNotification('Video uploaded successfully!', 'success')
+            window.dispatchEvent(new CustomEvent('videos:updated'))
         } catch (err) {
             updateUpload(uploadId, { status: 'error' })
             addNotification(err.response?.data?.message || 'Upload failed', 'error')

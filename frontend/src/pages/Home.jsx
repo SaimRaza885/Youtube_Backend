@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VideoGrid } from '../components'
 import { HomeHero, CategoryTabs } from '../components/home'
@@ -23,25 +23,29 @@ export const Home = () => {
     if (cat !== 'All') navigate(`/search?q=${encodeURIComponent(cat)}`)
   }
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      setLoading(true)
-      const [allVideosRes, heroRes] = await Promise.allSettled([
-        videoAPI.getAllVideos({ limit: 24, sortBy: 'createdAt', sortType: 'desc' }),
-        videoAPI.getVideoById('6a653e5c814704de93bcd906'),
-      ])
-      if (allVideosRes.status === 'fulfilled') {
-        setVideos(allVideosRes.value.data.data?.docs || allVideosRes.value.data.data || [])
-      } else {
-        setError(allVideosRes.reason?.response?.data?.message || 'Failed to load videos')
-      }
-      if (heroRes.status === 'fulfilled' && heroRes.value.data?.data) {
-        setFeaturedVideo(heroRes.value.data.data)
-      }
-      setLoading(false)
+const loadVideos = useCallback(async () => {
+    setLoading(true)
+    const [allVideosRes, heroRes] = await Promise.allSettled([
+      videoAPI.getAllVideos({ limit: 24, sortBy: 'createdAt', sortType: 'desc' }),
+      videoAPI.getVideoById('6a653e5c814704de93bcd906'),
+    ])
+    if (allVideosRes.status === 'fulfilled') {
+      setVideos(allVideosRes.value.data.data?.docs || allVideosRes.value.data.data || [])
+    } else {
+      setError(allVideosRes.reason?.response?.data?.message || 'Failed to load videos')
     }
-    fetchVideos()
+    if (heroRes.status === 'fulfilled' && heroRes.value.data?.data) {
+      setFeaturedVideo(heroRes.value.data.data)
+    }
+    setLoading(false)
   }, [])
+
+  useEffect(() => {
+    loadVideos()
+    const onVideosUpdated = () => loadVideos()
+    window.addEventListener('videos:updated', onVideosUpdated)
+    return () => window.removeEventListener('videos:updated', onVideosUpdated)
+  }, [loadVideos])
 
   return (
     <motion.div
