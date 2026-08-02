@@ -63,8 +63,8 @@ export const HomeHero = ({ video, onDismiss }) => {
       )}
 
       {/* Fade to Black Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/25 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/50 via-black/20 to-transparent" />
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
@@ -104,11 +104,11 @@ export const HomeHero = ({ video, onDismiss }) => {
                 </p>
 
                 <div className="flex items-center gap-3">
-                  <Link to={`/video/${video._id}`} className="flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent-hover text-white rounded-xl font-medium transition-colors">
+                  <Link to={`/video/${video._id}`} className="flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent-hover text-accent-on-dark rounded-xl font-medium transition-colors">
                     <Play className="w-5 h-5 fill-current" />
                     Watch Now
                   </Link>
-                  <Link to={`/channel/${video.ownerDetails?.username}`} className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl font-medium transition-colors backdrop-blur-md">
+                  <Link to={`/channel/${video.owner?.username}`} className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl font-medium transition-colors backdrop-blur-md">
                     <User className="w-5 h-5" />
                     View Channel
                   </Link>

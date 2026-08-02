@@ -45,7 +45,7 @@ export const ChannelCard = ({
           </Link>
           <button
             onClick={onDelete}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors bg-red-500/10 text-red-400 hover:bg-red-500/20"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors bg-danger-muted text-danger hover:bg-danger/20"
           >
             <Trash2 className="w-4 h-4" />
             Delete

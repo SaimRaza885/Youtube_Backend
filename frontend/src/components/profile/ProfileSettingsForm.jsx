@@ -58,7 +58,7 @@ export const ProfileSettingsForm = ({
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-4 py-3.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] transition-all duration-200 outline-none focus:border-accent/40 focus:shadow-[0_0_0_3px_var(--color-accent-muted)]"
+                className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-4 py-3.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] transition-all duration-200 outline-hidden focus:border-accent/40 focus:shadow-[0_0_0_3px_var(--color-accent-muted)]"
               />
             </div>
           </div>
@@ -67,7 +67,7 @@ export const ProfileSettingsForm = ({
             <Button
               type="submit"
               loading={loading}
-              className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !transition-all"
+              className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! px-6! py-2.5! text-xs! font-semibold! transition-all!"
             >
               Save Changes
             </Button>
@@ -75,7 +75,7 @@ export const ProfileSettingsForm = ({
               type="button"
               onClick={handleClose}
               disabled={loading}
-              className="!bg-[var(--color-overlay-hover)] !text-text-secondary hover:!bg-[var(--color-overlay-hover)] hover:!text-text-primary !rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !transition-all !border !border-subtle"
+              className="bg-[var(--color-overlay-hover)]! text-text-secondary! hover:bg-[var(--color-overlay-hover)]! hover:text-text-primary! rounded-xl! px-6! py-2.5! text-xs! font-semibold! transition-all! border! border-subtle!"
             >
               Cancel
             </Button>

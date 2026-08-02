@@ -1,6 +1,6 @@
 # YouTube Clone - Frontend
 
-A fully functional YouTube clone built with React 18, Vite, Tailwind CSS, and Context API. This frontend connects to a Node.js/Express backend API.
+A fully functional YouTube clone built with React 19, Vite, Tailwind CSS, and Context API. This frontend connects to a Node.js/Express backend API.
 
 ## 🚀 Features
 
@@ -38,7 +38,7 @@ A fully functional YouTube clone built with React 18, Vite, Tailwind CSS, and Co
 
 | Layer | Technology |
 |-------|-------------|
-| **Framework** | React 18 |
+| **Framework** | React 19 |
 | **Build Tool** | Vite |
 | **Routing** | React Router v6 |
 | **State Management** | Context API |

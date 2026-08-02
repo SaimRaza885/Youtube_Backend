@@ -3,7 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Search as SearchIcon, ChevronDown, Play, TrendingUp, Clock, Sparkles } from 'lucide-react'
 import { searchAPI } from '../services/endpoints'
-import { Skeleton } from '../components'
+import { Skeleton, MediaPlaceholder } from '../components'
 import { ago, fmt } from '../utils'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
@@ -24,11 +24,15 @@ const fmtDuration = (seconds) => {
 
 const Thumbnail = ({ src, alt, duration }) => (
   <div className="relative w-full h-full overflow-hidden bg-[var(--color-search-bg)]">
-    <img
-      src={src || 'https://placehold.co/320x180/1C1C2E/6B6B80?text=No+Thumbnail'}
-      alt={alt}
-      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-    />
+    {src ? (
+      <img
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+    ) : (
+      <MediaPlaceholder kind="thumbnail" className="w-full h-full" />
+    )}
     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
       <div className="w-12 h-12 rounded-full bg-accent/90 flex items-center justify-center backdrop-blur-md scale-75 group-hover:scale-100 transition-all">
         <Play className="w-5 h-5 text-accent-on-dark ml-0.5" fill="var(--color-accent-on-dark)" />
@@ -133,7 +137,7 @@ export const Search = () => {
             <>
               <motion.div {...fadeUp(0)} className="mb-6">
                 <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
-                  Results for <span className="text-accent-light">"{query}"</span>
+                  Results for <span className="text-[var(--color-accent-active-text)]">"{query}"</span>
                 </h1>
                 {!loading && (
                   <p className="text-text-secondary mt-2 text-sm">{totalDocs} result{totalDocs !== 1 ? 's' : ''}</p>
@@ -201,7 +205,7 @@ export const Search = () => {
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background = 'var(--color-overlay-hover)'
-                          e.currentTarget.style.borderColor = 'rgba(255,178,183,0.12)'
+                          e.currentTarget.style.borderColor = 'var(--color-accent-border-subtle)'
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.background = 'var(--color-overlay)'
@@ -215,13 +219,13 @@ export const Search = () => {
                         </Link>
                         <div className="flex flex-col py-0.5 min-w-0 flex-1 justify-center">
                           <Link to={`/video/${result._id}`}>
-                            <h3 className="text-base font-semibold text-text-primary leading-snug mb-1.5 group-hover:text-accent-light transition-colors line-clamp-2">
+                            <h3 className="text-base font-semibold text-text-primary leading-snug mb-1.5 group-hover:text-[var(--color-accent-active-text)] transition-colors line-clamp-2">
                               {result.title}
                             </h3>
                           </Link>
                           <div className="text-sm text-[var(--color-text-muted)] mb-2 flex items-center gap-1.5">
                             <span>{fmt(result.views)} views</span>
-                            <span className="text-[#5b4041]">&bull;</span>
+                            <span className="text-text-muted">&bull;</span>
                             <span>{ago(result.createdAt)}</span>
                           </div>
                           <Link to={`/channel/${owner._id}`} className="flex items-center gap-2 mb-2 hover:text-text-primary transition-colors w-fit">
@@ -250,7 +254,7 @@ export const Search = () => {
                           border: '1px solid var(--color-border-subtle)',
                           color: 'var(--color-text-primary)',
                         }}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-accent-light)'; e.currentTarget.style.color = 'var(--color-accent-light)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-accent-active-text)'; e.currentTarget.style.color = 'var(--color-accent-active-text)' }}
                         onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-subtle)'; e.currentTarget.style.color = 'var(--color-text-primary)' }}
                       >
                         {loadingMore ? 'Loading...' : 'Load More Results'}

@@ -15,9 +15,9 @@ export const UploadProgressBar = () => {
               {u.status === 'uploading' ? (
                 <Loader className="w-4 h-4 text-accent shrink-0 animate-spin" />
               ) : u.status === 'done' ? (
-                <CheckCircle className="w-4 h-4 text-state-success shrink-0" />
+                <CheckCircle className="w-4 h-4 text-success shrink-0" />
               ) : (
-                <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-danger shrink-0" />
               )}
               <span className="text-xs text-text-primary truncate">{u.fileName}</span>
             </div>
@@ -30,7 +30,7 @@ export const UploadProgressBar = () => {
           <div className="w-full bg-tertiary rounded-full h-1.5 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-300 ${
-                u.status === 'error' ? 'bg-red-500' : u.status === 'done' ? 'bg-state-success' : 'bg-accent'
+                u.status === 'error' ? 'bg-danger' : u.status === 'done' ? 'bg-success' : 'bg-accent'
               }`}
               style={{ width: `${u.progress}%` }}
             />

@@ -79,7 +79,7 @@ export const Playlists = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg"
                   style={{ background: 'var(--color-overlay-strong)', backdropFilter: 'blur(20px)', border: '1px solid var(--color-border-light)' }}
                 >
-                  <ListMusic className="w-4 h-4 text-[#c4c7c9]" />
+                  <ListMusic className="w-4 h-4 text-text-tertiary" />
                   <span className="text-xs font-semibold text-text-primary">{totalVideos} Saved Videos</span>
                 </div>
               </div>

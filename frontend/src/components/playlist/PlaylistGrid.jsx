@@ -20,7 +20,7 @@ export const PlaylistCard = ({ playlist, onClick }) => {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center">
+          <div className="w-full h-full bg-linear-to-br from-accent to-accent-hover flex items-center justify-center">
             <ListMusic className="w-12 h-12 text-white/60" />
           </div>
         )}

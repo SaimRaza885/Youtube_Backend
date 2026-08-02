@@ -16,7 +16,7 @@
     "cloudinary"
   ],
   "author": "Saim Raza",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3"

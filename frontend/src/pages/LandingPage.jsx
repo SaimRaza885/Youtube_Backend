@@ -18,7 +18,7 @@ const WindText = ({ text, as: Tag = 'h1', className = '', delay = 0 }) => {
       {words.map((word, i) => (
         <span key={i} className="inline-block">
           <motion.span
-            className="inline-block"
+            className="inline-block ml-1"
             initial={{ opacity: 0, x: -20, y: -8, rotate: -3, filter: 'blur(4px)' }}
             animate={{ opacity: 1, x: 0, y: 0, rotate: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.7, ease: [0.12, 0.71, 0.33, 1], delay: delay + i * 0.08 }}
@@ -233,7 +233,7 @@ export const LandingPage = () => {
           className="grid grid-cols-2 md:grid-cols-4 rounded-2xl overflow-hidden relative"
           style={{ border: '1px solid var(--color-border-subtle)' }}
         >
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, transparent 50%, rgba(255,178,183,0.03) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, transparent 50%, var(--color-accent-border-subtle) 100%)' }} />
           {stats.map((stat, i) => {
             const Icon = stat.icon
             return (
@@ -245,7 +245,7 @@ export const LandingPage = () => {
                 className="py-8 px-4 text-center relative"
                 style={{ background: 'var(--color-overlay)' }}
               >
-                <Icon className="w-5 h-5 text-accent-light mx-auto mb-3" />
+                <Icon className="w-5 h-5 text-[var(--color-accent-active-text)] mx-auto mb-3" />
                 <motion.p
                   initial={{ opacity: 0, scale: 0.5 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -264,7 +264,7 @@ export const LandingPage = () => {
       <section id="about" ref={aboutRef} className="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24 pt-8">
         <motion.div {...fadeInView(0)} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
-            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-light)', background: 'var(--color-accent-muted-bg)' }}
+            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-active-text)', background: 'var(--color-accent-muted-bg)' }}
           >
             About Us
           </div>
@@ -299,7 +299,7 @@ export const LandingPage = () => {
       <section id="features" ref={featuresRef} className="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24 pt-8">
         <motion.div {...fadeInView(0)} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
-            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-light)', background: 'var(--color-accent-muted-bg)' }}
+            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-active-text)', background: 'var(--color-accent-muted-bg)' }}
           >
             Features
           </div>
@@ -321,7 +321,7 @@ export const LandingPage = () => {
                 <div className="w-11 h-11 rounded-lg flex items-center justify-center mb-4"
                   style={{ background: 'var(--color-accent-muted-bg)', border: '1px solid var(--color-accent-border-subtle)' }}
                 >
-                  <Icon className="w-5 h-5 text-accent-light" />
+                  <Icon className="w-5 h-5 text-[var(--color-accent-active-text)]" />
                 </div>
                 <h3 className="text-base font-semibold mb-2">{feat.label}</h3>
                 <p className="text-sm text-text-secondary leading-relaxed">{feat.desc}</p>
@@ -335,7 +335,7 @@ export const LandingPage = () => {
       <section id="pricing" ref={pricingRef} className="relative z-10 w-full max-w-5xl mx-auto px-6 pb-24 pt-8">
         <motion.div {...fadeInView(0)} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
-            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-light)', background: 'var(--color-accent-muted-bg)' }}
+            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-active-text)', background: 'var(--color-accent-muted-bg)' }}
           >
             <Sparkles className="w-3 h-3" />
             Pricing
@@ -376,7 +376,7 @@ export const LandingPage = () => {
                 'Exclusive Badge',
               ].map((feat) => (
                 <li key={feat} className="flex items-center gap-3 text-sm">
-                  <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-accent-light)' }} />
+                  <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-accent-active-text)' }} />
                   <span>{feat}</span>
                 </li>
               ))}
@@ -425,7 +425,7 @@ export const LandingPage = () => {
               whileHover={{ y: -4, borderColor: 'var(--color-accent-border-subtle)' }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Quote className="w-6 h-6 text-accent-light/30 mb-4" />
+              <Quote className="w-6 h-6 text-[var(--color-accent-active-text)]/30 mb-4" />
               <p className="text-sm text-text-secondary leading-relaxed mb-6 italic">"{t.quote}"</p>
               <div>
                 <p className="text-sm font-semibold">{t.name}</p>
@@ -440,7 +440,7 @@ export const LandingPage = () => {
       <section id="faq" ref={faqRef} className="relative z-10 w-full max-w-3xl mx-auto px-6 pb-24 pt-8">
         <motion.div {...fadeInView(0)} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
-            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-light)', background: 'var(--color-accent-muted-bg)' }}
+            style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-active-text)', background: 'var(--color-accent-muted-bg)' }}
           >
             FAQ
           </div>
@@ -455,12 +455,12 @@ export const LandingPage = () => {
               <motion.div key={faq.q} {...fadeInView(0.1 + i * 0.05)}
                 className="rounded-xl overflow-hidden"
                 style={{ background: 'var(--color-overlay)', border: '1px solid var(--color-border-subtle)' }}
-                whileHover={{ borderColor: 'rgba(255,178,183,0.1)' }}
+                whileHover={{ borderColor: 'var(--color-accent-border-subtle)' }}
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : i)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-hidden"
                 >
                   <span className="text-sm font-medium">{faq.q}</span>
                   <ChevronDown className={`w-4 h-4 text-text-secondary shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
@@ -484,10 +484,10 @@ export const LandingPage = () => {
           className="rounded-2xl p-8 md:p-10 relative"
           style={{ background: 'var(--color-overlay)', border: '1px solid var(--color-border-subtle)' }}
         >
-          <div className="absolute inset-0 rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, transparent 50%, rgba(255,178,183,0.02) 100%)' }} />
+          <div className="absolute inset-0 rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, transparent 50%, var(--color-overlay) 100%)' }} />
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-semibold uppercase tracking-wider mb-4"
-              style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-light)', background: 'var(--color-accent-muted-bg)' }}
+              style={{ border: '1px solid var(--color-accent-border)', color: 'var(--color-accent-active-text)', background: 'var(--color-accent-muted-bg)' }}
             >
               <Mail className="w-3 h-3" />
               Get in Touch
@@ -504,7 +504,7 @@ export const LandingPage = () => {
                   <input
                     placeholder={field === 'Your Name' ? 'John Doe' : 'john@example.com'}
                     type={field === 'Email' ? 'email' : 'text'}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-hidden transition-all"
                     style={{
                       background: 'var(--color-overlay-strong)',
                       border: '1px solid var(--color-border-light)',
@@ -520,7 +520,7 @@ export const LandingPage = () => {
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-text-secondary mb-1.5">Subject</label>
               <input placeholder="How can we help?"
-                className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-hidden transition-all"
                 style={{
                   background: 'var(--color-overlay-strong)',
                   border: '1px solid var(--color-border-light)',
@@ -534,7 +534,7 @@ export const LandingPage = () => {
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-text-secondary mb-1.5">Message</label>
               <textarea rows={4} placeholder="Tell us more..."
-                className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-hidden transition-all resize-none"
                 style={{
                   background: 'var(--color-overlay-strong)',
                   border: '1px solid var(--color-border-light)',
@@ -578,7 +578,7 @@ export const LandingPage = () => {
               </p>
               <div className="flex items-center gap-4 mt-6">
                 {['X', 'YT', 'GH'].map((label, i) => (
-                  <a key={i} href="#" className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-semibold transition-colors hover:text-accent-light"
+                  <a key={i} href="#" className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-semibold transition-colors hover:text-[var(--color-accent-active-text)]"
                     style={{ background: 'var(--color-overlay-strong)', border: '1px solid var(--color-border-subtle)', color: 'var(--color-text-secondary)' }}
                   >
                     {label}
@@ -607,7 +607,7 @@ export const LandingPage = () => {
           >
             <p className="text-xs text-[var(--color-text-muted)]">© 2024 Vidora. All rights reserved.</p>
             <p className="text-xs text-[var(--color-text-muted)] flex items-center gap-1">
-              Made with <Heart className="w-3 h-3 text-accent-light" /> for creators worldwide
+              Made with <Heart className="w-3 h-3 text-[var(--color-accent-active-text)]" /> for creators worldwide
             </p>
           </div>
         </div>

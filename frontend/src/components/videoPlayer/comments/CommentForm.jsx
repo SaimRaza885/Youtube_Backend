@@ -8,7 +8,7 @@ export const CommentForm = ({ value, onChange, onSubmit, loading }) => (
       onChange={(e) => onChange(e.target.value)}
       placeholder="Add a comment..."
       disabled={loading}
-      className="flex-1 border rounded-xl px-4 py-2.5 text-sm transition-colors disabled:opacity-50 outline-none focus:border-accent-light/50"
+      className="flex-1 border rounded-xl px-4 py-2.5 text-sm transition-colors disabled:opacity-50 outline-hidden focus:border-accent-light/50"
       style={{
         background: 'var(--color-search-bg)',
         borderColor: 'var(--color-border-light)',
@@ -20,7 +20,7 @@ export const CommentForm = ({ value, onChange, onSubmit, loading }) => (
       type="submit"
       size="sm"
       disabled={!value.trim()}
-      className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !transition-all"
+      className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! transition-all!"
     >
       Post
     </Button>

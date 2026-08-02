@@ -1,3 +1,4 @@
+import { ErrorState } from '../common'
 import { NewVideoCard } from '../NewVideoCard'
 import { VideoCardSkeleton } from './VideoCardSkeleton'
 import { motion } from 'framer-motion'
@@ -18,14 +19,8 @@ const itemVariants = {
 export const VideoGrid = ({ videos, loading, error, emptyMessage = 'No videos found', emptyIcon, onRetry, horizontal = false }) => {
   if (error && (!videos || videos.length === 0)) {
     return (
-      <div className="text-center py-10">
-        <p className="text-red-500 mb-4">Something went wrong</p>
-        <button
-          onClick={onRetry}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Retry
-        </button>
+      <div className="px-4 lg:px-6 py-6 max-w-[1440px] mx-auto">
+        <ErrorState message={error} onRetry={onRetry} />
       </div>
     )
   }

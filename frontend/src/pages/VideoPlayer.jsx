@@ -56,7 +56,7 @@ export const VideoPlayer = () => {
           <div className="lg:col-span-2 space-y-4">
             {loading ? (
               <div className="aspect-video rounded-2xl overflow-hidden" style={{ border: '1px solid var(--color-border-subtle)' }}>
-                <Skeleton className="w-full h-full !rounded-none" />
+                <Skeleton className="w-full h-full rounded-none!" />
               </div>
             ) : (
               <VideoSection
@@ -73,10 +73,10 @@ export const VideoPlayer = () => {
             <div>
               {loading ? (
                 <div className="space-y-3">
-                  <Skeleton className="h-7 w-3/4 !rounded-lg" />
+                  <Skeleton className="h-7 w-3/4 rounded-lg!" />
                   <div className="flex items-center justify-between flex-wrap gap-3">
-                    <Skeleton className="h-4 w-40 !rounded-lg" />
-                    <Skeleton className="h-8 w-64 !rounded-lg" />
+                    <Skeleton className="h-4 w-40 rounded-lg!" />
+                    <Skeleton className="h-8 w-64 rounded-lg!" />
                   </div>
                 </div>
               ) : (
@@ -110,7 +110,7 @@ export const VideoPlayer = () => {
 
             {loading ? (
               <div className="rounded-xl p-4" style={{ border: '1px solid var(--color-border-subtle)' }}>
-                <Skeleton className="h-12 w-full !rounded-lg" />
+                <Skeleton className="h-12 w-full rounded-lg!" />
               </div>
             ) : (
               <ChannelCard
@@ -140,16 +140,16 @@ export const VideoPlayer = () => {
 
             {loading ? (
               <div className="space-y-4">
-                <Skeleton className="h-5 w-32 !rounded-lg" />
+                <Skeleton className="h-5 w-32 rounded-lg!" />
                 <div className="rounded-xl p-4" style={{ border: '1px solid var(--color-border-subtle)' }}>
-                  <Skeleton className="h-10 w-full !rounded-lg" />
+                  <Skeleton className="h-10 w-full rounded-lg!" />
                 </div>
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="flex gap-3">
                     <Skeleton className="w-10 h-10 rounded-full shrink-0" />
                     <div className="flex-1 space-y-2">
-                      <Skeleton className="h-3 w-1/4 !rounded-lg" />
-                      <Skeleton className="h-4 w-full !rounded-lg" />
+                      <Skeleton className="h-3 w-1/4 rounded-lg!" />
+                      <Skeleton className="h-4 w-full rounded-lg!" />
                     </div>
                   </div>
                 ))}

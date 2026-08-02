@@ -25,19 +25,19 @@ const EditVideo = () => {
     return (
       <div className="min-h-screen flex items-start justify-center pt-16 px-4">
         <div className="w-full max-w-5xl space-y-6">
-          <Skeleton className="h-8 w-1/3 !rounded-lg" />
+          <Skeleton className="h-8 w-1/3 rounded-lg!" />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-6">
               <div className="p-6 rounded-xl space-y-5" style={{ background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)', border: '1px solid var(--color-border-light)' }}>
-                <Skeleton className="h-12 w-full !rounded-lg" />
-                <Skeleton className="h-32 w-full !rounded-lg" />
+                <Skeleton className="h-12 w-full rounded-lg!" />
+                <Skeleton className="h-32 w-full rounded-lg!" />
               </div>
             </div>
             <div className="space-y-6">
               <div className="p-6 rounded-xl" style={{ background: 'linear-gradient(135deg, var(--color-overlay) 0%, var(--color-overlay) 100%)', border: '1px solid var(--color-border-light)' }}>
-                <Skeleton className="h-40 w-full !rounded-xl" />
+                <Skeleton className="h-40 w-full rounded-xl!" />
               </div>
-              <Skeleton className="h-12 w-full !rounded-xl" />
+              <Skeleton className="h-12 w-full rounded-xl!" />
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@ const EditVideo = () => {
               type="submit"
               size="lg"
               loading={submitting}
-              className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !py-3.5 !font-semibold !tracking-wide !shadow-lg transition-all"
+              className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! py-3.5! font-semibold! tracking-wide! shadow-lg! transition-all"
               style={{ boxShadow: '0 0 24px var(--color-accent-glow-light)' }}
             >
               <Save className="w-4 h-4" />

@@ -66,7 +66,7 @@ export const ChannelVideos = ({
               </button>
               <button
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeleteVideo(video._id, e) }}
-                className="p-1.5 bg-black/60 text-white rounded-full hover:bg-red-500 transition-colors"
+                className="p-1.5 bg-black/60 text-white rounded-full hover:bg-danger transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>

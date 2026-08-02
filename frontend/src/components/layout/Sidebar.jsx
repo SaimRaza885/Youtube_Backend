@@ -60,12 +60,12 @@ export const Sidebar = () => {
               <Link
                 to="/pricing"
                 onClick={handleItemClick}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 bg-accent text-accent-on-dark hover:bg-accent-light hover:text-accent-on-light  ${collapsed ? 'justify-center' : ''}`}
-                style={{
-                  background: 'var(--color-accent-hover)',
-                  border: '1px solid var(--color-accent-border)',
-                  color: 'text-white',
-                }}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 bg-accent text-accent-on-dark  transition-all transform hover:scale-[1.02] active:scale-[0.98]    ${collapsed ? 'justify-center' : ''}`}
+              // style={{
+              //   background: 'var(--color-accent-hover)',
+              //   border: '1px solid var(--color-accent-border)',
+              //   color: 'text-white',
+              // }}
               >
                 <Sparkles className="w-4 h-4 shrink-0" />
                 {!collapsed && <span>Get Premium</span>}

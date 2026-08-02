@@ -5,8 +5,8 @@ import { useAuth } from '../../context/AuthContext'
 import { useUI } from '../../context/UIContext'
 
 const COLORS = [
-  'var(--color-accent)', '#22C55E', '#F59E0B',
-  '#3B82F6', '#EC4899', '#A855F7', '#14B8A6',
+  'var(--color-accent)', 'var(--color-success)', 'var(--color-warning)',
+  'var(--color-info)', 'var(--color-particle-3)', 'var(--color-particle-6)', 'var(--color-particle-2)',
 ]
 
 const BURST = [
@@ -78,7 +78,7 @@ export const SubscribeButton = ({
             flex items-center ${s.gap} ${s.px} ${s.py} ${s.text} ${s.rounding}
             font-semibold transition-colors duration-200
             select-none whitespace-nowrap cursor-pointer
-            outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]
+            outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]
             ${isSubscribed
               ? 'bg-[var(--color-overlay-hover)] text-text-secondary border border-subtle hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] group'
               : 'bg-accent text-accent-on-dark hover:bg-accent-light hover:text-accent-on-light border border-transparent'

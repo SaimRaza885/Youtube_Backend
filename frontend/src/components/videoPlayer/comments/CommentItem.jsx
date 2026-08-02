@@ -45,7 +45,7 @@ export const CommentItem = ({
               onChange={(e) => onEditContentChange(e.target.value)}
               disabled={actionLoadingId === comment._id}
               autoFocus
-              className="w-full border rounded-xl px-3 py-1.5 text-sm outline-none transition-colors disabled:opacity-50 focus:border-accent-light/50"
+              className="w-full border rounded-xl px-3 py-1.5 text-sm outline-hidden transition-colors disabled:opacity-50 focus:border-accent-light/50"
               style={{
                 background: 'var(--color-search-bg)',
                 borderColor: 'var(--color-border-light)',
@@ -57,7 +57,7 @@ export const CommentItem = ({
                 size="xs"
                 onClick={() => onUpdate(comment._id)}
                 disabled={!editCommentContent.trim() || actionLoadingId === comment._id}
-                className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !transition-all"
+                className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! transition-all!"
               >
                 Save
               </Button>
@@ -66,7 +66,7 @@ export const CommentItem = ({
                 variant="secondary"
                 onClick={onEditCancel}
                 disabled={actionLoadingId === comment._id}
-                className="!bg-[var(--color-overlay-hover)] !text-text-secondary hover:!bg-[var(--color-overlay-hover)] !rounded-xl !border !border-subtle !transition-all"
+                className="bg-[var(--color-overlay-hover)]! text-text-secondary! hover:bg-[var(--color-overlay-hover)]! rounded-xl! border! border-subtle! transition-all!"
               >
                 Cancel
               </Button>
@@ -83,7 +83,7 @@ export const CommentItem = ({
             onClick={() => onEditStart(comment._id, comment.content)}
             disabled={actionLoadingId !== null}
             className="p-2 rounded-lg transition-all disabled:opacity-40"
-            style={{ background: 'rgba(255,178,183,0.08)', color: 'var(--color-accent-light)' }}
+            style={{ background: 'var(--color-accent-muted-bg)', color: 'var(--color-accent-light)' }}
             title="Edit comment"
           >
             <Pencil className="w-3.5 h-3.5" />
@@ -91,7 +91,7 @@ export const CommentItem = ({
           <button
             onClick={() => onDelete(comment._id)}
             disabled={actionLoadingId !== null}
-            className="p-2 rounded-lg transition-all bg-red-500/10 text-red-400 hover:bg-red-500/20 disabled:opacity-40"
+            className="p-2 rounded-lg transition-all bg-danger-muted text-danger hover:bg-danger/20 disabled:opacity-40"
             title="Delete comment"
           >
             <Trash2 className="w-3.5 h-3.5" />

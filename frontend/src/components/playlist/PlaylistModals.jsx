@@ -55,7 +55,7 @@ export const CreatePlaylistModal = ({
             type="text" value={newPlaylistName}
             onChange={(e) => setNewPlaylistName(e.target.value)}
             placeholder="e.g., Summer Vibes 2024"
-            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
+            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
           />
         </div>
 
@@ -68,7 +68,7 @@ export const CreatePlaylistModal = ({
             onChange={(e) => setNewPlaylistDescription(e.target.value)}
             placeholder="What is this playlist about?"
             rows={3}
-            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
+            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
           />
         </div>
 
@@ -133,7 +133,7 @@ export const EditPlaylistModal = ({
             type="text" value={editName}
             onChange={(e) => setEditName(e.target.value)}
             placeholder="e.g., Summer Vibes 2024"
-            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
+            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
           />
         </div>
 
@@ -146,7 +146,7 @@ export const EditPlaylistModal = ({
             onChange={(e) => setEditDescription(e.target.value)}
             placeholder="What is this playlist about?"
             rows={3}
-            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
+            className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
           />
         </div>
       </div>

@@ -1,0 +1,54 @@
+name: Bug report
+description: File a bug report to help us improve Vidora
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill out the form below.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+      placeholder: Tell us what went wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Steps required to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See the error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen instead.
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please provide your browser, OS, and versions.
+      placeholder: |
+        Browser: Chrome 121
+        OS: Windows 11
+        Node: v20.x
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      description: Before submitting, please check the following.
+      options:
+        - label: I have searched for existing issues to avoid duplicates.
+          required: true

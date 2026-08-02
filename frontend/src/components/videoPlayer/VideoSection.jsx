@@ -180,7 +180,7 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl outline-none select-none"
+      className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl outline-hidden select-none"
       style={{ border: '1px solid var(--color-border-light)' }}
       onDoubleClick={toggleFullscreen}
     >
@@ -210,13 +210,13 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
           {adImageUrl ? (
             <img src={adImageUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-gray-950" />
+            <div className="absolute inset-0 bg-linear-to-br from-indigo-900 via-purple-900 to-gray-950" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/10" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/40 to-transparent" />
           <div className="relative z-10 flex-1 flex items-center px-4 sm:px-8" />
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20">
-            <div className="h-full bg-amber-400 transition-all duration-150 ease-linear" style={{ width: `${adProgressPct}%` }} />
+            <div className="h-full bg-warning transition-all duration-150 ease-linear" style={{ width: `${adProgressPct}%` }} />
           </div>
           <div className="relative z-10 flex items-center justify-end p-4">
             {adSkippable ? (
@@ -252,7 +252,7 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
       )}
 
       <div
-        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 transition-opacity duration-300 flex flex-col justify-end ${
+        className={`absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/20 transition-opacity duration-300 flex flex-col justify-end ${
           phase === 'ad' ? 'opacity-0 pointer-events-none' : showControls ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ pointerEvents: phase === 'ad' ? 'none' : (showControls ? 'auto' : 'none') }}
@@ -334,7 +334,7 @@ export const VideoSection = ({ video, adVideo, onNextVideo, onPrevVideo }) => {
                   <div
                     className="absolute bottom-full right-0 mb-2 rounded-lg py-1 shadow-2xl flex flex-col min-w-[70px] z-30"
                     style={{
-                      background: 'rgba(18,19,26,0.96)',
+                      background: 'var(--color-surface-low)',
                       backdropFilter: 'blur(16px)',
                       border: '1px solid var(--color-border-light)',
                     }}

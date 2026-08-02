@@ -32,7 +32,7 @@ export const Upload = () => {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center">
-                <UploadIcon className="w-5 h-5 text-accent-light" />
+                <UploadIcon className="w-5 h-5 text-accent-active-text" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">Upload Video</h1>
             </div>
@@ -53,7 +53,7 @@ export const Upload = () => {
               fullWidth
               type="submit"
               size="lg"
-              className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !py-3.5 !font-semibold !tracking-wide !shadow-lg transition-all"
+              className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! py-3.5! font-semibold! tracking-wide! shadow-lg! transition-all"
               style={{ boxShadow: '0 0 24px var(--color-accent-glow-light)' }}
             >
               <Video className="w-4 h-4" />

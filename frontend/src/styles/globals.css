@@ -1,15 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist:wght@400;500;600&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
+@theme {
+  /* ---- Surfaces ---- */
   --color-background: #0F0F11;
   --color-surface-low: #12131a;
   --color-surface: #1E1E21;
   --color-surface-elevated: #292931;
 
+  /* ---- Surface aliases used by utilities ---- */
+  --color-primary: var(--color-background);
+  --color-secondary: var(--color-surface-low);
+  --color-tertiary: var(--color-surface);
+  --color-elevated: var(--color-surface-elevated);
+
+  /* ---- Text ---- */
+  --color-text-primary: #e3e1ec;
+  --color-text-secondary: #b6b4b8;
+  --color-text-tertiary: #dadcde;
+  --color-text-muted: #6B6B80;
+
+  /* ---- Borders ---- */
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-light: rgba(255, 255, 255, 0.08);
+  --color-subtle: var(--color-border-subtle);
+  --color-default: var(--color-border-default);
+
+  /* ---- Overlays ---- */
+  --color-overlay: rgba(255, 255, 255, 0.02);
+  --color-overlay-hover: rgba(255, 255, 255, 0.04);
+  --color-overlay-strong: rgba(255, 255, 255, 0.03);
+
+  /* ---- Accent ---- */
   --color-accent: #BE123C;
   --color-accent-hover: #9F0E31;
   --color-accent-muted: rgba(190, 18, 60, 0.12);
@@ -23,23 +46,123 @@
   --color-accent-border-subtle: rgba(255, 178, 183, 0.15);
   --color-accent-glow-light: rgba(190, 18, 60, 0.3);
   --color-accent-active-text: #ffb2b7;
-  --color-skeleton-shimmer: #24243A;
 
-  --color-text-primary: #e3e1ec;
-  --color-text-secondary: #b6b4b8;
-  --color-text-tertiary: #dadcde;
-  --color-text-muted: #6B6B80;
-
-  --color-border-subtle: rgba(255, 255, 255, 0.05);
-  --color-border-default: rgba(255, 255, 255, 0.1);
-  --color-border-light: rgba(255, 255, 255, 0.08);
-
-  --color-overlay: rgba(255, 255, 255, 0.02);
-  --color-overlay-hover: rgba(255, 255, 255, 0.04);
-  --color-overlay-strong: rgba(255, 255, 255, 0.03);
-
+  /* ---- Inputs / chrome ---- */
   --color-search-bg: #1a1b22;
   --color-dropdown-bg: rgba(24, 24, 28, 0.98);
+  --color-skeleton-shimmer: #24243A;
+
+  /* ---- Semantic states ---- */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-danger-dark: #B91C1C;
+  --color-danger-muted: rgba(239, 68, 68, 0.12);
+  --color-danger-soft: rgba(239, 68, 68, 0.08);
+  --color-info: #3B82F6;
+
+  /* ---- Scrims (image overlays) ---- */
+  --color-scrim: rgba(0, 0, 0, 0.6);
+  --color-scrim-strong: rgba(0, 0, 0, 0.85);
+  --color-scrim-soft: rgba(0, 0, 0, 0.2);
+
+  /* ---- Google brand (SVG fills) ---- */
+  --color-google-red: #EA4335;
+  --color-google-blue: #4285F4;
+  --color-google-green: #34A853;
+  --color-google-yellow: #FBBC05;
+
+  /* ---- Placeholder media ---- */
+  --color-placeholder-bg: #24243A;
+  --color-placeholder-fg: #A1A1B5;
+  --color-bullet: var(--color-text-muted);
+
+  /* ---- Success-tinted helpers ---- */
+  --color-success-muted: rgba(34, 197, 94, 0.12);
+  --color-success-soft: rgba(34, 197, 94, 0.06);
+
+  /* ---- Subscribe particles ---- */
+  --color-particle-1: #ffb2b7;
+  --color-particle-2: #ffd0d2;
+  --color-particle-3: #22C55E;
+  --color-particle-4: #F59E0B;
+  --color-particle-5: #3B82F6;
+  --color-particle-6: #BE123C;
+
+  /* ---- Fonts ---- */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+
+  /* ---- Radius ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* ---- Shadows ---- */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 30px -8px rgba(139, 92, 246, 0.25);
+  --shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px -5px rgba(139, 92, 246, 0.15);
+
+  /* ---- Animations ---- */
+  --animate-fade-in: fadeIn 200ms ease-out;
+  --animate-slide-in: slideIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-shimmer: shimmer 2s infinite linear;
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes sidebarCollapse {
+    from {
+      width: 14rem;
+    }
+    to {
+      width: 4rem;
+    }
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border-subtle, currentColor);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 [data-theme="light"] {
@@ -79,17 +202,13 @@
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: #E8E8EC;
 }
+
 [data-theme="light"] ::-webkit-scrollbar-thumb {
   background: #C0C0C8;
 }
+
 [data-theme="light"] ::-webkit-scrollbar-thumb:hover {
   background: #A0A0AA;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 body {
@@ -119,7 +238,10 @@ body {
   background: #606060;
 }
 
-button, a, input, textarea {
+button,
+a,
+input,
+textarea {
   transition: all 0.3s ease;
 }
 
@@ -145,12 +267,20 @@ button, a, input, textarea {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

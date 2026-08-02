@@ -24,7 +24,7 @@ export const VisibilitySettings = ({ formData, togglePublish }) => {
           }`}
           style={{
             background: formData.isPublished
-              ? 'rgba(255,178,183,0.05)'
+              ? 'var(--color-accent-muted-bg)'
               : 'var(--color-overlay)',
           }}
         >
@@ -42,18 +42,18 @@ export const VisibilitySettings = ({ formData, togglePublish }) => {
         <div
           onClick={() => togglePublish(false)}
           className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex gap-4 ${
-            !formData.isPublished
+            formData.isPublished
               ? 'border-accent-light bg-accent-light/5'
               : 'border-subtle hover:border-[var(--color-border-light)]'
           }`}
           style={{
             background: !formData.isPublished
-              ? 'rgba(255,178,183,0.05)'
+              ? 'var(--color-accent-muted-bg)'
               : 'var(--color-overlay)',
           }}
         >
           <div className={`p-2 h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${
-            !formData.isPublished ? 'bg-accent text-accent-light' : 'bg-elevated text-[var(--color-text-muted)]'
+            formData.isPublished ? 'bg-accent text-accent-light' : 'bg-elevated text-[var(--color-text-muted)]'
           }`}>
             <Lock className="w-5 h-5" />
           </div>

@@ -1,413 +1,482 @@
-# YouTube Clone - MERN Stack
+<div align="center">
 
-A full-stack video streaming platform built with the MERN stack (MongoDB, Express, React, Node.js). Features user authentication, video upload and streaming, comments, likes, playlists, subscriptions, and channel management.
+# 🎬 Vidora
 
----
+### A modern, premium full-stack video streaming platform
 
-## Table of Contents
+Built with the **MERN stack**, Vidora is a production-quality video platform featuring JWT authentication, Cloudinary-backed uploads & streaming, comments, likes, playlists, subscriptions, channel analytics, watch history, and a polished, theme-aware React interface.
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-- [API Overview](#api-overview)
-- [Frontend Pages & Routes](#frontend-pages--routes)
-- [Project Structure](#project-structure)
-- [Available Scripts](#available-scripts)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev) [![Node](https://img.shields.io/badge/Node-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org) [![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)](https://expressjs.com) [![MongoDB](https://img.shields.io/badge/MongoDB-8-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SaimRaza885/Vidora/pulls)
+
+[Features](#✨-features) · [Tech Stack](#🛠-tech-stack) · [Architecture](#🏗-architecture) · [Screenshots](#📸-screenshots) · [Getting Started](#🚀-getting-started) · [API Reference](#📡-api-reference) · [Frontend Routes](#🗺-frontend-routes) · [Project Structure](#📁-project-structure) · [Scripts](#🧰-scripts--tooling) · [Deployment](#☁️-deployment) · [Contributing](#🤝-contributing) · [Roadmap](#🗺-roadmap) · [FAQ](#❓-faq) · [License](#📜-license)
+
+</div>
 
 ---
 
-## Features
+## 📸 Screenshots
 
-### Backend (API)
-- User registration & login with JWT-based authentication
-- Video upload with Cloudinary cloud storage
-- Video streaming with view count tracking
-- Comment system with CRUD operations
-- Like/Unlike for videos, comments, and tweets
-- Playlist creation and management
-- Channel subscription system
-- Tweets/community posts
-- Channel dashboard with analytics (views, subscribers, likes)
-- Pagination, sorting, and filtering for videos
+| Concept / Landing | Home Feed | Media & Design |
+|---|---|---|
+| <img src="media/Gemini_Generated_Image_h7c6d6h7c6d6h7c6.png" width="320" /> | <img src="media/Gemini_Generated_Image_tq0u3etq0u3etq0u.png" width="320" /> | <img src="media/Gemini_Generated_Image_k7v19ok7v19ok7v1.png" width="320" /> |
+
+*A visual preview of the platform's premium, theme-aware interface.*
+
+## ✨ Features
+
+### Backend (Express REST API)
+
+- ✅ JWT-based authentication (access + refresh tokens) with `bcrypt` password hashing
+- ✅ Registration with avatar & cover-image upload via **Cloudinary**
+- ✅ Video publishing with simultaneous **video + thumbnail** upload
+- ✅ Video streaming with automatic **view-count tracking**
+- ✅ CRUD for videos, comments, and playlists
+- ✅ Like/unlike for videos and comments
+- ✅ Channel **subscribe / unsubscribe** system
+- ✅ Channel **dashboard & analytics** (views, subscribers, videos)
+- ✅ Watch **history** (per user)
+- ✅ Paginated, filterable, sortable video listing with optional auth
+- ✅ Centralized error handling + mongoose **aggregation pipelines**
+- ✅ CORS, cookie-parser, and environment-driven configuration
 
 ### Frontend (React SPA)
-- User registration and login with JWT tokens
-- Video browsing, searching, and streaming
-- Video upload with thumbnail support
-- Like/Unlike and commenting on videos
-- Channel pages with subscriber management
-- Playlist creation and video organization
-- Tweets/community posts on channels
-- Watch history tracking
-- Responsive design with dark theme
-- Toast notifications and loading skeletons
+- ✅ Brand-new premium UI with **light & dark theme** support
+- ✅ Responsive layout for desktop, tablet, and mobile
+- ✅ Home feed, **featured hero video**, category chips, and video grid
+- ✅ Full **video player** with ads placeholder, controls, and channel card
+- ✅ Video **upload** flow with drag-and-drop media dropzones
+- ✅ Search, watch history, subscriptions, playlists, and liked videos
+- ✅ Channel pages with profile, tabs, and analytics dashboard
+- ✅ Pricing, contact, and settings pages
+- ✅ Toast notifications, skeleton loaders, and empty/error states
+- ✅ **Framer Motion** animations throughout
+- ✅ Zero hardcoded colors — fully **semantic design tokens** (theme-aware)
 
 ---
 
-## Tech Stack
-
-### Backend
+## 🛠 Tech Stack
 
 | Technology | Purpose |
 |---|---|
-| Node.js | Runtime |
-| Express.js | Web framework |
-| MongoDB + Mongoose | Database & ODM |
-| Cloudinary | Media storage |
-| JSON Web Tokens | Authentication |
-| bcrypt | Password hashing |
-| Multer | File upload handling |
+| **Node.js** | JavaScript runtime |
+| **Express.js** | Web framework & REST API |
+| **MongoDB + Mongoose** | Database & Object Data Modeling |
+| **Cloudinary** | Media (video/image) storage & delivery |
+| **JSON Web Tokens** | Authentication & refresh tokens |
+| **bcrypt** | Password hashing |
+| **Multer** | Multipart file-upload handling |
+| **mongoose-aggregate-paginate-v2** | Aggregation pagination |
 
 ### Frontend
 
 | Technology | Purpose |
 |---|---|
-| React 18 | UI framework |
-| Vite | Build tool & dev server |
-| React Router v6 | Client-side routing |
-| Tailwind CSS | Utility-first styling |
-| Axios | HTTP client |
-| Context API | State management |
-| Lucide React | Icon library |
+| **React 19** | UI framework |
+| **Vite** | Build tool & dev server |
+| **React Router v6** | Client-side routing |
+| **Tailwind CSS 4** | Utility-first styling & design tokens |
+| **Framer Motion** | Animations & transitions |
+| **Axios** | HTTP client |
+| **React Context API** | State management |
+| **Lucide React** | Icon library |
 
 ---
 
-## Architecture
+## 🏗 Architecture
+
+Vidora is a **monorepo** with two independent applications that communicate over a REST API.
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                         Frontend (React)                      │
+│                        http://localhost:5173                  │
+│                                                               │
+│  ┌──────────┐   ┌──────────┐   ┌───────────┐   ┌──────────┐  │
+│  │  Pages   │──▶│  Context │──▶│  Services │──▶│  Axios   │  │
+│  │ (store)  │   │   (Auth) │   │ (API)     │   │   client │  │
+│  └──────────┘   └──────────┘   └───────────┘   └──────────┘  │
+│                                   │                           │
+└───────────────────────────────────│───────────────────────────┘
+                                    │  /api/v1  (JSON + cookies)
+┌───────────────────────────────────│───────────────────────────┐
+│                                   ▼                           │
+│                        Backend (Express)                      │
+│                        http://localhost:8000                  │
+│                                                               │
+│  ┌───────────┐   ┌───────────┐   ┌─────────┐   ┌──────────┐  │
+│  │ Routes    │→ │ Middleware │ → │Controllers│ →│  Models  │  │
+│  │ (REST)    │   │ (Auth/Multer)│  │ (logic)   │  │ (Mongoose)││
+│  └───────────┘   └───────────┘   └─────────┘   └──────────┘  │
+│                                                               │
+│            ┌──────────┐       ┌────────────┐                  │
+│            │ MongoDB  │       │ Cloudinary │                  │
+│            └──────────┘       └────────────┘                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ```
 Youtube_Backend/
-├── backend/          # Express REST API server (port 8000)
-│   ├── src/
-│   │   ├── controllers/    # Route handlers / business logic
-│   │   ├── db/             # MongoDB connection
-│   │   ├── middleware/     # Auth & file upload middleware
-│   │   ├── models/         # Mongoose schemas (User, Video, Comment, etc.)
-│   │   ├── routes/         # Express route definitions
-│   │   ├── utils/          # Helpers (API response, error handling)
-│   │   ├── app.js          # Express app configuration
-│   │   └── index.js        # Server entry point
-│   ├── .env.example
-│   └── package.json
-├── frontend/         # React SPA (port 5173)
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── context/        # Auth, Video, UI contexts
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── pages/          # Route page components
-│   │   ├── services/       # Axios API client
-│   │   ├── utils/          # Utility functions
-│   │   ├── App.jsx         # Root app with routing
-│   │   └── main.jsx        # Entry point
-│   ├── .env.example
-│   └── package.json
+├── backend/          # Express REST API  (port 8000)
+├── frontend/         # React + Vite      (port 5173)
+├── media/            # Design assets / screenshots
 └── README.md
 ```
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js** v16 or higher
-- **MongoDB** (local or Atlas connection string)
-- **Cloudinary** account (for media uploads)
+- **Node.js** v18 or higher
+- **MongoDB** — local install or an [Atlas](https://www.mongodb.com/atlas/database) connection string
+- **Cloudinary** account for video thumbnail / image uploads
 
-### Backend Setup
+### 1. Clone the repository
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/SaimRaza885/Youtube_Backend.git
-   cd Youtube_Backend/backend
-   ```
+```bash
+git clone https://github.com/SaimRaza885/Vidora.git
+cd Youtube_Backend
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 2. Backend setup
 
-3. **Configure environment variables:**
+```bash
+cd backend
+npm install
+```
 
-   Copy `.env.example` to `.env` and fill in your values:
-   ```env
-   PORT=8000
-   MONGODB_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net
-   CORS_ORIGIN=http://localhost:5173
-   JWT_ACCESS_TOKEN_SECRET=<your-secret>
-   JWT_ACCESS_TOKEN_EXPIRY=1d
-   JWT_REFRESH_TOKEN_SECRET=<your-secret>
-   JWT_REFRESH_TOKEN_EXPIRY=7d
-   CLOUDINARY_CLOUD_NAME=<your-cloud-name>
-   CLOUDINARY_API_KEY=<your-api-key>
-   CLOUDINARY_API_SECRET=<your-api-secret>
-   ```
+Create a `.env` file in `backend/` (copy from `.env.example`):
 
-4. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
+```env
+PORT=8000
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net
 
-   The API will run at `http://localhost:8000`.
+CORS_ORIGIN=http://localhost:5173
 
-### Frontend Setup
+JWT_ACCESS_TOKEN_SECRET=your_access_token_secret_here
+JWT_ACCESS_TOKEN_EXPIRY=1d
+JWT_REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
+JWT_REFRESH_TOKEN_EXPIRY=7d
 
-1. **Navigate to the frontend directory:**
-   ```bash
-   cd ../frontend
-   ```
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+Start the API:
 
-3. **Configure environment variables:**
+```bash
+npm run dev
+```
 
-   Create a `.env.local` file:
-   ```env
-   VITE_API_BASE_URL=http://localhost:8000/api/v1
-   VITE_API_TIMEOUT=10000
-   ```
+The REST API is now available at **`http://localhost:8000`** (`GET /healthcheck` to verify), and the backend will connect to MongoDB automatically after startup.
 
-4. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
+### 3. Frontend setup
 
-   The app will be available at `http://localhost:5173`.
+```bash
+cd frontend
+npm install
+```
+
+Create a `.env.local` file in `frontend/`:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+VITE_API_TIMEOUT=10000
+```
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+Open **`http://localhost:5173`** in your browser.
+
+> **Tip:** Register a new account (or log in) through the UI — uploads, submissions, playlists, and the dashboard require an authenticated user.
 
 ---
 
-## API Overview
+## 📡 API Reference
 
-All API routes are prefixed with `/api/v1`.
+All endpoints are prefixed with **`/api/v1`** unless noted. `JWT` requires an **`Authorization: Bearer <token>`** header (or HTTP-only cookie set on login).
 
 ### Health
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/healthcheck` | Health status |
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/healthcheck` | No | Health status probe |
 
 ### Users
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| POST | `/users/register` | No | Register new user |
-| POST | `/users/login` | No | Login |
-| POST | `/users/logout` | JWT | Logout |
-| POST | `/users/refresh-token` | No | Refresh tokens |
-| POST | `/users/change-password` | JWT | Change password |
-| GET | `/users/current-user` | JWT | Get current user |
-| PATCH | `/users/update-account` | JWT | Update profile |
-| PATCH | `/users/avatar` | JWT | Update avatar |
-| PATCH | `/users/cover-image` | JWT | Update cover image |
-| GET | `/users/c/:username` | No | Get channel profile |
-| GET | `/users/history` | JWT | Watch history |
+| POST | `/users/register` | No | Register a new user (avatar + cover upload) |
+| POST | `/users/login` | No | Login with credentials |
+| POST | `/users/logout` | JWT | Log out (clears cookie) |
+| POST | `/users/refresh-token` | No | Generate new access tokens |
+| POST | `/users/change-password` | JWT | Change account password |
+| GET | `/users/current-user` | JWT | Get the authenticated user |
+| POST | `/users/update-account` | JWT | Update account details |
+| PATCH | `/users/change-avatar` | JWT | Update avatar image |
+| PATCH | `/users/change-cover-image` | JWT | Update cover image |
+| GET | `/users/c/:username` | No | Get a channel profile by username |
+| GET | `/users/history` | JWT | Get the user's watch history |
 
 ### Videos
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/videos` | No | List videos (paginated, filterable) |
-| POST | `/videos` | JWT | Publish a video |
-| GET | `/videos/:id` | No | Get video details |
-| DELETE | `/videos/:id` | JWT | Delete video (owner) |
-| PATCH | `/videos/:id` | JWT | Update video metadata |
-| PATCH | `/videos/toggle/publish/:id` | JWT | Toggle publish status |
-| PATCH | `/videos/views/:id` | No | Increment view count |
+| GET | `/videos` | Optional | List videos (paginated, filterable/sortable) |
+| POST | `/videos` | JWT | Publish a video (videoFile + thumbnail upload) |
+| GET | `/videos/:videoId` | Optional | Get a single video's details |
+| PATCH | `/videos/:videoId` | JWT | Update video metadata (+ thumbnail) |
+| DELETE | `/videos/:videoId` | JWT | Delete a video (owner only) |
+| PATCH | `/videos/toggle/publish/:videoId` | JWT | Toggle publish / draft status |
+| PATCH | `/videos/views/:videoId` | No | Increment the view count |
 
 ### Comments
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
 | GET | `/comments/:videoId` | No | Get comments for a video |
-| POST | `/comments/:videoId` | JWT | Add comment |
-| DELETE | `/comments/c/:commentId` | JWT | Delete comment (owner) |
-| PATCH | `/comments/c/:commentId` | JWT | Update comment (owner) |
+| POST | `/comments/:videoId` | JWT | Add a comment |
+| PATCH | `/comments/c/:commentId` | JWT | Update a comment (owner) |
+| DELETE | `/comments/c/:commentId` | JWT | Delete a comment (owner) |
 
 ### Likes
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/likes/toggle/v/:videoId` | JWT | Toggle video like |
-| POST | `/likes/toggle/c/:commentId` | JWT | Toggle comment like |
-| POST | `/likes/toggle/t/:tweetId` | JWT | Toggle tweet like |
-| GET | `/likes/videos` | JWT | Liked videos |
 
-### Tweets
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| POST | `/tweets` | JWT | Create tweet |
-| GET | `/tweets/user/:userId` | JWT | Get user's tweets |
-| PATCH | `/tweets/:tweetId` | JWT | Update tweet (owner) |
-| DELETE | `/tweets/:tweetId` | JWT | Delete tweet (owner) |
+| POST | `/likes/toggle/v/:videoId` | JWT | Like / unlike a video |
+| POST | `/likes/toggle/c/:commentId` | JWT | Like / unlike a comment |
+| GET | `/likes/videos` | JWT | Get the user's liked videos |
 
 ### Playlists
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| POST | `/playlist` | JWT | Create playlist |
-| GET | `/playlist/:playlistId` | JWT | Get playlist |
-| PATCH | `/playlist/:playlistId` | JWT | Update playlist (owner) |
-| DELETE | `/playlist/:playlistId` | JWT | Delete playlist (owner) |
-| PATCH | `/playlist/add/:videoId/:playlistId` | JWT | Add video to playlist |
-| PATCH | `/playlist/remove/:videoId/:playlistId` | JWT | Remove video from playlist |
-| GET | `/playlist/user/:userId` | JWT | Get user's playlists |
+| POST | `/playlist` | JWT | Create a playlist |
+| GET | `/playlist/user/:userId` | No | Get a user's playlists |
+| GET | `/playlist/:playlistId` | Optional | Get a playlist by ID |
+| PATCH | `/playlist/:playlistId` | JWT | Update a playlist (owner) |
+| DELETE | `/playlist/:playlistId` | JWT | Delete a playlist (owner) |
+| PATCH | `/playlist/add/:videoId/:playlistId` | JWT | Add a video to a playlist |
+| PATCH | `/playlist/remove/:videoId/:playlistId` | JWT | Remove a video from a playlist |
 
 ### Subscriptions
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/subscriptions/c/:channelId` | JWT | Get channel subscribers |
-| POST | `/subscriptions/c/:channelId` | JWT | Toggle subscription |
-| GET | `/subscriptions/u/:subscriberId` | JWT | Get subscribed channels |
+| GET | `/subscriptions/c/:channelId` | JWT | Get a channel's subscribers |
+| POST | `/subscriptions/c/:channelId` | JWT | Subscribe / unsubscribe to a channel |
+| GET | `/subscriptions/u/:subscriberId` | JWT | Get channels the user subscribed to |
 
 ### Dashboard
+
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/dashboard/stats` | JWT | Channel statistics |
-| GET | `/dashboard/videos` | JWT | Channel owner's videos |
+| GET | `/dashboard/stats` | JWT | Channel statistics (views, subscribers, etc.) |
+| GET | `/dashboard/videos` | JWT | The channel owner's videos |
 
 ---
 
-## Frontend Pages & Routes
+## 🗺 Frontend Routes
 
 | Path | Page | Auth Required |
 |---|---|---|
-| `/` | Home (video grid) | No |
-| `/login` | Login | No |
-| `/register` | Register | No |
-| `/video/:videoId` | Video Player | No |
-| `/channel/:username` | Channel | No |
-| `/search` | Search Results | No |
-| `/upload` | Upload Video | Yes |
-| `/playlists` | Playlists | Yes |
-| `/profile` | Profile | Yes |
+| `/` | Landing / Home (video grid + featured hero) | Optional (guest mode) |
+| `/login` | Sign in | No |
+| `/register` | Create account | No |
+| `/video/:videoId` | Video player | No |
+| `/video/edit/:videoId` | Edit video | Yes |
+| `/channel/:username` | Channel page | No |
+| `/search` | Search results | No |
+| `/upload` | Upload video | Yes |
+| `/playlists` | My playlists | Yes |
+| `/playlists/:id` | Playlist detail | Yes |
+| `/liked-vidoes` | Liked videos | Yes |
+| `/profile` | Profile & settings | Yes |
 | `/subscriptions` | Subscriptions | Yes |
-| `/history` | Watch History | Yes |
+| `/history` | Watch history | Yes |
+| `/pricing` | Pricing | No |
+| `/contact` | Contact | No |
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Youtube_Backend/
-├── backend/
+├── backend/                         # Express REST API
 │   ├── src/
-│   │   ├── controllers/
+│   │   ├── controllers/             # Request handlers / business logic
 │   │   │   ├── user.controllers.js
 │   │   │   ├── video.controllers.js
 │   │   │   ├── comment.controllers.js
 │   │   │   ├── like.controllers.js
-│   │   │   ├── tweet.controllers.js
 │   │   │   ├── playlist.controllers.js
 │   │   │   ├── subscription.controllers.js
 │   │   │   ├── dashboard.controllers.js
 │   │   │   └── healthcheck.controllers.js
-│   │   ├── db/
-│   │   │   └── index.js
+│   │   ├── db/index.js               # MongoDB connection
 │   │   ├── middleware/
-│   │   │   ├── auth.middleware.js
-│   │   │   └── multer.middleware.js
-│   │   ├── models/
+│   │   │   ├── auth.middleware.js    # JWT verification
+│   │   │   ├── optionalAuth.middleware.js
+│   │   │   └── multer.middleware.js  # File upload
+│   │   ├── models/                   # Mongoose schemas
 │   │   │   ├── user.model.js
 │   │   │   ├── video.model.js
 │   │   │   ├── comment.model.js
 │   │   │   ├── like.model.js
-│   │   │   ├── tweet.model.js
 │   │   │   ├── playlist.model.js
 │   │   │   └── subscription.model.js
-│   │   ├── routes/
-│   │   ├── utils/
-│   │   ├── app.js
-│   │   ├── index.js
-│   │   └── constants.js
+│   │   ├── routes/                   # Express route definitions
+│   │   ├── utils/                    # API error handler etc.
+│   │   ├── app.js                    # Express app configuration
+│   │   └── index.js                  # Server entry point
 │   ├── .env.example
 │   └── package.json
-├── frontend/
+│
+├── frontend/                         # React + Vite SPA
+│   ├── public/
+│   │   └── logo.png
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/
-│   │   │   ├── layout/
-│   │   │   ├── video/
+│   │   ├── components/               # Reusable UI components
+│   │   │   ├── ui/                   # Button, Input, Modal, Skeleton…
+│   │   │   ├── layout/               # Navbar, Sidebar…
+│   │   │   ├── video/                # VideoCard, VideoGrid…
 │   │   │   ├── comments/
+│   │   │   ├── channel/
+│   │   │   ├── playlist/
+│   │   │   ├── upload/
 │   │   │   └── common/
-│   │   ├── context/
+│   │   ├── context/                  # Auth, UI contexts
 │   │   ├── hooks/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── tokens/
+│   │   ├── pages/                    # Route page components
+│   │   ├── services/                 # Axios API client
+│   │   ├── styles/globals.css        # Tailwind + design tokens
 │   │   ├── utils/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── index.html
+│   │   ├── App.jsx                   # Root app with routing
+│   │   └── main.jsx                  # Entry point
 │   ├── .env.example
 │   └── package.json
+│
+├── media/                            # Design assets & screenshots
 └── README.md
 ```
 
 ---
 
-## Available Scripts
+## 🧰 Scripts & Tooling
 
-### Backend
-
-| Script | Command | Description |
-|---|---|---|
-| `dev` | `nodemon src/index.js` | Start dev server with auto-reload |
-
-### Frontend
+### Backend (`cd backend`)
 
 | Script | Command | Description |
 |---|---|---|
-| `dev` | `vite` | Start Vite dev server |
-| `build` | `vite build` | Build for production |
-| `preview` | `vite preview` | Preview production build |
+| `dev` | `nodemon src/index.js` | Start the API with auto-reload |
+
+### Frontend (`cd frontend`)
+
+| Script | Command | Description |
+|---|---|---|
+| `dev` | `vite` | Start the Vite dev server |
+| `build` | `vite build` | Build for production (`dist/`) |
+| `preview` | `vite preview` | Preview the production build |
 | `lint` | `eslint src` | Run ESLint |
 
 ---
 
-## Deployment
+## ☁️ Deployment
 
 ### Backend
 
-Deploy the `backend/` directory to services like:
-- **Render** (Web Service)
+Deploy the `backend/` directory to any Node.js host:
+
+- **Render** — Web Service
 - **Railway**
 - **Heroku**
-- **VPS** (DigitalOcean, AWS EC2)
+- **VPS** — DigitalOcean, AWS EC2, etc.
 
-Ensure environment variables are configured on the hosting platform.
+Ensure all environment variables are configured on the host (a `.env` is **not** committed).
 
 ### Frontend
 
-Deploy the `frontend/` directory to services like:
+Deploy the `frontend/` directory to a static host:
+
 - **Vercel** (recommended)
 - **Netlify**
-- **GitHub Pages**
 
-Build command: `npm run build` (outputs to `dist/`). Set `VITE_API_BASE_URL` to your deployed backend URL.
+**Build command:** `npm run build` (outputs to `dist/`). Set `VITE_API_BASE_URL` to your deployed backend URL before building.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-1. Fork the repository
+Contributions are welcome! The repo aims to be welcoming to first-time and experienced contributors alike:
+
+1. **Fork** the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Open a **Pull Request**
+
+Please keep changes focused, follow the existing code style, and ensure the build (`npm run build`) passes.
 
 ---
 
-## License
+## 🗺 Roadmap
 
-This project is open source. The backend is licensed under ISC, and the frontend is available under the MIT License.
+- [ ] Server-side rendering / hydration for better SEO
+- [ ] Live streaming support (HLS / WebRTC)
+- [ ] Notifications (email + in-app push)
+- [ ] Public channel analytics endpoints
+- [ ] End-to-end testing suite (Playwright)
+- [ ] i18n / multilingual support
+- [ ] PWA offline support
 
 ---
 
-## Author
+## ❓ FAQ
+
+**The frontend can't reach the API — I see CORS errors.**
+Verify the backend `CORS_ORIGIN` equals the exact frontend origin you open (`http://localhost:5173`) and that credentials are enabled.
+
+**Port 5000 vs port 8000?**
+The backend listens on the port in your `backend/.env` (`PORT=8000`). Make sure `VITE_API_BASE_URL` in the frontend points to `http://localhost:8000/api/v1`.
+
+**Uploads fail.**
+Check your `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` and confirm your plan allows the file sizes you upload.
+
+**Can I see it live before signing up?**
+Yes — the home page supports **guest mode** so you can browse videos and channels without an account.
+
+---
+
+## 📜 License
+
+This project is **open source** and licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- [Cloudinary](https://cloudinary.com) for cloud media storage
+- [Lucide](https://lucide.dev) for the icon set
+- [Framer Motion](https://www.framer.com/motion/) for animations
+- The open-source Node.js, Express, MongoDB & React ecosystems
+
+---
+
+## 👤 Author
 
 **Saim Raza**
 
-Project Repository: [https://github.com/SaimRaza885/Youtube_Backend](https://github.com/SaimRaza885/Youtube_Backend)
+Project repository: [https://github.com/SaimRaza885/Vidora](https://github.com/SaimRaza885/Vidora)
+
+<div align="center">
+
+Made with ❤️ — happy streaming with **Vidora**!
+
+</div>

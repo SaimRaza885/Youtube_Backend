@@ -46,8 +46,8 @@ export const ConfirmDialog = ({
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-subtle">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-red-500/10 flex items-center justify-center">
-              <AlertTriangle className="w-4 h-4 text-red-400" />
+            <div className="w-9 h-9 rounded-xl bg-danger-muted flex items-center justify-center">
+              <AlertTriangle className="w-4 h-4 text-danger" />
             </div>
             <h3 className="text-base font-semibold text-text-primary">{title}</h3>
           </div>
@@ -64,13 +64,13 @@ export const ConfirmDialog = ({
 
           <div className="space-y-2">
             <label className="text-xs font-medium text-[var(--color-text-muted)]">
-              Type <span className="text-red-400 font-semibold">&quot;{confirmText}&quot;</span> to confirm
+              Type <span className="text-danger font-semibold">&quot;{confirmText}&quot;</span> to confirm
             </label>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={`Type "${confirmText}" here...`}
-              className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] outline-none transition-all duration-200 focus:border-red-400/40 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]"
+              className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] outline-hidden transition-all duration-200 focus:border-danger/40 focus:shadow-[0_0_0_3px_color-mix(in srgb, var(--color-danger) 10%, transparent)]"
             />
           </div>
 
@@ -79,7 +79,7 @@ export const ConfirmDialog = ({
               type="button"
               onClick={handleClose}
               disabled={loading}
-              className="!bg-[var(--color-overlay-hover)] !text-text-secondary hover:!bg-[var(--color-overlay-hover)] hover:!text-text-primary !rounded-xl !px-5 !py-2.5 !text-xs !font-semibold !transition-all !border !border-subtle flex-1"
+              className="bg-[var(--color-overlay-hover)]! text-text-secondary! hover:bg-[var(--color-overlay-hover)]! hover:text-text-primary! rounded-xl! px-5! py-2.5! text-xs! font-semibold! transition-all! border! border-subtle! flex-1"
             >
               Cancel
             </Button>
@@ -88,7 +88,7 @@ export const ConfirmDialog = ({
               onClick={handleConfirm}
               disabled={input.toLowerCase() !== confirmText.toLowerCase() || loading}
               loading={loading}
-              className="!bg-red-500 !text-white hover:!bg-red-600 !rounded-xl !px-5 !py-2.5 !text-xs !font-semibold !transition-all flex-1 disabled:!opacity-40"
+              className="bg-danger! text-white! hover:bg-danger! rounded-xl! px-5! py-2.5! text-xs! font-semibold! transition-all! flex-1 disabled:opacity-40!"
             >
               {confirmText.charAt(0).toUpperCase() + confirmText.slice(1)}
             </Button>

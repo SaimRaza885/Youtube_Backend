@@ -57,7 +57,7 @@ export const SubscriptionListModal = ({ open, channels, search, onSearch, onClos
                 <input
                   type="text" value={search} onChange={(e) => onSearch(e.target.value)}
                   placeholder="Search subscriptions..."
-                  className="w-full bg-elevated border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-accent-light transition-colors"
+                  className="w-full bg-elevated border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-hidden focus:border-accent-light transition-colors"
                 />
               </div>
             </div>
@@ -75,7 +75,7 @@ export const SubscriptionListModal = ({ open, channels, search, onSearch, onClos
                     className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--color-overlay-hover)] transition-colors group"
                   >
                     <Link to={`/channel/${ch.username}`} onClick={onClose} className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 bg-elevated">
+                      <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 bg-elevated">
                         <img src={ch.avatar?.url || ch.avatar} alt={ch.fullName} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">

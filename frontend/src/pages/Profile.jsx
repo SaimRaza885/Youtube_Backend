@@ -24,7 +24,7 @@ export const Profile = () => {
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-text-secondary text-lg">Please log in to view your profile</p>
+        <p className="text-text-secondary text-lg ">Please log in to view your profile</p>
       </div>
     )
   }

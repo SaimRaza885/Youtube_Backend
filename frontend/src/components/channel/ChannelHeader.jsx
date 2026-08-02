@@ -21,7 +21,7 @@ export const ChannelHeader = ({
         {coverUrl ? (
           <img src={coverUrl} alt="" className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full" style={{ background: 'linear-gradient(to right, rgba(190,18,60,0.4), rgba(159,14,49,0.2), var(--color-surface-low))' }} />
+          <div className="w-full h-full" style={{ background: 'linear-gradient(to right, color-mix(in srgb, var(--color-accent) 40%, transparent), color-mix(in srgb, var(--color-accent-hover) 20%, transparent), var(--color-surface-low))' }} />
         )}
         {/* <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-surface-low) 0%, transparent 50%)' }} /> */}
       </div>
@@ -43,7 +43,7 @@ export const ChannelHeader = ({
             <div className="flex items-center gap-2">
               <h1 className="text-2xl md:text-3xl font-bold text-text-primary">{channel.fullName}</h1>
               {isMonetized && (
-                <BadgeCheck className="w-6 h-6 text-[#22C55E] shrink-0" strokeWidth={2.5} />
+                <BadgeCheck className="w-6 h-6 text-success shrink-0" strokeWidth={2.5} />
               )}
             </div>
             <p className="text-[var(--color-text-muted)] text-sm">@{channel.username}</p>
@@ -69,7 +69,7 @@ export const ChannelHeader = ({
         ) : (
           <Button
             onClick={() => navigate('/upload')}
-            className="!bg-accent !text-accent-on-dark hover:!bg-accent-light hover:!text-accent-on-light !rounded-xl !px-6 !py-2.5 !text-xs !font-semibold !uppercase !tracking-wider transition-all"
+            className="bg-accent! text-accent-on-dark! hover:bg-accent-light! hover:text-accent-on-light! rounded-xl! px-6! py-2.5! text-xs! font-semibold! uppercase! tracking-wider! transition-all"
           >
             Upload Video
           </Button>

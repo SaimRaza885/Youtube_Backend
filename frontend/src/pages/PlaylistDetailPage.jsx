@@ -5,7 +5,7 @@ import { ArrowLeft, Trash2, Pencil, Play, ListMusic, FolderOpen } from 'lucide-r
 import { playlistAPI, videoAPI } from '../services/endpoints'
 import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
-import { Skeleton, ConfirmDialog } from '../components'
+import { Skeleton, ConfirmDialog, MediaPlaceholder } from '../components'
 import { ago } from '../utils'
 import { EditPlaylistModal } from '../components/playlist/PlaylistModals'
 import { NewVideoCard } from '../components/NewVideoCard'
@@ -49,6 +49,7 @@ export const PlaylistDetailPage = () => {
       setLoading(true)
       const res = await playlistAPI.getPlaylistById(id)
       const data = res.data.data
+      // console.log(data)
       setPlaylist(data)
       setVideos(data.Videos || [])
     } catch {
@@ -121,7 +122,7 @@ export const PlaylistDetailPage = () => {
     try {
       const res = await videoAPI.getVideosByUser(currentUser?._id, { limit: 50, sortBy: 'createdAt', sortType: 'desc' })
       setUserVideos(res.data.data?.docs || res.data.data || [])
-    } catch {} finally {
+    } catch { } finally {
       setLoadingUserVideos(false)
     }
   }
@@ -191,7 +192,7 @@ export const PlaylistDetailPage = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="flex items-start gap-5">
               {/* Thumbnail */}
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden shrink-0 bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center"
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden shrink-0 bg-linear-to-br from-accent to-accent-hover flex items-center justify-center"
                 style={{
                   background: (playlist.thumbnail?.url || playlist.thumbnail || videos[0]?.thumbnail?.url)
                     ? undefined
@@ -234,7 +235,7 @@ export const PlaylistDetailPage = () => {
               </button>
               <button
                 onClick={() => setShowDeletePlaylist(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-all text-xs font-medium border border-red-500/20"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-danger-muted text-danger hover:bg-danger/20 transition-all text-xs font-medium border border-danger/20"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 Delete
@@ -251,7 +252,7 @@ export const PlaylistDetailPage = () => {
                 type="text" value={addVideoId}
                 onChange={(e) => setAddVideoId(e.target.value)}
                 placeholder="Paste a video ID to add..."
-                className="w-full bg-[var(--color-search-bg)] border border-subtle rounded-lg px-4 py-2.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-accent-light transition-colors"
+                className="w-full bg-[var(--color-search-bg)] border border-subtle rounded-lg px-4 py-2.5 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-hidden focus:border-accent-light transition-colors"
               />
             </div>
             <button
@@ -292,23 +293,27 @@ export const PlaylistDetailPage = () => {
                         onClick={() => !alreadyIn && handleAddUserVideo(video._id)}
                         disabled={alreadyIn}
                         className={`relative group text-left rounded-lg overflow-hidden border transition-all ${alreadyIn
-                          ? 'border-[#22C55E]/30 opacity-60 cursor-not-allowed'
+                          ? 'border-success/30 opacity-60 cursor-not-allowed'
                           : 'border-subtle hover:border-accent-light/30'
                           }`}
                       >
                         <div className="w-full aspect-video bg-elevated overflow-hidden">
-                          <img
-                            src={video.thumbnail?.url || 'https://placehold.co/320x180/1C1C2E/6B6B80?text=No+Thumbnail'}
-                            alt={video.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
+                          {video.thumbnail?.url ? (
+                            <img
+                              src={video.thumbnail?.url}
+                              alt={video.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <MediaPlaceholder kind="thumbnail" className="w-full h-full" />
+                          )}
                         </div>
                         <div className="p-2">
                           <p className="text-xs text-text-primary line-clamp-2 leading-tight">{video.title}</p>
                         </div>
                         {alreadyIn && (
                           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <span className="text-[10px] font-semibold text-white bg-[#22C55E] px-2 py-0.5 rounded">Added</span>
+                            <span className="text-[10px] font-semibold text-white bg-success px-2 py-0.5 rounded">Added</span>
                           </div>
                         )}
                       </button>
@@ -339,7 +344,7 @@ export const PlaylistDetailPage = () => {
                 <button
                   onClick={() => setRemoveVideoId(video._id)}
                   disabled={removingVideo === video._id}
-                  className="absolute top-2 right-2 p-1.5 bg-black/60 text-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/80 disabled:opacity-50 z-10"
+                  className="absolute top-2 right-2 p-1.5 bg-black/60 text-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-danger/80 disabled:opacity-50 z-10"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -376,7 +381,7 @@ export const PlaylistDetailPage = () => {
       <EditPlaylistModal
         showEditModal={showEdit}
         setShowEditModal={setShowEdit}
-        setEditingPlaylist={() => {}}
+        setEditingPlaylist={() => { }}
         editName={editName}
         setEditName={setEditName}
         editDescription={editDescription}

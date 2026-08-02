@@ -147,7 +147,7 @@ export const Contact = () => {
                   <input
                     id="name" name="name" value={form.name} onChange={handleChange}
                     placeholder="John Doe"
-                    className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-none transition-all text-sm"
+                    className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-hidden transition-all text-sm"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -155,7 +155,7 @@ export const Contact = () => {
                   <input
                     id="email" name="email" type="email" value={form.email} onChange={handleChange}
                     placeholder="john@example.com"
-                    className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-none transition-all text-sm"
+                    className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-hidden transition-all text-sm"
                   />
                 </div>
               </div>
@@ -165,7 +165,7 @@ export const Contact = () => {
                 <div className="relative">
                   <select
                     id="category" name="category" value={form.category} onChange={handleChange}
-                    className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-none transition-all text-sm appearance-none"
+                    className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-hidden transition-all text-sm appearance-none"
                   >
                     <option value="general">General Inquiry</option>
                     <option value="technical">Technical Support</option>
@@ -183,7 +183,7 @@ export const Contact = () => {
                 <input
                   id="subject" name="subject" value={form.subject} onChange={handleChange}
                   placeholder="How can we help?"
-                  className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-none transition-all text-sm"
+                  className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-hidden transition-all text-sm"
                 />
               </div>
 
@@ -193,13 +193,13 @@ export const Contact = () => {
                   id="message" name="message" value={form.message} onChange={handleChange}
                   placeholder="Detail your request here..."
                   rows={5}
-                  className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-none transition-all text-sm resize-y"
+                  className="bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:border-accent-light focus:ring-1 focus:ring-accent-light outline-hidden transition-all text-sm resize-y"
                 />
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center justify-end relative z-10">
                 <button type="button" onClick={handleClear}
-                  className="w-full sm:w-auto px-6 py-3 border border-[#5b4041] text-text-secondary rounded-lg text-xs font-semibold uppercase tracking-wider hover:bg-white/[0.05] transition-all"
+                  className="w-full sm:w-auto px-6 py-3 border border-border-default text-text-secondary rounded-lg text-xs font-semibold uppercase tracking-wider hover:bg-overlay-hover transition-all"
                 >
                   Clear Form
                 </button>
@@ -222,7 +222,7 @@ export const Contact = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-2">Common Questions</h2>
               <p className="text-text-secondary">Find quick answers before reaching out.</p>
             </div>
-            <Link to="/faq" className="flex items-center gap-2 text-accent-light hover:text-[#e3bdbf] transition-colors group text-sm font-semibold uppercase tracking-wider">
+            <Link to="/faq" className="flex items-center gap-2 text-accent-light hover:text-accent-hover-text transition-colors group text-sm font-semibold uppercase tracking-wider">
               View All FAQs
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>

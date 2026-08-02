@@ -59,7 +59,7 @@ export const VideoActions = ({
         className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[var(--color-overlay-hover)]"
         style={{ background: 'var(--color-overlay-hover)', border: '1px solid var(--color-border-subtle)', color: 'var(--color-text-secondary)' }}
       >
-        {copied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
+        {copied ? <Check className="w-4 h-4 text-success" /> : <Share2 className="w-4 h-4" />}
         <span className="hidden sm:inline">{copied ? 'Copied!' : 'Share'}</span>
       </motion.button>
 

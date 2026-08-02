@@ -23,7 +23,7 @@ export const CreatorFilterRow = ({ channels, onAllClick }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onAllClick}
-          className="flex flex-col items-center gap-2.5 min-w-[80px] group flex-shrink-0 focus:outline-none"
+          className="flex flex-col items-center gap-2.5 min-w-[80px] group shrink-0 focus:outline-hidden"
         >
           <div className="w-16 h-16 rounded-full border-2 border-accent-light bg-accent-light/10 flex items-center justify-center shadow-[0_0_15px_var(--color-accent-glow-light)] transition-transform group-hover:scale-105">
             <Users className="w-6 h-6 text-accent-light" />
@@ -37,9 +37,9 @@ export const CreatorFilterRow = ({ channels, onAllClick }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate(`/channel/${ch.username}`)}
-            className="flex flex-col items-center gap-2.5 min-w-[80px] group flex-shrink-0 focus:outline-none opacity-70 hover:opacity-100 transition-opacity"
+            className="flex flex-col items-center gap-2.5 min-w-[80px] group shrink-0 focus:outline-hidden opacity-70 hover:opacity-100 transition-opacity"
           >
-            <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#1e1f26] to-[#383941] group-hover:from-[#5b4041] group-hover:to-[#383941] transition-all group-hover:scale-105">
+            <div className="w-16 h-16 rounded-full p-[2px] bg-linear-to-tr from-tertiary to-elevated group-hover:from-accent group-hover:to-elevated transition-all group-hover:scale-105">
               <img
                 src={ch.avatar?.url || ch.avatar}
                 alt={ch.fullName}

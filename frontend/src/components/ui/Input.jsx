@@ -9,11 +9,11 @@ export const Input = ({ label, type = 'text', placeholder, value, onChange, erro
       )}
       <input
         type={type} placeholder={placeholder} value={value} onChange={onChange} disabled={disabled}
-        className={`w-full bg-tertiary border rounded-lg px-3.5 py-2.5 text-sm text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all ${LeftIcon ? 'pl-10' : ''} ${
-          error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50' : 'border-border-subtle'
+        className={`w-full bg-tertiary border rounded-lg px-3.5 py-2.5 text-sm text-text-primary placeholder-text-tertiary/60 focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all ${LeftIcon ? 'pl-10' : ''} ${
+          error ? 'border-danger focus:border-danger focus:ring-danger/50' : 'border-border-subtle'
         } ${className}`} {...props}
       />
     </div>
-    {error && <p className="text-red-400 text-xs mt-1.5">{error}</p>}
+    {error && <p className="text-danger text-xs mt-1.5">{error}</p>}
   </div>
 )

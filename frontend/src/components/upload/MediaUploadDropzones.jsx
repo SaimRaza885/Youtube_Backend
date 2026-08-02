@@ -14,10 +14,10 @@ export const MediaUploadDropzones = ({ formData, errors, handleFileChange }) => 
         <label
           className={`group relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 min-h-[160px] ${
             formData.file
-              ? 'border-[#22C55E]/50 bg-[#22C55E]/5'
+              ? 'border-success/50 bg-success/5'
               : errors.file
-                ? 'border-red-500/50 bg-red-500/5'
-                : 'border-[var(--color-border-light)] hover:border-white/[0.16]'
+                ? 'border-danger/50 bg-danger-soft'
+                : 'border-[var(--color-border-light)] hover:border-border-light'
           }`}
           style={{
             background: !formData.file && !errors.file ? 'var(--color-overlay)' : undefined,
@@ -30,11 +30,11 @@ export const MediaUploadDropzones = ({ formData, errors, handleFileChange }) => 
             onChange={handleFileChange}
             className="sr-only"
           />
-          <Video className={`w-8 h-8 mb-3 transition-colors ${formData.file ? 'text-[#22C55E]' : 'text-[var(--color-text-muted)] group-hover:text-text-secondary'}`} />
+          <Video className={`w-8 h-8 mb-3 transition-colors ${formData.file ? 'text-success' : 'text-[var(--color-text-muted)] group-hover:text-text-secondary'}`} />
 
           {formData.file ? (
             <div className="space-y-1 px-2 max-w-full">
-              <p className="text-xs font-medium text-[#22C55E] truncate">{formData.file.name}</p>
+              <p className="text-xs font-medium text-success truncate">{formData.file.name}</p>
               <p className="text-[10px] text-[var(--color-text-muted)]">{(formData.file.size / (1024 * 1024)).toFixed(1)} MB</p>
             </div>
           ) : (
@@ -44,7 +44,7 @@ export const MediaUploadDropzones = ({ formData, errors, handleFileChange }) => 
             </div>
           )}
         </label>
-        {errors.file && <p className="text-red-400 text-xs mt-2 font-medium">{errors.file}</p>}
+        {errors.file && <p className="text-danger text-xs mt-2 font-medium">{errors.file}</p>}
       </div>
 
       <div
@@ -61,7 +61,7 @@ export const MediaUploadDropzones = ({ formData, errors, handleFileChange }) => 
           className={`group relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 min-h-[160px] ${
             formData.thumbnail
               ? 'border-accent-light/50 bg-accent-light/5'
-              : 'border-[var(--color-border-light)] hover:border-white/[0.16]'
+              : 'border-[var(--color-border-light)] hover:border-border-light'
           }`}
           style={{
             background: !formData.thumbnail ? 'var(--color-overlay)' : undefined,

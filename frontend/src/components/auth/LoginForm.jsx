@@ -29,9 +29,9 @@ export const LoginForm = ({ formData, errors, handleChange, handleSubmit, loadin
             value={formData.email}
             onChange={handleChange}
             placeholder="john@example.com"
-            className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-none focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors"
+            className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors"
           />
-          {errors.email && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.email}</p>}
+          {errors.email && <p className="text-danger text-xs mt-1.5 ml-1">{errors.email}</p>}
         </motion.div>
 
         <motion.div {...fadeUp(0.25)}>
@@ -45,7 +45,7 @@ export const LoginForm = ({ formData, errors, handleChange, handleSubmit, loadin
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full bg-elevated rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-none focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
+              className="w-full bg-elevated rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
             />
             <button
               type="button"
@@ -55,7 +55,7 @@ export const LoginForm = ({ formData, errors, handleChange, handleSubmit, loadin
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
-          {errors.password && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.password}</p>}
+          {errors.password && <p className="text-danger text-xs mt-1.5 ml-1">{errors.password}</p>}
         </motion.div>
 
         <motion.div {...fadeUp(0.3)}>

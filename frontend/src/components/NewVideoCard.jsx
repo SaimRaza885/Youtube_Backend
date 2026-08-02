@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Play } from 'lucide-react'
 import { fmt, ago } from '../utils'
 import { DurationBadge } from './video/DurationBadge'
+import { MediaPlaceholder } from './common/MediaPlaceholder'
 
 export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
   if (!video) return null
@@ -17,9 +18,11 @@ export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
 
   const { username, fullName = 'Unknown Channel', avatar } = channel
 
-  const thumbnailUrl = thumbnail?.url || 'https://placehold.co/640x360/1C1C2E/6B6B80?text=No+Thumbnail'
-  const avatarUrl = avatar?.url || avatar || 'https://placehold.co/40x40/2A2A3D/FFFFFF?text=U'
+  const thumbnailUrl = thumbnail?.url || null
+  const avatarUrl = avatar?.url || avatar || null
   const thumbErr = imgError[_id]
+
+  // console.log(video)
 
   if (horizontal) {
     return (
@@ -30,16 +33,14 @@ export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
         }}
       >
         <Link to={`/video/${_id}`} className="relative w-40 lg:w-48 shrink-0 aspect-video overflow-hidden rounded-lg bg-elevated">
-          {!thumbErr ? (
+          {thumbnailUrl && !thumbErr ? (
             <img
               src={thumbnailUrl} alt={title}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               onError={() => setImgError(prev => ({ ...prev, [_id]: true }))}
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-accent/30 to-accent-hover/20 flex items-center justify-center">
-              <Play className="w-5 h-5 text-white/40" />
-            </div>
+            <MediaPlaceholder kind="thumbnail" className="w-full h-full" />
           )}
           <DurationBadge seconds={duration} />
           <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -77,16 +78,14 @@ export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
     >
       <Link to={`/video/${_id}`} className="block">
         <div className="relative aspect-video overflow-hidden bg-elevated">
-          {!thumbErr ? (
+          {thumbnailUrl && !thumbErr ? (
             <img
               src={thumbnailUrl} alt={title}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               onError={() => setImgError(prev => ({ ...prev, [_id]: true }))}
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-accent/30 to-accent-hover/20 flex items-center justify-center">
-              <Play className="w-8 h-8 text-white/40" />
-            </div>
+            <MediaPlaceholder kind="thumbnail" className="w-full h-full" />
           )}
           <DurationBadge seconds={duration} />
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -99,7 +98,13 @@ export const NewVideoCard = ({ video, ch = '', horizontal = false }) => {
 
       <div className="p-3 flex gap-3">
         <Link to={`/channel/${username}`} className="shrink-0">
-          <img src={avatarUrl} alt={fullName} className="h-9 w-9 rounded-full object-cover border border-[var(--color-border-light)]" />
+          {avatarUrl ? (
+            <img src={avatarUrl} alt={fullName} className="h-9 w-9 rounded-full object-cover border border-[var(--color-border-light)]" />
+          ) : (
+            <div className="h-9 w-9 rounded-full overflow-hidden border border-[var(--color-border-light)]">
+              <MediaPlaceholder kind="avatar" className="w-full h-full" />
+            </div>
+          )}
         </Link>
 
         <div className="min-w-0 flex-1">

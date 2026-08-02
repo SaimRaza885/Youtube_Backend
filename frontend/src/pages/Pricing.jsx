@@ -103,14 +103,14 @@ export const Pricing = () => {
             <button
               onClick={() => setYearly(false)}
               className="relative z-10 px-6 py-1.5 text-xs font-semibold uppercase tracking-wider w-24 text-center transition-colors duration-300"
-              style={{ color: yearly ? 'var(--color-text-secondary)' : '#ffffff' }}
+              style={{ color: yearly ? 'var(--color-text-secondary)' : 'var(--color-accent-on-dark)' }}
             >
               Monthly
             </button>
             <button
               onClick={() => setYearly(true)}
               className="relative z-10 px-6 py-1.5 text-xs font-semibold uppercase tracking-wider w-24 text-center flex items-center justify-center gap-1 transition-colors duration-300"
-              style={{ color: yearly ? '#ffffff' : 'var(--color-text-secondary)' }}
+              style={{ color: yearly ? 'var(--color-accent-on-dark)' : 'var(--color-text-secondary)' }}
             >
               Yearly
             </button>
@@ -139,8 +139,8 @@ export const Pricing = () => {
               <p className="text-sm text-text-secondary mb-8 h-5">
                 {yearly ? 'Billed $95.88 annually.' : 'Billed monthly.'}
               </p>
-              <button className="w-full bg-accent hover:bg-accent-hover text-white rounded-lg py-4 font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] mb-6"
-                style={{ boxShadow: '0 0 20px rgba(190,18,60,0.4)' }}
+              <button className="w-full bg-accent hover:bg-accent-hover text-accent-on-dark rounded-lg py-4 font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] mb-6"
+                style={{ boxShadow: '0 0 20px color-mix(in srgb, var(--color-accent) 40%, transparent)' }}
               >
                 Upgrade to Premium
               </button>
@@ -215,11 +215,11 @@ export const Pricing = () => {
                   { feat: 'Priority Support', free: false, premium: true },
                   { feat: 'Exclusive Badge', free: false, premium: true },
                 ].map((row) => (
-                  <tr key={row.feat} className="hover:bg-white/[0.02] transition-colors">
+                  <tr key={row.feat} className="hover:bg-overlay-hover transition-colors">
                     <td className="p-6 text-text-primary">{row.feat}</td>
                     <td className="p-6 text-center text-text-secondary">
                       {typeof row.free === 'string' ? row.free : (
-                        <X className="w-4 h-4 mx-auto text-[#5b4041]" />
+                        <X className="w-4 h-4 mx-auto text-text-muted" />
                       )}
                     </td>
                     <td className="p-6 text-center text-text-primary font-medium">
@@ -251,7 +251,7 @@ export const Pricing = () => {
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : i)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-hidden"
                   >
                     <span className="font-medium text-text-primary hover:text-accent-light transition-colors">{faq.q}</span>
                     <ChevronDown className={`w-4 h-4 text-text-secondary transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />

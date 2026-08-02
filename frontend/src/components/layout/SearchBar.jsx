@@ -29,11 +29,11 @@ export const SearchBar = () => {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           placeholder="Search videos..."
-          className="w-full border rounded-xl px-4 py-2.5 pl-11 text-sm focus:outline-none transition-all"
+          className="w-full border rounded-xl px-4 py-2.5 pl-11 text-sm focus:outline-hidden transition-all"
           style={{
             background: 'var(--color-search-bg)',
             color: 'var(--color-text-primary)',
-            borderColor: focused ? 'var(--color-accent-light)' : 'var(--color-border-subtle)',
+            borderColor: focused ? 'var(--color-accent-active-text)' : 'var(--color-border-subtle)',
             boxShadow: focused ? '0 0 0 1px var(--color-accent-border-subtle)' : 'none',
           }}
         />

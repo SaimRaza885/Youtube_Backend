@@ -17,9 +17,9 @@ export const UploadForm = ({ formData, errors, handleChange }) => {
           value={formData.title}
           onChange={handleChange}
           placeholder="Add a title that describes your video"
-          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
+          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)]"
         />
-        {errors.title && <p className="text-red-400 text-xs mt-1">{errors.title}</p>}
+        {errors.title && <p className="text-danger text-xs mt-1">{errors.title}</p>}
       </div>
 
       <div className="space-y-2">
@@ -30,9 +30,9 @@ export const UploadForm = ({ formData, errors, handleChange }) => {
           onChange={handleChange}
           placeholder="Tell viewers about your video"
           rows={6}
-          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
+          className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-lg px-4 py-3 text-text-primary focus:outline-hidden focus:border-accent-light/50 focus:ring-1 focus:ring-accent-light/50 transition-all placeholder:text-[var(--color-text-muted)] resize-none"
         />
-        {errors.description && <p className="text-red-400 text-xs mt-1">{errors.description}</p>}
+        {errors.description && <p className="text-danger text-xs mt-1">{errors.description}</p>}
       </div>
     </div>
   )

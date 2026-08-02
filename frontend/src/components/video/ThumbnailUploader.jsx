@@ -23,7 +23,7 @@ export const ThumbnailUploader = ({ thumbnailPreview, onFileChange, submitting }
         className={`group relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200 min-h-[140px] ${
           thumbnailPreview
             ? 'border-accent-light/50 bg-accent-light/5'
-            : 'border-[var(--color-border-light)] hover:border-white/[0.16]'
+            : 'border-[var(--color-border-light)] hover:border-border-light'
         }`}
         style={{
           background: !thumbnailPreview ? 'var(--color-overlay)' : undefined,

@@ -37,7 +37,7 @@ export const ImageUploaders = ({
                 fileInputRef.current.value = ''
                 handleAvatarSelect({ target: { files: null } })
               }}
-              className="px-4 py-2 rounded-lg text-text-secondary hover:text-red-400 transition-colors"
+              className="px-4 py-2 rounded-lg text-text-secondary hover:text-danger transition-colors"
             >
               Remove
             </button>

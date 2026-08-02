@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { History as HistoryIcon, Clock, Play } from 'lucide-react'
 import { useHistory } from '../hooks/useHistory'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
-import { Skeleton, EmptyState, ErrorState, SectionHeader, DurationBadge } from '../components'
+import { Skeleton, EmptyState, ErrorState, SectionHeader, DurationBadge, MediaPlaceholder } from '../components'
 import { fmt, ago } from '../utils'
 
 const fadeUp = (delay = 0) => ({
@@ -107,7 +107,7 @@ export const History = () => {
                 <div className="space-y-3">
                   {groupVideos.map((video, idx) => {
                     const owner = video.ownerDetails || video.owner || {}
-                    const thumbUrl = video.thumbnail?.url || 'https://placehold.co/640x360/1C1C2E/6B6B80?text=No+Thumbnail'
+                    const thumbUrl = video.thumbnail?.url || null
                     const hasError = thumbnailErrors[video._id]
 
                     return (
@@ -125,7 +125,7 @@ export const History = () => {
                         >
                           {/* Thumbnail */}
                           <Link to={`/video/${video._id}`} className="relative w-40 lg:w-52 shrink-0 aspect-video rounded-lg overflow-hidden bg-elevated">
-                            {!hasError ? (
+                            {thumbUrl && !hasError ? (
                               <img
                                 src={thumbUrl}
                                 alt={video.title}
@@ -133,9 +133,7 @@ export const History = () => {
                                 onError={() => setThumbnailErrors(prev => ({ ...prev, [video._id]: true }))}
                               />
                             ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-accent/30 to-accent-hover/20 flex items-center justify-center">
-                                <Play className="w-6 h-6 text-white/40" />
-                              </div>
+                              <MediaPlaceholder kind="thumbnail" className="w-full h-full" />
                             )}
                             {video.duration && <DurationBadge seconds={video.duration} />}
                             <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

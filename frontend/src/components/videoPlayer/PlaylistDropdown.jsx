@@ -27,7 +27,7 @@ export const PlaylistDropdown = ({
         >
           <ListMusic className="w-4 h-4 text-[var(--color-accent-active-text)] shrink-0" />
           <span className="truncate">{p.name}</span>
-          {savingToPlaylist === p._id && <Check className="w-4 h-4 text-[#22C55E] ml-auto shrink-0" />}
+          {savingToPlaylist === p._id && <Check className="w-4 h-4 text-success ml-auto shrink-0" />}
         </button>
       )) : (
         <p className="px-4 py-2 text-sm text-[var(--color-text-muted)] text-center">No playlists yet</p>
@@ -39,7 +39,7 @@ export const PlaylistDropdown = ({
         value={newPlaylistName}
         onChange={(e) => onNewPlaylistNameChange(e.target.value)}
         placeholder="New playlist name..."
-        className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-3 py-2 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-accent-light/50 transition-colors"
+        className="w-full bg-[var(--color-search-bg)] border border-[var(--color-border-light)] rounded-xl px-3 py-2 text-sm text-text-primary placeholder:text-[var(--color-text-muted)] focus:outline-hidden focus:border-accent-light/50 transition-colors"
       />
       <button
         onClick={onCreate}

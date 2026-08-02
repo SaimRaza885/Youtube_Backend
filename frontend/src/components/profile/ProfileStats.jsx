@@ -75,10 +75,10 @@ export const ProfileStats = ({ stats, statsLoading }) => {
         className="rounded-2xl p-6 relative overflow-hidden"
         style={{
           background: isMonetized
-            ? 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(34,197,94,0.02) 100%)'
-            : 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, rgba(255,178,183,0.02) 100%)',
+            ? 'linear-gradient(135deg, color-mix(in srgb, var(--color-success) 8%, transparent) 0%, color-mix(in srgb, var(--color-success) 2%, transparent) 100%)'
+            : 'linear-gradient(135deg, var(--color-accent-muted-bg) 0%, var(--color-overlay) 100%)',
           border: isMonetized
-            ? '1px solid rgba(34,197,94,0.15)'
+            ? '1px solid color-mix(in srgb, var(--color-success) 15%, transparent)'
             : '1px solid var(--color-border-subtle)',
         }}
       >
@@ -89,12 +89,12 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                 style={{
                   background: isMonetized
-                    ? 'rgba(34,197,94,0.12)'
+                    ? 'var(--color-success-muted)'
                     : 'var(--color-accent-muted)',
                 }}
               >
                 {isMonetized ? (
-                  <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
+                  <CheckCircle2 className="w-5 h-5 text-success" />
                 ) : (
                   <DollarSign className="w-5 h-5 text-accent" />
                 )}
@@ -125,7 +125,7 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                 initial={{ width: 0 }}
                 animate={{ width: `${overallProgress}%` }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full rounded-full bg-gradient-to-r from-accent to-[#ffb2b7]"
+                className="h-full rounded-full bg-linear-to-r from-accent to-accent-light"
               />
             </div>
           )}
@@ -141,19 +141,19 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                   key={item.label}
                   className="p-4 rounded-xl"
                   style={{
-                    background: item.met ? 'rgba(34,197,94,0.06)' : 'var(--color-overlay)',
-                    border: item.met ? '1px solid rgba(34,197,94,0.15)' : '1px solid var(--color-overlay-hover)',
+                    background: item.met ? 'var(--color-success-soft)' : 'var(--color-overlay)',
+                    border: item.met ? '1px solid color-mix(in srgb, var(--color-success) 15%, transparent)' : '1px solid var(--color-overlay-hover)',
                   }}
                 >
                   <div className="flex items-center gap-4">
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                       style={{
-                        background: item.met ? 'rgba(34,197,94,0.12)' : 'var(--color-overlay-hover)',
+                        background: item.met ? 'var(--color-success-muted)' : 'var(--color-overlay-hover)',
                       }}
                     >
                       {item.met ? (
-                        <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
+                        <CheckCircle2 className="w-5 h-5 text-success" />
                       ) : (
                         <Icon className="w-5 h-5 text-accent" />
                       )}
@@ -162,7 +162,7 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-xs text-text-secondary font-medium">{item.label}</span>
                         <span className="text-xs font-bold text-text-primary">
-                          <span className={item.met ? 'text-[#22C55E]' : ''}>{fmt(item.current)}</span>
+                          <span className={item.met ? 'text-success' : ''}>{fmt(item.current)}</span>
                           <span className="text-[var(--color-text-muted)]"> / {fmt(item.target)}</span>
                         </span>
                       </div>
@@ -173,12 +173,12 @@ export const ProfileStats = ({ stats, statsLoading }) => {
                           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                           className="h-full rounded-full"
                           style={{
-                            background: item.met ? '#22C55E' : 'linear-gradient(90deg, var(--color-accent), var(--color-accent-light))',
+                            background: item.met ? 'var(--color-success)' : 'linear-gradient(90deg, var(--color-accent), var(--color-accent-light))',
                           }}
                         />
                       </div>
                       {item.met ? (
-                        <p className="text-[10px] text-[#22C55E] mt-1.5 font-semibold flex items-center gap-1">
+                        <p className="text-[10px] text-success mt-1.5 font-semibold flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" />
                           Requirement met
                         </p>

@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest an idea for Vidora
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your suggestion! Please describe the feature you would like.
+  - type: textarea
+    id: feature
+    attributes:
+      label: What feature would you like to request?
+      description: A clear, concise description.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why is it needed?
+      description: Describe the problem or use case it solves.
+    validations:
+      required: false
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Proposed implementation (optional)
+      description: Any ideas on how to build it.
+    validations:
+      required: false

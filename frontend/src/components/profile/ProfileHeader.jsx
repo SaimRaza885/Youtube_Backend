@@ -23,7 +23,7 @@ export const ProfileHeader = ({
       className="relative rounded-2xl overflow-hidden min-h-[240px] flex items-end"
       style={{
         background: coverPreview
-          ? `linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url(${coverPreview}) center/cover`
+          ? `linear-gradient(to bottom, var(--color-scrim-soft), var(--color-scrim-strong)), url(${coverPreview}) center/cover`
           : 'var(--color-surface-low)',
         border: '1px solid var(--color-border-light)',
       }}
@@ -57,9 +57,9 @@ export const ProfileHeader = ({
               <div className="flex items-center gap-2">
                 <h1 className={`text-2xl md:text-3xl font-bold ${coverPreview ? 'text-white' : 'text-text-primary'} tracking-tight`}>{user.fullName}</h1>
                 {isMonetized && (
-                  <div className="flex items-center gap-1 px-2 py-0.5 bg-[#22C55E]/10 border border-[#22C55E]/20 rounded-full">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
-                    <span className="text-[10px] font-semibold text-[#22C55E] uppercase tracking-wider">Verified</span>
+                  <div className="flex items-center gap-1 px-2 py-0.5 bg-success/10 border border-success/20 rounded-full">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+                    <span className="text-[10px] font-semibold text-success uppercase tracking-wider">Verified</span>
                   </div>
                 )}
               </div>
@@ -78,13 +78,13 @@ export const ProfileHeader = ({
           <div className="flex items-center gap-2.5 w-full md:w-auto">
             <Button
               onClick={() => { setActiveTab('analytics'); setIsEditing(false) }}
-              className={`!rounded-xl !px-5 !py-2 !text-xs !font-semibold !transition-all ${activeTab === 'analytics' ? '!bg-accent !text-accent-on-dark' : '!bg-[var(--color-overlay-hover)] !text-text-secondary hover:!bg-[var(--color-overlay-hover)] hover:!text-text-primary !border !border-subtle'}`}
+              className={`rounded-xl! px-5! py-2! text-xs! font-semibold! transition-all! ${activeTab === 'analytics' ? 'bg-accent! text-accent-on-dark!' : 'bg-[var(--color-overlay-hover)]! text-text-secondary! hover:bg-[var(--color-overlay-hover)]! hover:text-text-primary! border! border-subtle!'}`}
             >
               Dashboard
             </Button>
             <Button
               onClick={() => { setActiveTab('edit'); setIsEditing(true) }}
-              className={`!rounded-xl !px-5 !py-2 !text-xs !font-semibold !transition-all ${activeTab === 'edit' ? '!bg-accent !text-white' : '!bg-[var(--color-overlay-hover)] !text-white hover:!bg-[var(--color-overlay-hover)] !border !border-subtle'}`}
+              className={`rounded-xl! px-5! py-2! text-xs! font-semibold! transition-all! ${activeTab === 'edit' ? 'bg-accent! text-accent-on-dark!' : 'bg-[var(--color-overlay-hover)]! text-text-secondary! hover:bg-[var(--color-overlay-hover)]! hover:text-text-primary! border! border-subtle!'}`}
             >
               Edit Profile
             </Button>

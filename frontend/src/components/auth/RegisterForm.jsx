@@ -16,10 +16,10 @@ const Field = ({ label, name, type = 'text', value, onChange, error, placeholder
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-none focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors"
+        className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors"
       />
     )}
-    {error && <p className="text-red-400 text-xs mt-1.5 ml-1">{error}</p>}
+    {error && <p className="text-danger text-xs mt-1.5 ml-1">{error}</p>}
   </div>
 )
 
@@ -57,7 +57,7 @@ export const RegisterForm = ({
   }
 
   const strength = getStrength(formData.password)
-  const strengthColors = ['', 'bg-red-500', 'bg-yellow-500', 'bg-green-500']
+  const strengthColors = ['', 'bg-danger', 'bg-warning', 'bg-success']
 
   return (
     <motion.form
@@ -86,7 +86,7 @@ export const RegisterForm = ({
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-none focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
+                className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
               />
               <button
                 type="button"
@@ -116,7 +116,7 @@ export const RegisterForm = ({
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-none focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
+                className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors pr-12"
               />
               <button
                 type="button"

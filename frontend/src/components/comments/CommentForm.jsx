@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../ui/Button'
+import { MediaPlaceholder } from '../common/MediaPlaceholder'
 import { useAuth } from '../../context/AuthContext'
 
 export const CommentForm = ({ userAvatar, onSubmit, loading }) => {
@@ -30,18 +31,24 @@ export const CommentForm = ({ userAvatar, onSubmit, loading }) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-3 mb-6">
-      <img
-        src={userAvatar || 'https://placehold.co/36x36/24243A/A1A1B5?text=U'}
-        alt=""
-        className="w-9 h-9 rounded-full object-cover ring-1 ring-border-subtle shrink-0"
-      />
+      {userAvatar ? (
+        <img
+          src={userAvatar}
+          alt=""
+          className="w-9 h-9 rounded-full object-cover ring-1 ring-border-subtle shrink-0"
+        />
+      ) : (
+        <div className="w-9 h-9 rounded-full overflow-hidden ring-1 ring-border-subtle shrink-0">
+          <MediaPlaceholder kind="avatar" className="w-full h-full" />
+        </div>
+      )}
       <div className="flex-1">
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Add a comment..."
-          className="w-full bg-transparent border-b border-border-subtle pb-2 text-sm text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:border-accent transition-colors"
+          className="w-full bg-transparent border-b border-border-subtle pb-2 text-sm text-text-primary placeholder-text-tertiary/60 focus:outline-hidden focus:border-accent transition-colors"
         />
         {text.trim() && (
           <div className="flex justify-end gap-2 mt-3">
