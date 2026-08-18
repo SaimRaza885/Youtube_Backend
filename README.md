@@ -12,6 +12,7 @@ Built with the **MERN stack**, Vidora is a production-quality video platform fea
 
 </div>
 
+
 ---
 
 ## 📸 Screenshots
