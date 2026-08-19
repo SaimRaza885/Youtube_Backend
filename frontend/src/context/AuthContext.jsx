@@ -55,11 +55,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, [exitGuestMode])
 
-  const login = useCallback(async (email, password) => {
+  const login = useCallback(async (identifier, password) => {
     setLoading(true)
     setError(null)
     try {
-      const response = await api.post('/users/login', { email, password })
+      const response = await api.post('/users/login', { identifier, password })
       const { accessToken: newToken, user: userData } = response.data.data
       localStorage.setItem('token', newToken)
       setToken(newToken)

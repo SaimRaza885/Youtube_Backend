@@ -11,12 +11,6 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
   return await toggleLike({ entityId: videoId, entityKey: "video", userId }, res);
 });
 
-const toggleCommentLike = asyncHandler(async (req, res) => {
-  const { commentId } = req.params;
-  const userId = req.user?._id;
-
-  return await toggleLike({ entityId: commentId, entityKey: "comment", userId }, res);
-});
 
 const getLikedVideos = asyncHandler(async (req, res) => {
   //TODO: get all liked videos
@@ -89,4 +83,4 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     );
 });
 
-export { toggleCommentLike, toggleVideoLike, getLikedVideos };
+export { toggleVideoLike, getLikedVideos };

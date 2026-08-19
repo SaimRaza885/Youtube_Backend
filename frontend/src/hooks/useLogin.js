@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useUI } from '../context/UIContext'
 
 export const useLogin = () => {
-    const [formData, setFormData] = useState({ email: '', password: '' })
+    const [formData, setFormData] = useState({ identifier: '', password: '' })
     const [errors, setErrors] = useState({})
     const { login, loading, error } = useAuth()
     const { addNotification } = useUI()
@@ -19,11 +19,11 @@ export const useLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const newErrors = {}
-        if (!formData.email) newErrors.email = 'Email is required'
+        if (!formData.identifier) newErrors.identifier = 'Email or username is required'
         if (!formData.password) newErrors.password = 'Password is required'
         if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
 
-        const result = await login(formData.email, formData.password)
+        const result = await login(formData.identifier, formData.password)
         if (result.success) {
             addNotification('Login successful!', 'success')
             navigate('/')

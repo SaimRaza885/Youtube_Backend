@@ -21,17 +21,17 @@ export const LoginForm = ({ formData, errors, handleChange, handleSubmit, loadin
       <div className="space-y-5">
         <motion.div {...fadeUp(0.2)}>
           <label className="block text-xs font-medium uppercase tracking-wider text-text-secondary mb-1.5 ml-1">
-            Email Address
+            Email or Username
           </label>
           <input
-            type="email"
-            name="email"
-            value={formData.email}
+            type="text"
+            name="identifier"
+            value={formData.identifier}
             onChange={handleChange}
-            placeholder="john@example.com"
+            placeholder="john@example.com or username"
             className="w-full bg-elevated  rounded-lg px-4 py-3 text-base text-text-primary placeholder:text-text-primary/30 focus:outline-hidden focus:border-accent-light focus:ring-1 focus:ring-accent-light transition-colors"
           />
-          {errors.email && <p className="text-danger text-xs mt-1.5 ml-1">{errors.email}</p>}
+          {errors.identifier && <p className="text-danger text-xs mt-1.5 ml-1">{errors.identifier}</p>}
         </motion.div>
 
         <motion.div {...fadeUp(0.25)}>

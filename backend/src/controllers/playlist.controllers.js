@@ -272,7 +272,7 @@ const deletePlaylist = asyncHandler(async (req, res) => {
     throw new ApiError(403, "Only the playlist owner can delete this playlist");
   }
 
-  const deleting_playlist = await PlayList.findOneAndDelete({ _id: playlist._id }); // ✅ await + correct usage
+  const deleting_playlist = await PlayList.findOneAndDelete({ _id: playlist._id });
 
   if (!deleting_playlist) {
     throw new ApiError(500, "Failed to delete playlist");

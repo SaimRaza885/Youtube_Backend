@@ -120,16 +120,18 @@ const loginUser = asyncHandler(async (req, res) => {
   // access and resfresh token
   // send cookie
 
-  const { username, email, password } = req.body;
-  // console.log("Request body:", req.body);
+  const { identifier, password } = req.body;
 
-  if (!email && !username) {
+  if (!identifier?.trim()) {
     throw new ApiError(400, "Email or username is required");
   }
 
-  const user = await User.findOne({
-    $or: [{ username }, { email }],
-  });
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+  const user = await User.findOne(
+    isEmail
+      ? { email: identifier.toLowerCase() }
+      : { username: identifier.toLowerCase() }
+  );
   if (!user) {
     throw new ApiError(400, "Please register before logging in");
   }

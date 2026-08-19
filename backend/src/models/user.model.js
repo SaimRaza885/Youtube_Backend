@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "UserName is Required"],
       unique: true,
       trim: true,
-      index: true,
       lowercase: true,
     },
     email: {
@@ -27,7 +26,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      index: true,
     },
     avatar: {
       type: {
@@ -56,7 +54,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 💡 Hash password before saving the user to DB
+//  Hash password before saving the user to DB
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
@@ -78,7 +76,7 @@ userSchema.methods.GenerateAccessToken = function () {
     },
     process.env.JWT_ACCESS_TOKEN_SECRET,
     {
-      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY, // typo fix here too
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY,
     }
   );
 };
@@ -91,7 +89,7 @@ userSchema.methods.GenerateRefreshToken = function () {
     },
     process.env.JWT_REFRESH_TOKEN_SECRET,
     {
-      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY, // "7d"
+      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY,
     }
   );
 };
